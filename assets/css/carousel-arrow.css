@@ -1,0 +1,125 @@
+.box.featured_box .owl-slider,
+.box.latest_box .latest_carousel {
+    position: relative;
+}
+/* .featured_carousel,
+.latest_carousel{ 
+    margin-right: -15px;
+    margin-left: -15px;
+} */
+
+.owl-slider .owl-wrapper-outer {
+  box-shadow: none;
+}
+.owl-slider .owl-carousel .owl-item {
+    padding: 0px 15px;
+}
+.brand .owl-slider .owl-carousel .owl-item {
+    padding: 0;
+}
+
+.owl-slider .owl-controls .owl-buttons .owl-prev,
+.owl-slider .owl-controls .owl-buttons .owl-next{
+    background: url("../img/sprite.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    position: absolute;
+    height: 36px;
+    width: 36px;
+    opacity: 0;
+    top: 50%;
+    font-size: 0;
+    margin-top: 0 !important;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transition: none 0s ease 0s !important;
+    -moz-transition: none 0s ease 0s !important;
+    -webkit-transition: none 0s ease 0s !important;
+    -o-transition: none 0s ease 0s !important;
+}
+.owl-slider:hover .owl-controls .owl-buttons .owl-prev,
+.owl-slider:hover .owl-controls .owl-buttons .owl-next{
+    opacity: 1;
+}
+ 
+.owl-slider .owl-controls .owl-buttons .owl-prev  {
+    background-position: -106px -119px !important;
+    left:-50px;
+}
+.owl-slider .owl-controls .owl-buttons .owl-next {
+    background-position: -106px -17px !important;
+    right: -50px;
+}
+
+.pro-small-view .owl-slider .owl-controls .owl-buttons .owl-prev,
+.pro-small-view .owl-slider .owl-controls .owl-buttons .owl-next {
+    top: 20px;
+}
+
+.pro-small-view .owl-slider .owl-controls .owl-buttons .owl-prev {
+    left: auto;
+    right: 80px;
+}
+.pro-small-view .owl-slider .owl-controls .owl-buttons .owl-next {
+    left: auto;
+    right: 40px;
+}
+
+.product-additional.owl-slider .owl-controls .owl-buttons .owl-prev, 
+.product-additional-1.owl-slider .owl-controls .owl-buttons .owl-prev {
+    background-position: -106px -119px !important;
+    left: 0px;
+}
+.product-additional.owl-slider .owl-controls .owl-buttons .owl-next, 
+.product-additional-1.owl-slider .owl-controls .owl-buttons .owl-next {
+    background-position: -106px -17px !important;
+    right:  0px;
+}
+
+/* .client-main .owl-slider .owl-controls .owl-buttons .owl-prev {
+    background-position: -149px -119px !important;
+}
+.client-main .owl-slider .owl-controls .owl-buttons .owl-next {
+    background-position: -149px -17px !important;
+}
+
+.client-main .owl-slider .owl-controls .owl-buttons .owl-prev:hover {
+    background-position: -149px -172px !important;
+}
+.client-main .owl-slider .owl-controls .owl-buttons .owl-next:hover {
+    background-position: -149px -70px !important;
+} */
+
+.owl-slider .owl-carousel .owl-buttons div i
+/* .latest_carousel .owl-carousel .owl-buttons div i,
+#carousel0 .owl-controls .owl-buttons div i  */{
+     color: #c2c2c2;
+    font-size: 22px;
+    line-height: 22px;
+    transition: all 0.6s ease 0s;
+    margin:0px;
+}
+.owl-slider .owl-carousel .owl-buttons div/* ,
+.latest_carousel .owl-carousel .owl-buttons div */ {
+  opacity: 1;
+}
+
+.owl-slider .owl-controls .owl-buttons .owl-prev:hover/* ,
+.latest_carousel .owl-controls .owl-buttons .owl-prev:hover */{
+    background-position: -106px -172px !important;
+}
+/* #carousel0:hover .owl-controls .owl-buttons .owl-prev {
+    left: 0px;
+    opacity: 1;
+} */
+.owl-slider .owl-controls .owl-buttons .owl-next:hover/* ,
+.latest_carousel .owl-controls .owl-buttons .owl-next:hover */{
+    background-position: -106px -70px !important;
+}
+/* #carousel0:hover .owl-controls .owl-buttons .owl-next {
+    right: 0px;
+    opacity: 1;
+} */
+
+ 
+ 

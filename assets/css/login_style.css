@@ -1,0 +1,230 @@
+/*
+body{
+	background: url(../img/bgimg.jpg);
+	font-family: 'Roboto', sans-serif;
+}
+.navbar-default {
+    background: transparent;
+    border: 0;
+}
+.navbar-brand img{
+	height: 25px;
+}
+.login{
+	width: 30%;
+    margin: 0 auto;
+    position: absolute;
+    top: 30%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.login input{
+	height: 40px;
+    border-radius: 0;
+    box-shadow: 0 4px 6px #222;
+}
+.login button{
+	width: 100%;
+    background: #2196f3;
+    border-radius: 0;
+    box-shadow: 0 4px 6px #222;
+}
+.login h3{
+	color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url(../img/bgimg.jpg);
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+#login {
+    height: 100%;
+}
+
+#login .bgWhilet {
+    background: #752ef2;
+    height: 100vh;
+}
+
+#login .bgblue {
+    /*background: #03a9f4;*/
+    height: 100vh;
+}
+
+#login .logo img {
+    height: 23px;
+    margin: 20px 5vw;
+}
+
+#login .signIn {
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    width: 50%;
+    padding: 20px;
+    position: relative;
+    top: 20%;
+}
+
+#login .signIn input {
+    height: 40px;
+    border-radius: 0;
+}
+
+#login .signIn button {
+    width: 100%;
+    background: #2196f3;
+    border-radius: 0;
+}
+
+#login .signIn h3 {
+    color: #752ef2;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0 0 15px 0;
+}
+
+#login .signIn h5 {
+    color: #333;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+#login .saveCredentials input[type="checkbox"] {
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border: 1px solid #333;
+    box-shadow: none;
+    margin-top: 2px;
+}
+
+#login .saveCredentials .checkbox label {
+    margin: 0 0 0 -28px;
+}
+
+#login .saveCredentials .checkbox {
+    margin: 0;
+}
+
+#login .saveCredentials .checkbox label {
+    color: #752ef2;
+}
+
+#login .saveCredentials a {
+    color: #752ef2;
+}
+
+#login .navbar-default {
+    background: transparent;
+    border: 0;
+}
+
+#login .navbar-default .navbar-nav>li>a {
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-family: 'Roboto', Helvetica, Arial, Lucida, sans-serif;
+}
+
+#login .navbar-default .navbar-nav>li>a:hover {
+    color: #ffc200;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: #ffc200 !important;
+    background-color: transparent;
+}
+
+#login .floatImg {
+    height: 8vw;
+    width: 8vw;
+    overflow: hidden;
+    position: absolute;
+    top: 45vh;
+    left: 46.5vw;
+    z-index: 999;
+    border: 3px solid #2196f3;
+    border-radius: 50%;
+}
+
+#login .floatImg img {
+    width: 100%;
+    max-width: 100%;
+}
+
+#login .mainList ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#login .mainList ul li {
+    margin: 0 15px 0 0;
+    padding: 0;
+    display: inline-block;
+    color: #fff;
+}
+
+#login .mainList ul li .fs1 {
+    font-size: 2.2vw;
+}
+
+#login .mainList ul li p {
+    margin: 0;
+    font-size: 1.7vw;
+    position: relative;
+    top: -3px;
+}
+
+#login .mainList {
+    position: relative;
+    top: 26vh;
+    left: 5vw;
+}
+
+@media(min-width: 320px) and (max-width: 767px){
+/*    #login .bgWhilet {
+        height: 65vh;
+    }*/
+    #login .mainList {
+        top: 10vh;
+    }
+    #login .mainList ul li .fs1 {
+        font-size: 22px;
+    }
+    #login .mainList ul li p {
+        font-size: 22px;
+    }
+/*    #login .bgblue {
+        height: 80vh;
+    }*/
+    #login .signIn {
+        width: 100%;
+        top:0;
+    }
+    #login .mainList ul {
+        margin: 0 0 10% 0;
+    }
+    #login .mainList .mt15{
+        margin: 0 !important;
+    }
+}
