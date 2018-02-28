@@ -1,6 +1,7 @@
 import web
 import MySQLdb
 import json
+import datetime
 
 
 
@@ -14,8 +15,12 @@ urls = (
   '/app/addUpdateproduct/?[0-9]*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
   '/app/register','Register',
+<<<<<<< HEAD
   
   
+=======
+  '/app/order','PlaceOrder',
+>>>>>>> c29caaeee5e451ad47d870830c109cc7265ba42a
 
 
 
@@ -261,7 +266,39 @@ class AddUpdateCategories:
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
             
+class PlaceOrder:
+    def POST(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        try:
+            createdAt = datetime.date.today()
+            orderStatus = "Fail"
+            cart_id = db.insert("order",userId=data.userId,orderValue=data.orderValue,offerId=data.offerId,createdAt=createdAt,orderStatus=data.orderStatus,delivaryDate=data.delivaryDate)
+            for products in data.cart:
+                db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,productSizeId=products.productSizeId,offerId=products.offerId,createdAt=createdAt)
+            if cart_id:
+                orderStatus = "Success"
+            db.insert("orderHistory",orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
+            
+            pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
+            return json.dumps(pyDict)  
+        except Exception as e:
+            print e
+            pyDict = {'code':'201','status':'fail','message':e}            
+            response =json.dumps(pyDict)
+            return response
 
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
 if __name__ == "__main__": 
     app = web.application(urls, globals())    
     app.run()     
