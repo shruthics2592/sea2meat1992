@@ -142,15 +142,15 @@ class GetProducts:
                 product_json["currency"] = product.currency
                 product_json["categoryId"] = product.categoryId
                 product_json["createdAt"] = product.createdAt
-                product_json["is_active"] = product.active
+                product_json["is_active"] = product.is_active
                 product_json["is_available"] = product.is_available
                 product_json["is_todaysSpecial"] = product.is_todaysSpecial
-                product_json["product_image"] = db.query("select * from productImage where productId="+product.id)
-                product_json["product_offer"] = db.query("select * from offer where productId="+product.id)
-                product_json["product_size"] = db.query("select * from productSize where productId="+product.id)
+                product_json["product_image"] = db.query("select * from productImage where productId="+str(product.id))
+                # product_json["product_offer"] = db.query("select * from offer where productId="+str(product.id))
+                product_json["product_size"] = db.query("select * from productSize where productId="+str(product.id))
                 
                 final_data.append(product_json)
-            pyDict = {'code':'200','status':'Success','data':""}  
+            pyDict = {'code':'200','status':'Success','data':final_data}  
             return json.dumps(pyDict) 
         except Exception as e:
             print "in exxxxx"

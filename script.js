@@ -48,7 +48,7 @@
 
 	// create the controller and inject Angular's $scope
 	scotchApp.controller('mainController', function($scope,$http) {
-		$scope.server = "http://localhost:8081/"
+		$scope.server = "http://localhost:8082/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 		$scope.data = {"username":"","password":""}
