@@ -29,7 +29,7 @@ db = web.database(host="127.0.0.1", port="3306" , dbn='mysql' , user="root", pw=
 #User Registration and Login
 #Login
 class Applogin:
-        def POST(self,id):
+    def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
@@ -54,7 +54,7 @@ class Applogin:
                     return json.dumps(pyDict)
             else:
                 pyDict = {'code':'201','status':'user is invalid',user:{}}
-                 return json.dumps(pyDict)            
+                return json.dumps(pyDict)            
 
 
         except Exception as e:
@@ -74,7 +74,7 @@ class Applogin:
 
 #Register   
 class Register:
-        def POST(self,id):
+    def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
@@ -85,12 +85,12 @@ class Register:
             if len(userObj) <= 0:
                 authtoken = "token"
                 userdata_data = db.insert("user",firstName=data.firstName,lastName=data.lastName,mobile=data.mobile,fax=data.fax,email=data.email,company=data.company,authtoken=authtoken,subscription=subscription)
-                user_address = db.insert("address",S]streetAddress=data.streetAddress,pincode=data.pincode,city=data.city,state=data.state,country=data.country,addressType=data.addressType,userId=userdata_data)
-                pyDict = {'code':'200','status':'user data',user:userdata}            
+                user_address = db.insert("address",streetAddress=data.streetAddress,pincode=data.pincode,city=data.city,state=data.state,country=data.country,addressType=data.addressType,userId=userdata_data)
+                pyDict = {'code':'200','status':"succes",'user_data':userdata_data}            
                 return json.dumps(pyDict)
             else:
-                pyDict = {'code':'201','status':'user already exist',user:{}}
-                 return json.dumps(pyDict)            
+                pyDict = {'code':'201','status':'user already exist',"user":{}}
+                return json.dumps(pyDict)            
 
 
         except Exception as e:
@@ -270,5 +270,3 @@ if __name__ == "__main__":
 else:
     app = web.application(urls, globals())
     application = app.wsgifunc()
-
-
