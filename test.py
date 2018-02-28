@@ -11,7 +11,7 @@ import datetime
 urls = (
   '/app/getcategory','GetCategories', #Gets all the categories
   '/app/addUpdatecategory','AddUpdateCategories', #Add new category
-  '/app/getproduct/?[0-9]*','GetProducts', #Get all products for the selected category or all
+  '/app/getproduct/?([0-9])*','GetProducts', #Get all products for the selected category or all
   '/app/addUpdateproduct/?[0-9]*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
   '/app/register','Register',
@@ -24,7 +24,7 @@ urls = (
 
 
 
-db = web.database(host="127.0.0.1", port="3306" , dbn='mysql' , user="root", pw="root", db="new_schema")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 
 #User Registration and Login
@@ -128,31 +128,38 @@ class GetProducts:
         web.header('Content-Type', 'application/json')
         try:
             if categoryId:
-                product_data = db.query("select * from product where categoryId	 ="+categoryId)
+                product_data = db.select('product',vars=locals(), where='categoryId=$categoryId') 
             else:
-                product_data = db.query("select * from product ")
+                product_data = db.query('Select * from product')
+                
+
             final_data = []
             for product in product_data:
                 product_json = {}
-                product_json.id = product.id
-                product_json.name = product.name
-                product_json.price = product.price
-                product_json.currency = product.currency
-                product_json.categoryId = product.categoryId
-                product_json.createdAt = product.createdAt
-                product_json.is_active = product.active
-                product_json.is_available = product.is_available
-                product_json.is_todaysSpecial = product.is_todaysSpecial
-                product_json.product_image = db.query("select * from productImage where productId="+product.id)
-                product_json.product_offer = db.query("select * from offer where productId="+product.id)
-                product_json.product_size = db.query("select * from productSize where productId="+product.id)
+                product_json["id"] = product.id
+                product_json["name"] = product.name
+                product_json["price"] = product.price
+                product_json["currency"] = product.currency
+                product_json["categoryId"] = product.categoryId
+                product_json["createdAt"] = product.createdAt
+                product_json["is_active"] = product.active
+                product_json["is_available"] = product.is_available
+                product_json["is_todaysSpecial"] = product.is_todaysSpecial
+                product_json["product_image"] = db.query("select * from productImage where productId="+product.id)
+                product_json["product_offer"] = db.query("select * from offer where productId="+product.id)
+                product_json["product_size"] = db.query("select * from productSize where productId="+product.id)
                 
                 final_data.append(product_json)
-            return json.dumps(final_data) 
+            pyDict = {'code':'200','status':'Success','data':""}  
+            return json.dumps(pyDict) 
         except Exception as e:
-            pyDict = {'code':'201','status':'fail','message':e}            
-            response =json.dumps(pyDict)
-            return response
+            print "in exxxxx"
+            print e
+            response = []
+            pyDict = {'code':'201','status':'fail','message':str(e)}  
+            response.append(pyDict)          
+            finalresponse =json.dumps(response)
+            return finalresponse
 
 #ADD and Update product
 class AddUpdateProducts:

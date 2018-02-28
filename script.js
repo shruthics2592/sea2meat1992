@@ -47,17 +47,17 @@
 	});
 
 	// create the controller and inject Angular's $scope
-	scotchApp.controller('mainController', function($scope) {
-		$scope.server = "10.10.1.148"
+	scotchApp.controller('mainController', function($scope,$http) {
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 		$scope.data = {"username":"","password":""}
 
-		$http.post($scope.server + 'app/login', $scope.data).success(function(response, status, headers) {
+		// $http.post($scope.server + 'app/login', $scope.data).success(function(response, status, headers) {
 		
-		}).error(function(response, status, headers) {
+		// }).error(function(response, status, headers) {
 		
-		});
+		// });
 
 		$scope.getProducts = function(){
 			$http.get($scope.server + 'app/getproduct').success(function(response, status, headers) {
