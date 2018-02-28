@@ -15,7 +15,12 @@ urls = (
   '/app/addUpdateproduct/?[0-9]*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
   '/app/register','Register',
+<<<<<<< HEAD
+  
+  
+=======
   '/app/order','PlaceOrder',
+>>>>>>> c29caaeee5e451ad47d870830c109cc7265ba42a
 
 
 
@@ -59,7 +64,7 @@ class Applogin:
 
 
         except Exception as e:
-            print e
+            
             pyDict = {'code':'201','status':'','failmessage':e}            
             response =json.dumps(pyDict)
             return response
@@ -95,7 +100,6 @@ class Register:
 
 
         except Exception as e:
-            print e
             pyDict = {'code':'201','status':'','failmessage':e}            
             response =json.dumps(pyDict)
             return response
@@ -149,10 +153,8 @@ class GetProducts:
                 product_json.product_size = db.query("select * from productSize where productId="+product.id)
                 
                 final_data.append(product_json)
-            print final_data
             return json.dumps(final_data) 
         except Exception as e:
-            print e
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
@@ -177,7 +179,7 @@ class AddUpdateProducts:
                 pyDict = {'code':'200','status':'Successfully added','message':"Inserted New Product"}    
                 return json.dumps(pyDict) 
         except Exception as e:
-            print e
+            
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
@@ -222,10 +224,10 @@ class GetCategories:
                 category_json.category_backgroudImage = category.backgroudImage
                 category_json.category_createdAt = category.createdAt
                 final_data.append(category_json)
-            print final_data
+            
             return json.dumps(final_data) 
         except Exception as e:
-            print e
+            
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
@@ -250,7 +252,7 @@ class AddUpdateCategories:
                 pyDict = {'code':'200','status':'Successfully added','message':"Inserted New Categry"}    
                 return json.dumps(pyDict) 
         except Exception as e:
-            print e
+            
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
