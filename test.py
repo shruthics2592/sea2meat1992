@@ -278,7 +278,7 @@ class PlaceOrder:
             for products in data.cart:
                 db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,productSizeId=products.productSizeId,offerId=products.offerId,createdAt=createdAt)
             if cart_id:
-                orderStatus = "Success"
+                orderStatus = "Placed"
             db.insert("orderHistory",orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
             
             pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
