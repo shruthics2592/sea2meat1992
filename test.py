@@ -15,12 +15,7 @@ urls = (
   '/app/addUpdateproduct/?[0-9]*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
   '/app/register','Register',
-<<<<<<< HEAD
-  
-  
-=======
   '/app/order','PlaceOrder',
->>>>>>> c29caaeee5e451ad47d870830c109cc7265ba42a
 
 
 
