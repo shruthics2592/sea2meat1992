@@ -50,7 +50,10 @@
 				templateUrl : 'pages/login.html',
 				controller  : 'loginController'
 			})
-
+			.when('/order_history', {
+				templateUrl : 'pages/order_history.html',
+				controller  : 'orderHistoryController'
+			})
 			// ----------- when register ---------- //
 			.when('/register', {
 				templateUrl : 'pages/register.html',
@@ -62,15 +65,7 @@
 
 	// create the controller and inject Angular's $scope
 	scotchApp.controller('mainController', function($scope,$http) {
-		//----------- Main Slider Setttings -------------- //
-		$('#slideshow0').owlCarousel({
-			items: 6,
-			autoPlay: 3000,
-			singleItem: true,
-			navigation: true,
-			navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-			pagination: false
-		  });
+		
 
 		//------------- Brnad Slider Settings -------------- //
 		$('#brand-logo').owlCarousel({
@@ -92,7 +87,7 @@
 		  });
 
 
-		$scope.server = "http://localhost:8082/"
+		$scope.server = "http://localhost:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -108,11 +103,80 @@
 
 		$scope.getProducts()
 
+		$scope.images = []
+		$scope.getBanner = function(){
+			$http.get($scope.server + 'app/getbanner').success(function(response, status, headers) {
+				console.log("product",response)
+				$scope.images = response
+				setTimeout(function(){ 
+					$('#slideshow0').owlCarousel({
+						items: 6,
+						autoPlay: 3000,
+						singleItem: true,
+						navigation: true,
+						navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+						pagination: false
+					  });
+				 }, 1000);
+
+				//----------- Main Slider Setttings -------------- //
+		
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+		$scope.getBanner()
+
+		$scope.about = []
+		$scope.getAbout = function(){
+			$http.get($scope.server + 'app/getabout').success(function(response, status, headers) {
+				console.log("product",response)
+				$scope.about = response
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+		$scope.getAbout()
+		$scope.featured_product = function(type){
+			$scope.featured_product = []
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response)
+				$scope.featured_product = response
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.testemonial = []
+		$scope.getTestemonial = function(){
+			$http.get($scope.server + 'app/gettestemonials').success(function(response, status, headers) {
+				console.log("product",response)
+				$scope.testemonial = response.data					
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+		$scope.getTestemonial()
+		
 
 	});
+// Main Controller Ends here
 
-	scotchApp.controller('aboutController', function($scope,$http) {
-		$scope.message = 'Look! I am an about page.';
+	scotchApp.controller('orderHistoryController', function($scope,$http) {
+		$scope.getOrderHistory = function(){
+			$http.get($scope.server + '/app/order_history').success(function(response, status, headers) {
+				console.log("product",response)
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+		$scope.getOrderHistory()
+
+
+		
 	});
 
 	scotchApp.controller('contactController', function($scope,$http) {

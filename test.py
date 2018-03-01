@@ -16,16 +16,21 @@ urls = (
   '/app/login','Applogin',
   '/app/register','Register',
   '/app/order','PlaceOrder',
-
+  '/app/order_history','OrderHistory',
+  '/app/getbanner','GetBanner', #To get banner images for home page
+  '/app/getabout','GetAbout',#get about firm data'
+  '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
+  '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
 
 
 
 )
 
 
-
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
-
+# shruthi
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+# shubham
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -162,6 +167,97 @@ class GetProducts:
             finalresponse =json.dumps(response)
             return finalresponse
 
+class GetFeaturedProducts:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            post_data = web.input(name="")
+            my_name = post_data.name
+            featured_product_data = db.query('''
+                                    select * from product p
+                                    inner join category as c on c.id = p.categoryId
+                                    where c.c_name=$id
+                                ''',vars={"id":my_name}) 
+            final_data = []
+            for product in featured_product_data:
+                prod_json ={}
+                prod_json["name"] =  product.name
+                prod_json["price"] = product.price
+                prod_json["currency"] = product.currency
+                prod_json["category_name"] = product.c_name
+                prod_json["is_available"] = product.is_available
+                prod_json["is_todaysSpecial"] = product.is_todaysSpecial
+                prod_json["is_active"] = product.is_active
+                featured_product_data_image = db.query('''
+                                    select * from product p
+                                    inner join productImage as pi on p.id = pi.productId
+                                    inner join category as c on c.id = p.categoryId
+                                    where c.c_name='BEEF'
+                                    LIMIT 1''',vars={"id":product.name})
+                for image in featured_product_data_image:
+                    prod_json["image"] = image.imagelink
+                final_data.append(prod_json)
+            pyDict = {'code':'200','status':'Success','data':final_data}  
+            return json.dumps(pyDict) 
+        except Exception as e:
+            
+            
+            response = []
+            pyDict = {'code':'201','status':'fail','message':str(e)}  
+            response.append(pyDict)          
+            finalresponse =json.dumps(response)
+            return finalresponse
+
+class GetTestemonials:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            featured_testemonial_data = db.query('''
+                                    select * from testemonial_data
+                                ''') 
+            final_data = []
+            for testemonial_data in featured_testemonial_data:
+                teste_json ={}
+                teste_json["name"] =  testemonial_data.t_name
+                teste_json["profession"] = testemonial_data.t_proffesion
+                teste_json["message"] = testemonial_data.t_message
+                teste_json["stars"] = testemonial_data.t_stars
+                teste_json["image_url"] = testemonial_data.t_image
+                final_data.append(teste_json)
+            pyDict = {'code':'200','status':'Success','data':final_data}  
+            return json.dumps(pyDict) 
+        except Exception as e:
+            
+            
+            response = []
+            pyDict = {'code':'201','status':'fail','message':str(e)}  
+            response.append(pyDict)          
+            finalresponse =json.dumps(response)
+            return finalresponse
+
+
 #ADD and Update product
 class AddUpdateProducts:
     def POST(self,id):
@@ -234,7 +330,69 @@ class GetCategories:
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
+# Get all banner images
+class GetBanner:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        get_customer_response =[]
+        try:
+            image_data = db.query("select * from banner_images")
+            final_data = []
+            for image in image_data:
+                category_json = {}
+                category_json["category_backgroudImage"] = image.banner_images
+                category_json["image_to"] = image.link_to
+                final_data.append(category_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
 
+# get about firm data
+class GetAbout:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        get_customer_response =[]
+        try:
+            about_data = db.query("select * from about_firm order by id desc LIMIT 1")
+            final_data = []
+            for about in about_data:
+                about_json = {}
+                about_json["header"] = about.about_header
+                about_json["body"] = about.about_body
+                final_data.append(about_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
 #ADD and Update Category
 class AddUpdateCategories:
     def POST(self,id):
@@ -268,7 +426,40 @@ class AddUpdateCategories:
         return
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
+
+class OrderHistory:
+    def POST(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        try:
+            if id:
+                product_data = db.update("category", where="id="+id,name=data.name,parentId=data.parentId,path=data.path,backgroudImage=data.backgroudImage)
+                # Now upload images for the perticular product           
+                pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
+                return json.dumps(pyDict) 
+            else:
+                product_data = db.insert("category",name=data.name,parentId=data.parentId,path=data.path,backgroudImage=data.backgroudImage)
+                # Now upload images for the perticular product           
+                pyDict = {'code':'200','status':'Successfully added','message':"Inserted New Categry"}    
+                return json.dumps(pyDict) 
+        except Exception as e:
             
+            pyDict = {'code':'201','status':'fail','message':e}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
+
 class PlaceOrder:
     def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
