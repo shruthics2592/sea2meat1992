@@ -21,6 +21,7 @@ urls = (
   '/app/getabout','GetAbout',#get about firm data'
   '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
   '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
+  '/app/getbrand','GetBrand', #To get brand images for home page
 
 
 
@@ -362,6 +363,36 @@ class GetBanner:
             response =json.dumps(pyDict)
             return response
 
+
+# Get all brand images
+class GetBrand:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            image_data = db.query("select * from brand_images")
+            final_data = []
+            for image in image_data:
+                category_json = {}
+                category_json["image"] = image.brand_image
+                final_data.append(category_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
 # get about firm data
 class GetAbout:
     def POST(self):

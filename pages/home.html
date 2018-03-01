@@ -510,7 +510,7 @@
     <div class="container">
       <div class="row">
         <div class="client-main client-bg">
-          <div class="client-inner align-center owl-slider">
+          <div id="slideshow0" class="client-inner align-center owl-slider">
             <div id="client" class="testimonial-data" ng-repeat="teste in testemonial">
               <div class="item client-detail" >
                 <div class="client-img ">
@@ -568,7 +568,7 @@
                 <p class="big">we are committed to total transparency about our products.</p>
               </div>
               <div class="div_line-yal2 mt-20 mb-40">
-                <img class="meatshop" src="assets/img/line-yal.png" alt="meatshop">
+                <!-- <img class="meatshop" src="assets/img/line-yal.png" alt="meatshop"> -->
               </div>
             </div>
           </div>
@@ -609,27 +609,9 @@
         <div class="brand">
           <div class="ptb-95">
             <div class="owl-slider position-r">
-              <div id="brand-logo">
+              <div id="brand-logo" ng-repeat="brand in brandImages">
                 <div class="item text-center">
-                  <img src="assets/img/brand3-270x180.jpg" alt="Harley Davidson"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand2-270x180.jpg" alt="Canon"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand1-270x180.jpg" alt="Burger King"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand4-270x180.jpg" alt="Coca Cola"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand3-270x180.jpg" alt="Sony"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand2-270x180.jpg" alt="RedBull"/>
-                </div>
-                <div class="item text-center">
-                  <img src="assets/img/brand1-270x180.jpg" alt="NFL"/>
+                  <img src="{{brand.image}}" alt="Harley Davidson"/>
                 </div>
               </div>
             </div>

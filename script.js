@@ -76,15 +76,7 @@
             pagination: false
 		  });
 		  
-		//------------ Client Testimony Slider ----------------- //
 		
-		$('#client').owlCarousel({
-            items: 1,
-            autoPlay: 3000,
-            navigation: true,
-            navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-            pagination: false
-		  });
 
 
 		$scope.server = "http://localhost:8080/"
@@ -152,7 +144,17 @@
 		$scope.getTestemonial = function(){
 			$http.get($scope.server + 'app/gettestemonials').success(function(response, status, headers) {
 				console.log("product",response)
-				$scope.testemonial = response.data					
+				$scope.testemonial = response.data	
+				setTimeout(function(){ 
+					$('#slideshow0').owlCarousel({
+						items: 6,
+						autoPlay: 3000,
+						singleItem: true,
+						navigation: true,
+						navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+						pagination: false
+					  });
+				 }, 1000);			
 			}).error(function(response, status, headers) {
 			
 			});
@@ -160,6 +162,18 @@
 
 		$scope.getTestemonial()
 		
+
+		$scope.brandImages = []
+		$scope.getAbout = function(){
+			$http.get($scope.server + 'app/getbrand').success(function(response, status, headers) {
+				console.log("product",response)
+				$scope.brandImages = response
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+		$scope.getAbout()
 
 	});
 // Main Controller Ends here
