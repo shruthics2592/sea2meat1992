@@ -1,0 +1,1 @@
+!function(n){n.fn.exists=function(){return n(this).length>0?!0:!1}}(window.jQuery),$(document).ready(function(){$("#modal_position").exists()&&$("#modal_position").modal()});

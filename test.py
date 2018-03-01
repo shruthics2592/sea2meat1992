@@ -12,7 +12,7 @@ urls = (
   '/app/getcategory','GetCategories', #Gets all the categories
   '/app/addUpdatecategory','AddUpdateCategories', #Add new category
   '/app/getproduct/?([0-9])*','GetProducts', #Get all products for the selected category or all
-  '/app/addUpdateproduct/?[0-9]*','AddUpdateProducts', #Get all products for the selected category or all
+  '/app/addUpdateproduct/?([0-9])*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
   '/app/register','Register',
   '/app/order','PlaceOrder',
@@ -24,43 +24,44 @@ urls = (
 
 
 
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 
 
 #User Registration and Login
 #Login
 class Applogin:
-    def POST(self,id):
+    def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
+        data = json.loads(web.data().decode('utf-8'))
         try:
-            userObj = db.query("select * from user where email="+data.email+" and password="+data.password) 
-            if len(userObj) > 0:
+            userObj = db.query("select * from user where email='"+str(data['email'])+"' and password='"+str(data['password'])+"'") 
+            if userObj:
                 userdata = {}
                 for user in userObj:
-                    userdata.id = user.id
-                    userdata.firstName = user.firstName
-                    userdata.lastName = user.lastName
-                    userdata.mobile = user.mobile
-                    userdata.fax = user.fax
-                    userdata.email = user.email
-                    userdata.company = user.company
-                    userdata.subscription = user.subscription
-                    userdata.authtoken = user.authtoken
-                    userdata.address = db.query("select * from address where userId="+user.id)
+                    userdata["id"] = user.id
+                    userdata["firstName"] = user.firstName
+                    userdata["lastName"] = user.lastName
+                    userdata["mobile"] = user.mobile
+                    userdata["fax"] = user.fax
+                    userdata["email"] = user.email
+                    userdata["company"] = user.company
+                    userdata["subscription"] = user.subscription
+                    userdata["authtoken"] = user.authtoken
+                    userdata["address"] = db.query("select * from address where userId="+user.id)
                     pyDict = {'code':'200','status':'user data',user:userdata}            
                     return json.dumps(pyDict)
             else:
-                pyDict = {'code':'201','status':'user is invalid',user:{}}
+                pyDict = {'code':'201','status':'user is invalid',"user":{}}
                 return json.dumps(pyDict)            
 
 
         except Exception as e:
             
-            pyDict = {'code':'201','status':'','failmessage':e}            
+            pyDict = {'code':'201','status':'','failmessage':str(e)}            
             response =json.dumps(pyDict)
             return response
 
@@ -85,7 +86,7 @@ class Register:
             userObj = db.query("select * from user where email="+data.email) 
             if len(userObj) <= 0:
                 authtoken = "token"
-                userdata_data = db.insert("user",firstName=data.firstName,lastName=data.lastName,mobile=data.mobile,fax=data.fax,email=data.email,company=data.company,authtoken=authtoken,subscription=subscription)
+                userdata_data = db.insert("user",firstName=data.firstName,lastName=data.lastName,mobile=data.mobile,fax=data.fax,email=data.email,company=data.company,authtoken=authtoken,subscription=data.subscription)
                 user_address = db.insert("address",streetAddress=data.streetAddress,pincode=data.pincode,city=data.city,state=data.state,country=data.country,addressType=data.addressType,userId=userdata_data)
                 pyDict = {'code':'200','status':"succes",'user_data':userdata_data}            
                 return json.dumps(pyDict)
@@ -153,8 +154,8 @@ class GetProducts:
             pyDict = {'code':'200','status':'Success','data':final_data}  
             return json.dumps(pyDict) 
         except Exception as e:
-            print "in exxxxx"
-            print e
+            
+            
             response = []
             pyDict = {'code':'201','status':'fail','message':str(e)}  
             response.append(pyDict)          
@@ -288,7 +289,7 @@ class PlaceOrder:
             pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
             return json.dumps(pyDict)  
         except Exception as e:
-            print e
+            
             pyDict = {'code':'201','status':'fail','message':e}            
             response =json.dumps(pyDict)
             return response
