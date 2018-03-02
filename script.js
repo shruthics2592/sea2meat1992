@@ -135,11 +135,7 @@
 		
 
 
-<<<<<<< HEAD
 		$scope.server = "http://localhost:8080/"
-=======
-		$scope.server = "http://localhost:8081/"
->>>>>>> 4f36f16f7f9b7e5c5880ae0f2910b837c76e7177
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -362,11 +358,7 @@
 	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-<<<<<<< HEAD
 		$scope.server = "http://localhost:8080/";
-=======
-		$scope.server = "http://localhost:8081/";
->>>>>>> 4f36f16f7f9b7e5c5880ae0f2910b837c76e7177
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
