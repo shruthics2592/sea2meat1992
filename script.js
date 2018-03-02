@@ -20,23 +20,23 @@
 			
 			.when('/lamb', {
 				templateUrl : 'pages/lamb.html',
-				controller  : 'aboutController'
+				controller  : 'lambController'
 			})
 			.when('/todays_special', {
 				templateUrl : 'pages/todays_special.html',
-				controller  : 'aboutController'
+				controller  : 'todayspecialController'
 			})
 			.when('/poultry', {
 				templateUrl : 'pages/poultry.html',
-				controller  : 'aboutController'
+				controller  : 'poultryController'
 			})
 			.when('/sausage', {
 				templateUrl : 'pages/sausage.html',
-				controller  : 'aboutController'
+				controller  : 'sausageController'
 			})
 			.when('/beef', {
 				templateUrl : 'pages/beef.html',
-				controller  : 'aboutController'
+				controller  : 'beefController'
 			})
 
 			// route for the contact page
@@ -79,7 +79,7 @@
 			//------------ My wish list page -------- //
 			.when('/wish_list', {
 				templateUrl : 'pages/wish_list.html',
-				controller  : 'changepasswordController'
+				controller  : 'getwishListController'
 			})
 			//------------ My downloads page -------- //
 			.when('/downloads', {
@@ -135,7 +135,7 @@
 		
 
 
-		$scope.server = "http://localhost:8081/"
+		$scope.server = "http://localhost:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -358,7 +358,7 @@
 	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://localhost:8081/";
+		$scope.server = "http://localhost:8080/";
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
@@ -398,7 +398,86 @@
 	scotchApp.controller('changepasswordController', function($scope,$http) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
+//********************************* other pages***************************************
+	scotchApp.controller('beefController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.beef_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.beef_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("BEEF")
+	});
+	scotchApp.controller('lambController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.lamb_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.lamb_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("LAMB")
+	});
+	scotchApp.controller('todayspecialController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.today_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.today_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("TODAY_SPECIAL")
+	});
+	scotchApp.controller('poultryController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.poultry_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.poultry_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("POULTRY")
+	});
+	scotchApp.controller('sausageController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.sausage_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.sausage_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("SAUSAGE")
+	});
 
+	scotchApp.controller('getwishListController', function($scope,$http) {
+		$scope.getspecial_product = function(type){
+			$scope.wish_list = []
+			
+			$http.get($scope.server + 'app/getwish?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.wish_list = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product()		
+	});
 	scotchApp.controller('addPeoductController', function($scope,$http,$routeParams) {
 		$scope.quantity = 1;
 		$('.thumbnails').magnificPopup({

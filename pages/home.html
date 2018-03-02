@@ -131,8 +131,8 @@
                     <img src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;" title="{{Fproduct.image}}&quot;" class="img-responsive" />
                     <img class="img-responsive hover-image" src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;"/>
                   </a>
-                  <div class="sale-label"><span>Sale</span></div>         
-                </div>
+                  <div  ng-if="Fproduct.is_sale" class="sale-label"><span>Sale</span></div>         
+                                </div>
                 <div class="caption">
                   <div class="name">
                     <h3><a href="">{{Fproduct.name}}&quot;</a></h3>
@@ -147,7 +147,8 @@
                     </div>
                   </div> -->
                   <p class="price">
-                    <span class="price-new">{{Fproduct.currency}}{{Fproduct.price}}</span> <span class="price-old"></span>
+                      <span ng-if="!Fproduct.is_sale" class="price-new">{{Fproduct.currency}}{{Fproduct.price}}</span>
+                      <span ng-if="Fproduct.is_sale" class="price-new">{{Fproduct.currency}}{{Fproduct.sale_price}} <span class="price-old">{{Fproduct.price}}</span></span>
                   </p>
                   <div class="button-group main-product-btn product-item-action">
                     <button  class="addtocart btn-color" type="button" ng-click="showAddItem(Fproduct);">
