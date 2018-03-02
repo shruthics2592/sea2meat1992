@@ -131,11 +131,8 @@
 		
 
 	
-		  
-		
-
-
-		$scope.server = "http://localhost:8080/"
+	
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -358,7 +355,7 @@
 	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://localhost:8080/";
+		$scope.server = "http://localhost:8081/";
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
@@ -501,7 +498,7 @@
 			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
 			productDetails["productId"] = item.id
 			productDetails["quantity"] = $scope.quantity
-			$scope.cartDetails.cart.pust(productDetails)
+			$scope.cartDetails.cart.push(productDetails)
 			console.log(":::::::Cart :::::::",$scope.cartDetails)
 		}
 
