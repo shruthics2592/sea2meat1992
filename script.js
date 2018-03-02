@@ -84,19 +84,12 @@
 	scotchApp.controller('mainController', function($scope,$http) {
 		
 
-		//------------- Brnad Slider Settings -------------- //
-		$('#brand-logo').owlCarousel({
-            items: 4,
-            autoPlay: 3000,
-            navigation: true,
-            navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-            pagination: false
-		  });
+	
 		  
 		
 
 
-		$scope.server = "http://localhost:8081/"
+		$scope.server = "http://localhost:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -163,7 +156,7 @@
 				console.log("product",response)
 				$scope.testemonial = response.data	
 				setTimeout(function(){ 
-					$('#slideshow0').owlCarousel({
+					$('#slideshow1').owlCarousel({
 						items: 6,
 						autoPlay: 3000,
 						singleItem: true,
@@ -171,7 +164,7 @@
 						navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
 						pagination: false
 					  });
-				 }, 1000);			
+				 }, 3000);			
 			}).error(function(response, status, headers) {
 			
 			});
@@ -185,6 +178,18 @@
 			$http.get($scope.server + 'app/getbrand').success(function(response, status, headers) {
 				console.log("product",response)
 				$scope.brandImages = response
+				setTimeout(function(){ 
+						//------------- Brnad Slider Settings -------------- //
+						$('#brand-logo').owlCarousel({
+							items: 5,
+							autoPlay: 3000,
+							navigation: true,
+							navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+							pagination: false
+						});
+
+				},1000)
+		
 			}).error(function(response, status, headers) {
 			
 			});
