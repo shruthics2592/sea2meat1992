@@ -22,6 +22,7 @@ urls = (
   '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
   '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
   '/app/getbrand','GetBrand', #To get brand images for home page
+  '/app/productDetails/?([0-9]*)','GetaProducts'
 
 
 
@@ -29,9 +30,9 @@ urls = (
 
 
 # shruthi
-# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 # shubham
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -170,6 +171,67 @@ class GetProducts:
             finalresponse =json.dumps(response)
             return finalresponse
 
+
+#Get all products for the selected category or all
+class GetaProducts:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            if id:
+                product_data = db.select('product',vars=locals(), where='id=$id') 
+            else:
+                product_data = db.query('Select * from product')
+                
+
+            final_data = []
+            for product in product_data:
+                product_json = {}
+                product_json["id"] = product.id
+                product_json["name"] = product.name
+                product_json["price"] = product.price
+                product_json["currency"] = product.currency
+                product_json["is_active"] = product.is_active
+                product_json["is_available"] = product.is_available
+                product_json["is_todaysSpecial"] = product.is_todaysSpecial
+                product_json["product_image"] = []
+                product_json["product_size"] = []
+                product_images = db.query("select * from productImage where productId="+str(product.id))
+                product_sizes = db.query("select * from productSize where productId="+str(product.id))
+                for images in product_images:
+                    imagesObj = {}
+                    imagesObj["id"]= images.id
+                    imagesObj["imagelink"] = images.imagelink
+                    product_json["product_image"].append(imagesObj)
+                for size in product_sizes:
+                    sizeObj = {}
+                    sizeObj["name"] = size.name
+                    sizeObj["price"] = size.price  
+                    product_json["product_size"].append(sizeObj)              
+                 
+                # product_json["product_offer"] = db.query("select * from offer where productId="+str(product.id))
+                
+                final_data.append(product_json)
+            pyDict = {'code':'200','status':'Success','data':final_data}  
+            return json.dumps(pyDict) 
+        except Exception as e:
+            
+            
+            response = []
+            pyDict = {'code':'201','status':'fail','message':str(e)}  
+            response.append(pyDict)          
+            finalresponse =json.dumps(response)
+            return finalresponse
 class GetFeaturedProducts:
     def POST(self):
         return "Get Method only supported. No Authorization Required"
@@ -195,6 +257,7 @@ class GetFeaturedProducts:
             final_data = []
             for product in featured_product_data:
                 prod_json ={}
+                prod_json["id"] =  product.id
                 prod_json["name"] =  product.name
                 prod_json["price"] = product.price
                 prod_json["currency"] = product.currency
@@ -505,7 +568,7 @@ class PlaceOrder:
             orderStatus = "Fail"
             cart_id = db.insert("order",userId=data.userId,orderValue=data.orderValue,offerId=data.offerId,createdAt=createdAt,orderStatus=data.orderStatus,delivaryDate=data.delivaryDate)
             for products in data.cart:
-                db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,productSizeId=products.productSizeId,offerId=products.offerId,createdAt=createdAt)
+                db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,createdAt=createdAt)
             if cart_id:
                 orderStatus = "Placed"
             db.insert("orderHistory",orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
