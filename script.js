@@ -81,6 +81,42 @@
 				templateUrl : 'pages/wish_list.html',
 				controller  : 'changepasswordController'
 			})
+			//------------ My downloads page -------- //
+			.when('/downloads', {
+				templateUrl : 'pages/downloads.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My Recurring page -------- //
+			.when('/recurring_payments', {
+				templateUrl : 'pages/recurring_payments.html',
+				controller  : 'changepasswordController'
+			})
+
+			//------------ My reward_points page -------- //
+			.when('/reward_points', {
+				templateUrl : 'pages/reward_points.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My returns page -------- //
+			.when('/returns', {
+				templateUrl : 'pages/returns.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My transactions page -------- //
+			.when('/transactions', {
+				templateUrl : 'pages/transactions.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My newsletter page -------- //
+			.when('/newsletter', {
+				templateUrl : 'pages/newsletter.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My logout page -------- //
+			.when('/logout', {
+				templateUrl : 'pages/logout.html',
+				controller  : 'changepasswordController'
+			})
 			// ----------- when register ---------- //
 			.when('/register', {
 				templateUrl : 'pages/register.html',
@@ -99,7 +135,7 @@
 		
 
 
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
