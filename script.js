@@ -158,8 +158,45 @@
 		}
 
 		$scope.getAbout()
-		$scope.featured_product = function(type){
+		$scope.getfeatured_product = function(type){
 			$scope.featured_product = []
+			if(type=="BEEF"){
+				$('#tab_beef').addClass("tab active")
+				$('#tab_lamb').removeClass("active")
+				$('#tab_poultry').removeClass("active")
+				$('#tab_sausage').removeClass("active")
+				$('#tab_today').removeClass("active")
+			}
+			if(type=="LAMB"){
+				$('#tab_beef').removeClass("active")
+				$('#tab_lamb').addClass("tab active")
+				$('#tab_poultry').removeClass("active")
+				$('#tab_sausage').removeClass("active")
+				$('#tab_today').removeClass("active")
+			}
+			if(type=="POULTRY"){
+				$('#tab_beef').removeClass("active")
+				$('#tab_lamb').removeClass("active")
+				$('#tab_poultry').addClass("tab active")
+				$('#tab_sausage').removeClass("active")
+				$('#tab_today').removeClass("active")
+			}
+			if(type=="SAUSAGE"){
+				$('#tab_beef').removeClass("active")
+				$('#tab_lamb').removeClass("active")
+				$('#tab_poultry').removeClass("active")
+				$('#tab_sausage').addClass("tab active")
+				$('#tab_today').removeClass("active")
+
+			}
+			if(type=="today_special"){
+				$('#tab_beef').removeClass("active")
+				$('#tab_lamb').removeClass("active")
+				$('#tab_poultry').removeClass("active")
+				$('#tab_sausage').removeClass("active")
+				$('#tab_today').addClass("tab active")
+				
+			}
 			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
 				console.log("product",response)
 				$scope.featured_product = response
@@ -167,6 +204,7 @@
 			
 			});
 		}
+		$scope.getfeatured_product("BEEF")
 		$scope.testemonial = []
 		$scope.getTestemonial = function(){
 			$http.get($scope.server + 'app/gettestemonials').success(function(response, status, headers) {
