@@ -7,8 +7,7 @@
 		</div>
 	  </div>
 	
-	 
-
+	
 <div class="mt-60">
     <div class="container">
       <div class="row butcher_img">
@@ -152,7 +151,7 @@
                       <span ng-if="Fproduct.is_sale" class="price-new">{{Fproduct.currency}}{{Fproduct.sale_price}} <span class="price-old">{{Fproduct.price}}</span></span>
                   </p>
                   <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('42');">
+                    <button  class="addtocart btn-color" type="button" ng-click="showAddItem(Fproduct);">
                       <span>Add to Cart</span>
                     </button>
                     <div class="right-side">

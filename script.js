@@ -12,9 +12,9 @@
 			})
 
 			// route for the about page
-			.when('/add', {
+			.when('/add/:productId', {
 				templateUrl : 'pages/add_item.html',
-				controller  : 'aboutController'
+				controller  : 'addPeoductController'
 			})
 
 			
@@ -135,9 +135,25 @@
 		
 
 
+<<<<<<< HEAD
 		$scope.server = "http://localhost:8080/"
+=======
+		$scope.server = "http://localhost:8081/"
+>>>>>>> 4f36f16f7f9b7e5c5880ae0f2910b837c76e7177
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
+
+		//------------- Adding into Cart ------------------- //
+		$scope.showAddItem = function(item){
+			console.log("item",item)
+			location.href = "#/add/"+item.id
+			
+
+
+
+
+
+		}
 
 		
 
@@ -291,7 +307,9 @@
 			});
 		}
 
-		$scope.getAbout()
+		$scope.getAbout() 
+
+	
 
 	});
 // Main Controller Ends here
@@ -322,14 +340,14 @@
 		$scope.registerUser = function(){
 			$http.post($scope.server + 'app/register', $scope.registerData).success(function(response, status, headers) {
 				if(response.code == 200){
-					localStorage.setItem("userDetails",response.user) 
+					localStorage.setItem("userDetails",JSON.stringify(response.user))
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
 					alert('Hello! Welcome', 'Registered Successfully!');
 
 
 				}else{
-					localStorage.setItem("is_logged_in",true)
+					localStorage.setItem("is_logged_in",false)
 					$scope.is_logged_in = false
 					alert('Hello! Register', 'Invalid User Credentials!');
 
@@ -344,21 +362,24 @@
 	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
+<<<<<<< HEAD
 		$scope.server = "http://localhost:8080/";
+=======
+		$scope.server = "http://localhost:8081/";
+>>>>>>> 4f36f16f7f9b7e5c5880ae0f2910b837c76e7177
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
 
 			$http.post($scope.server + 'app/login', $scope.data).success(function(response, status, headers) {
-				console.log("after api call",response)
 				if(response.code == 200){
-					localStorage.setItem("userDetails",response.user) 
+					localStorage.setItem("userDetails",JSON.stringify(response.user)) 
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
 					alert('Hello! Welcome', 'Logged in Successfully!');
 
 				}else{
-					localStorage.setItem("is_logged_in",true)
+					localStorage.setItem("is_logged_in",false)
 					$scope.is_logged_in = false
 					alert('Hello! Register', 'Invalid User Credentials!');
 
@@ -465,3 +486,39 @@
 		}
 		$scope.getspecial_product()		
 	});
+	scotchApp.controller('addPeoductController', function($scope,$http,$routeParams) {
+		$scope.quantity = 1;
+		$('.thumbnails').magnificPopup({
+    		type:'image',
+    		delegate: 'a',
+    		gallery: {
+    			enabled:true
+    		}
+    	});
+		$http.get($scope.server + 'app/productDetails/'+$routeParams.productId).success(function(response, status, headers) {
+			
+			$scope.product = response.data[0]
+		}).error(function(response, status, headers) {
+		
+		});
+		var userDetails = localStorage.getItem("userDetails")
+		$scope.cartDetails = {"userId":userDetails[0].id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+		$scope.addtocart =  function(item){
+			var product = {}
+			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
+			product["productId"] = item.id
+			product["quantity"] = $scope.quantity
+			$scope.cartDetails.cart.pust(product)
+			console.log(":::::::Cart :::::::",$scope.cartDetails)
+		}
+
+
+		
+
+
+	});
+
+	
+
+
+	
