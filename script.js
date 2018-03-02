@@ -135,7 +135,7 @@
 		
 
 
-		$scope.server = "http://localhost:8081/"
+		$scope.server = "http://localhost:8082/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -227,13 +227,25 @@
 				
 			}
 			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
-				console.log("product",response)
-				$scope.featured_product = response
+				console.log("product",response.data)
+				$scope.featured_product = response.data
 			}).error(function(response) {
 			
 			});
 		}
 		$scope.getfeatured_product("BEEF")
+
+		$scope.getspecial_product = function(type){
+			$scope.special_product = []
+			
+			$http.get($scope.server + 'app/getfeaturedproducts?name='+type).success(function(response) {
+				console.log("product",response.data)
+				$scope.special_product = response.data
+			}).error(function(response) {
+			
+			});
+		}
+		$scope.getspecial_product("BEEF")
 		$scope.testemonial = []
 		$scope.getTestemonial = function(){
 			$http.get($scope.server + 'app/gettestemonials').success(function(response, status, headers) {
@@ -332,7 +344,7 @@
 	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://localhost:8081/";
+		$scope.server = "http://localhost:8082/";
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){

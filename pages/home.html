@@ -115,7 +115,7 @@
               <a id="tab_33" ng-click="getfeatured_product('SAUSAGE')"><span></span>Sausage</a>
             </li>
             <li id="tab_today" class="tab"> 
-                <a id="tab_57" ng-click="getfeatured_product('today_special')"><span></span>Today's Special</a>
+                <a id="tab_57" ng-click="getfeatured_product('TODAY_SPECIAL')"><span></span>Today's Special</a>
               </li>
             <!-- <li class="tab all-cat"> 
               <a id="tab_all" href="#tab-all" data-toggle="tab"><span></span>View All</a>
@@ -124,21 +124,21 @@
         </div>
         <div class="tab-content">
           <div class="tab-pane active" >
-            <div class="col-md-4 col-xs-6">
+            <div class="col-md-4 col-xs-6" ng-repeat="Fproduct in featured_product">
               <div class="product-thumb transition">
                 <div class="image">
-                  <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a>
-                  <a href="">
-                    <img src="assets/img/p1-300x300.jpg" alt="Apple Cinema 30&quot;" title="Apple Cinema 30&quot;" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p6-300x300.jpg" alt="Apple Cinema 30&quot;"/>
+                  <!-- <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a> -->
+                  <a >
+                    <img src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;" title="{{Fproduct.image}}&quot;" class="img-responsive" />
+                    <img class="img-responsive hover-image" src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;"/>
                   </a>
                   <div class="sale-label"><span>Sale</span></div>         
                 </div>
                 <div class="caption">
                   <div class="name">
-                    <h3><a href="">Apple Cinema 30&quot;</a></h3>
+                    <h3><a href="">{{Fproduct.name}}&quot;</a></h3>
                   </div>
-                  <div class="rating-summary-block">
+                  <!-- <div class="rating-summary-block">
                     <div class="rating">
                       <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
                       <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
@@ -146,9 +146,9 @@
                       <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
                       <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
                     </div>
-                  </div>
+                  </div> -->
                   <p class="price">
-                    <span class="price-new">$110.00</span> <span class="price-old">$122.00</span>
+                    <span class="price-new">{{Fproduct.currency}}{{Fproduct.price}}</span> <span class="price-old"></span>
                   </p>
                   <div class="button-group main-product-btn product-item-action">
                     <button  class="addtocart btn-color" type="button" onclick="cart.add('42');">
@@ -163,170 +163,7 @@
                 </div> 
               </div>
             </div>
-            <div class="col-md-4 col-xs-6">
-              <div class="product-thumb transition">
-                <div class="image">
-                  <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a>
-                  <a href="">
-                    <img src="assets/img/p6-300x300.jpg" alt="iPhone" title="iPhone" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p3-300x300.jpg" alt="iPhone"/>
-                  </a>
-                </div>
-              <div class="caption">
-                <div class="name">
-                  <h3><a href="">iPhone</a></h3>
-                </div>
-                <div class="rating-summary-block">
-                  <div class="rating">
-                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                  </div>
-                </div>
-                <p class="price">$123.20</p>
-                <div class="button-group main-product-btn product-item-action">
-                  <button  class="addtocart btn-color" type="button" onclick="cart.add('40');"><span>Add to Cart</span></button>
-                  <div class="right-side">
-                    <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('40');"><span class="icon"></span></button>
-                    <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('40');"><span class="icon"></span></button>
-                  </div>   
-                </div>
-              </div> 
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6">
-              <div class="product-thumb transition">
-                <div class="image">
-                  <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a>
-                  <a href="">
-                    <img src="assets/img/p9-300x300.jpg" alt="iPod Shuffle" title="iPod Shuffle" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p5-300x300.jpg" alt="iPod Shuffle"/>
-                  </a>
-                </div>
-                <div class="caption">
-                  <div class="name">
-                    <h3><a href="">iPod Shuffle</a></h3>
-                  </div>
-                  <div class="rating-summary-block">
-                    <div class="rating">
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    </div>
-                  </div>
-                  <p class="price">$122.00</p>
-                  <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('34');"><span>Add to Cart</span></button>
-                    <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('34');"><span class="icon"></span></button>
-                      <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('34');"><span class="icon"></span></button>
-                    </div>   
-                  </div>
-                </div> 
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6">
-              <div class="product-thumb transition">
-                <div class="image">
-                  <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a>
-                  <a href="">
-                    <img src="assets/img/p10-300x300.jpg" alt="iPod Touch" title="iPod Touch" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p10-300x300.jpg" alt="iPod Touch"/>
-                  </a>
-                </div>
-                <div class="caption">
-                  <div class="name">
-                    <h3><a href="">iPod Touch</a></h3>
-                  </div>
-                  <div class="rating-summary-block">
-                    <div class="rating">
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    </div>
-                  </div>
-                  <p class="price">$122.00</p>
-                  <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('32');"><span>Add to Cart</span></button>
-                    <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('32');"><span class="icon"></span></button>
-                      <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('32');"><span class="icon"></span></button>
-                    </div>   
-                  </div>
-                </div> 
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6">
-              <div class="product-thumb transition">
-                <div class="image">
-                  <a href="">
-                    <img src="assets/img/p11-300x300.jpg" alt="MacBook" title="MacBook" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p12-300x300.jpg" alt="MacBook"/>
-                  </a>
-                </div>
-                <div class="caption">
-                  <div class="name">
-                    <h3><a href="">MacBook</a></h3>
-                  </div>
-                  <div class="rating-summary-block">
-                    <div class="rating">
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    </div>
-                  </div>
-                  <p class="price">$602.00</p>
-                  <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('43');"><span>Add to Cart</span></button>
-                    <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('43');"><span class="icon"></span></button>
-                      <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('43');"><span class="icon"></span></button>
-                    </div>   
-                  </div>
-                </div> 
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6">
-              <div class="product-thumb transition">
-                <div class="image">
-                  <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a>
-                  <a href="">
-                    <img src="assets/img/p13-300x300.jpg" alt="MacBook Pro" title="MacBook Pro" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="assets/img/p3-300x300.jpg" alt="MacBook Pro"/>
-                  </a>
-                </div>
-                <div class="caption">
-                  <div class="name">
-                    <h3><a href="">MacBook Pro</a></h3>
-                  </div>
-                  <div class="rating-summary-block">
-                    <div class="rating">
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
-                    </div>
-                  </div>
-                  <p class="price">$2,000.00</p>
-                  <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('45');"><span>Add to Cart</span></button>
-                    <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('45');"><span class="icon"></span></button>
-                      <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('45');"><span class="icon"></span></button>
-                    </div>   
-                  </div>
-                </div> 
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -351,16 +188,19 @@
       </div>
       <div class="row">
       <div class="blog-carousel owl-carousel owl-theme" style="opacity: 1; display: block;">
-                <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 3320px; left: 0px; display: block; transform: translate3d(-415px, 0px, 0px); transition: all 200ms ease;"><div class="owl-item" style="width: 415px;"><div class="item">        
+                <div class="owl-wrapper-outer">
+                  <div  class="owl-wrapper" style="width: 3320px; left: 0px; display: block; transform: translate3d(-415px, 0px, 0px); transition: all 200ms ease;">
+                    <div class="owl-item" style="width: 415px;" ng-repeat="special in special_product">
+                  <div class="item" >        
           <div class="blog-item "> 
             <div class="blog-media">
-                            <img src="http://webcotheme.com/opc/butcher/demo/btc01/image/cache/catalog/blog_img4-900x900.jpg" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
+                            <img src="{{special.image}}" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
             </div>          
             <div class="blog-detail">
               <div class="blog-detail-inner">
                 <div class="blog-contant">
                   <div class="item post-posed-date"><span class="value"> 27/05/2017</span></div>
-                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=4">Lorem ipsum dolor sit amet consect.</a></h3>
+                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=4">{{special.name}}</a></h3>
                   <!-- <div class="post-text-hld clearfix">
                     <p>Phasellus aliquam libero semper, lobortis tortor eu, ultrices augue. Donec ut elit sit amet est tincidunt rutrum. Aenean elementum mi a nisi consequat...</p>
                   </div>-->
@@ -368,58 +208,7 @@
               </div>
             </div> 
            </div>     
-        </div></div><div class="owl-item" style="width: 415px;"><div class="item">        
-          <div class="blog-item "> 
-            <div class="blog-media">
-                            <img src="http://webcotheme.com/opc/butcher/demo/btc01/image/cache/catalog/blog_img3-900x900.jpg" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
-            </div>          
-            <div class="blog-detail">
-              <div class="blog-detail-inner">
-                <div class="blog-contant">
-                  <div class="item post-posed-date"><span class="value"> 27/05/2017</span></div>
-                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=3">Aorem ipsum dolor sit amet consect.</a></h3>
-                  <!-- <div class="post-text-hld clearfix">
-                    <p>Phasellus aliquam libero semper, lobortis tortor eu, ultrices augue. Donec ut elit sit amet est tincidunt rutrum. Aenean elementum mi a nisi consequat...</p>
-                  </div>-->
-                  <a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=3" class="btn btn-yellow full"> Read more</a> </div>
-              </div>
-            </div> 
-           </div>     
-        </div></div><div class="owl-item" style="width: 415px;"><div class="item">        
-          <div class="blog-item "> 
-            <div class="blog-media">
-                            <img src="http://webcotheme.com/opc/butcher/demo/btc01/image/cache/catalog/blog_img2-900x900.jpg" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
-            </div>          
-            <div class="blog-detail">
-              <div class="blog-detail-inner">
-                <div class="blog-contant">
-                  <div class="item post-posed-date"><span class="value"> 27/05/2017</span></div>
-                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=2">Aorem ipsum dolor sit amet consect.</a></h3>
-                  <!-- <div class="post-text-hld clearfix">
-                    <p>Proin suscipit urna quis pharetra vestibulum. Sed fermentum at lectus nec porta. Proin velit metus, placerat quis enim vel, posuere varius risus. Nunc...</p>
-                  </div>-->
-                  <a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=2" class="btn btn-yellow full"> Read more</a> </div>
-              </div>
-            </div> 
-           </div>     
-        </div></div><div class="owl-item" style="width: 415px;"><div class="item">        
-          <div class="blog-item "> 
-            <div class="blog-media">
-                            <img src="http://webcotheme.com/opc/butcher/demo/btc01/image/cache/catalog/blog_img1-900x900.jpg" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
-            </div>          
-            <div class="blog-detail">
-              <div class="blog-detail-inner">
-                <div class="blog-contant">
-                  <div class="item post-posed-date"><span class="value"> 27/05/2017</span></div>
-                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=1">Morem ipsum dolor sit amet consect.</a></h3>
-                  <!-- <div class="post-text-hld clearfix">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id elementum dolor, vel hendrerit tellus. Cras neque quam, hendrerit ut pellentesque non...</p>
-                  </div>-->
-                  <a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=1" class="btn btn-yellow full"> Read more</a> </div>
-              </div>
-            </div> 
-           </div>     
-        </div></div></div></div>
+        </div></div>
                 
                 
                 
