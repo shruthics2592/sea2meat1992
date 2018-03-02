@@ -496,14 +496,15 @@
 		}).error(function(response, status, headers) {
 		
 		});
-		var userDetails = localStorage.getItem("userDetails")
-		$scope.cartDetails = {"userId":userDetails[0].id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+		var userDetails = JSON.parse(localStorage.getItem("userDetails"))
+		$scope.cartDetails = {"userId":userDetails.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
 		$scope.addtocart =  function(item){
-			var product = {}
+			console.log("::::in functionnnnnnnn")
+			var productDetails = {}
 			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
-			product["productId"] = item.id
-			product["quantity"] = $scope.quantity
-			$scope.cartDetails.cart.pust(product)
+			productDetails["productId"] = item.id
+			productDetails["quantity"] = $scope.quantity
+			$scope.cartDetails.cart.pust(productDetails)
 			console.log(":::::::Cart :::::::",$scope.cartDetails)
 		}
 
