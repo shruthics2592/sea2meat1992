@@ -22,6 +22,8 @@ urls = (
   '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
   '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
   '/app/getbrand','GetBrand', #To get brand images for home page
+  '/app/addwish','AddWish', # adds to wish list
+  '/app/getwish','GetWish', # get to wish list
 
 
 
@@ -202,11 +204,14 @@ class GetFeaturedProducts:
                 prod_json["is_available"] = product.is_available
                 prod_json["is_todaysSpecial"] = product.is_todaysSpecial
                 prod_json["is_active"] = product.is_active
+                prod_json["description"] = product.description
+                prod_json["is_sale"] = product.is_sale
+                prod_json["sale_price"] = product.sale_price
                 featured_product_data_image = db.query('''
                                     select * from product p
                                     inner join productImage as pi on p.id = pi.productId
                                     inner join category as c on c.id = p.categoryId
-                                    where c.c_name='BEEF'
+                                    where c.c_name=$id
                                     LIMIT 1''',vars={"id":product.name})
                 for image in featured_product_data_image:
                     prod_json["image"] = image.imagelink
@@ -395,6 +400,95 @@ class GetBrand:
             pyDict = {'code':'201','status':'fail','message':str(e)}            
             response =json.dumps(pyDict)
             return response
+
+class AddWish:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.input() # to read raw data
+        try:
+            wishObj = db.insert('wishList',productId = data.prod_id,userId=data.user_id)
+            pyDict = {'code':'200','status':'success'} 
+            print(pyDict)           
+            return json.dumps(pyDict)    
+
+
+        except Exception as e:
+            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
+
+
+class GetWish:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            my_params = web.input()
+            user_id = my_params.id
+            wish_data = db.query("select * from wishList where userId="+userId)
+            final_data = []
+            for wish in wish_data:
+                prod_json = {}
+                product_id = wish.productId
+                featured_product_data = db.query('''
+                                    select * from product p
+                                    inner join category as c on c.id = p.categoryId
+                                    where p.id=$id
+                                ''',vars={"id":product_id}) 
+                final_data = []
+                for product in featured_product_data:
+                    prod_json ={}
+                    prod_json["name"] =  product.name
+                    prod_json["price"] = product.price
+                    prod_json["currency"] = product.currency
+                    prod_json["category_name"] = product.c_name
+                    prod_json["is_available"] = product.is_available
+                    prod_json["is_todaysSpecial"] = product.is_todaysSpecial
+                    prod_json["is_active"] = product.is_active
+                    prod_json["description"] = product.description
+                    prod_json["is_sale"] = product.is_sale
+                    prod_json["sale_price"] = product.sale_price
+                    featured_product_data_image = db.query('''
+                                        select * from product p
+                                        inner join productImage as pi on p.id = pi.productId
+                                        inner join category as c on c.id = p.categoryId
+                                        where c.c_name=$id
+                                        LIMIT 1''',vars={"id":product.name})
+                    for image in featured_product_data_image:
+                        prod_json["image"] = image.imagelink
+                final_data.append(wish_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+
 # get about firm data
 class GetAbout:
     def POST(self):
