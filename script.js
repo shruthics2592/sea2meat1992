@@ -55,20 +55,30 @@
 				controller  : 'orderHistoryController'
 			})
 			//------------ My account page -------- //
-			.when('/myaccount', {
+			.when('/my_account', {
 				templateUrl : 'pages/my_account.html',
 				controller  : 'myaccountController'
 			})
 
 			//------------ My account page -------- //
-			.when('/editaccount', {
+			.when('/edit_account', {
 				templateUrl : 'pages/edit_account.html',
 				controller  : 'editaccountController'
 			})
 
 			//------------ My account page -------- //
-			.when('/changepassword', {
+			.when('/change_password', {
 				templateUrl : 'pages/change_password.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My address book page -------- //
+			.when('/address_book', {
+				templateUrl : 'pages/address_book.html',
+				controller  : 'changepasswordController'
+			})
+			//------------ My wish list page -------- //
+			.when('/wish_list', {
+				templateUrl : 'pages/wish_list.html',
 				controller  : 'changepasswordController'
 			})
 			// ----------- when register ---------- //
