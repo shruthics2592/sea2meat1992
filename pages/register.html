@@ -14,9 +14,9 @@
   <div class="pb-95">
     <div class="container">
       <div class="row">                        
-        <div id="content" class="col-sm-8">        
+        <div id="content" ng-if="!is_logged_in" class="col-sm-8">        
           <p>If you already have an account with us, please login at the <a href="">login page</a>.</p>
-          <form action="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=account/register" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <form ng-submit="registerUser()" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
             <fieldset id="account">
               <div class="heading-bg mb-30">
                 <h2 class="heading m-0">Register Account</h2>
@@ -34,31 +34,31 @@
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-firstname">First Name</label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="" placeholder="First Name" id="input-firstname" class="form-control" />
+                  <input type="text" name="firstname" value="" placeholder="First Name" id="input-firstname" class="form-control" ng-model="registerData.firstName" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-lastname">Last Name</label>
                 <div class="col-sm-10">
-                  <input type="text" name="lastname" value="" placeholder="Last Name" id="input-lastname" class="form-control" />
+                  <input type="text" name="lastname" value="" placeholder="Last Name" id="input-lastname" class="form-control" ng-model="registerData.lastName" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-email">E-Mail</label>
                 <div class="col-sm-10">
-                  <input type="email" name="email" value="" placeholder="E-Mail" id="input-email" class="form-control" />
+                  <input type="email" name="email" value="" placeholder="E-Mail" id="input-email" class="form-control" ng-model="registerData.email" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-telephone">Telephone</label>
                 <div class="col-sm-10">
-                  <input type="tel" name="telephone" value="" placeholder="Telephone" id="input-telephone" class="form-control" />
+                  <input type="tel" name="telephone" value="" placeholder="Telephone" id="input-telephone" class="form-control" ng-model="registerData.mobile" required/>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-fax">Fax</label>
                 <div class="col-sm-10">
-                  <input type="text" name="fax" value="" placeholder="Fax" id="input-fax" class="form-control" />
+                  <input type="text" name="fax" value="" placeholder="Fax" id="input-fax" class="form-control" ng-model="registerData.fax"/>
                 </div>
               </div>
             </fieldset>
@@ -69,37 +69,31 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-company">Company</label>
                 <div class="col-sm-10">
-                  <input type="text" name="company" value="" placeholder="Company" id="input-company" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-              <label class="col-sm-2 control-label" for="input-address-1">Address 1</label>
-                <div class="col-sm-10">
-                  <input type="text" name="address_1" value="" placeholder="Address 1" id="input-address-1" class="form-control" />
+                  <input type="text" name="company" value="" placeholder="Company" id="input-company" class="form-control" ng-model="registerData.company"/>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-address-2">Address 2</label>
+                <label class="col-sm-2 control-label" for="input-address-2">Street</label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_2" value="" placeholder="Address 2" id="input-address-2" class="form-control" />
+                  <input type="text" name="address_2" value="" placeholder="Address 2" id="input-address-2" class="form-control" ng-model="registerData.street" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-city">City</label>
                 <div class="col-sm-10">
-                  <input type="text" name="city" value="" placeholder="City" id="input-city" class="form-control" />
+                  <input type="text" name="city" value="" placeholder="City" id="input-city" class="form-control" ng-model="registerData.city" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-postcode">Post Code</label>
                 <div class="col-sm-10">
-                  <input type="text" name="postcode" value="" placeholder="Post Code" id="input-postcode" class="form-control" />
+                  <input type="text" name="postcode" value="" placeholder="Post Code" id="input-postcode" class="form-control" ng-model="registerData.pincode" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-country">Country</label>
                 <div class="col-sm-10">
-                  <select name="country_id" id="input-country" class="form-control">
+                  <select name="country_id" id="input-country" class="form-control" ng-model="registerData.country" required>
                     <option value=""> --- Please Select --- </option>
                     <option value="244">Aaland Islands</option>
                   </select>
@@ -108,7 +102,9 @@
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-zone">Region / State</label>
                 <div class="col-sm-10">
-                  <select name="zone_id" id="input-zone" class="form-control">
+                  <select name="zone_id" id="input-zone" class="form-control" ng-model="registerData.state" required>
+                      <option value=""> --- Please Select --- </option>
+                      <option value="244">Aaland Islands</option>
                   </select>
                 </div>
               </div>
@@ -120,13 +116,13 @@
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-password">Password</label>
                 <div class="col-sm-10">
-                  <input type="password" name="password" value="" placeholder="Password" id="input-password" class="form-control" />
+                  <input type="password" name="password" value="" placeholder="Password" id="input-password" class="form-control" ng-model="registerData.password" required/>
                 </div>
               </div>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-confirm">Password Confirm</label>
                 <div class="col-sm-10">
-                  <input type="password" name="confirm" value="" placeholder="Password Confirm" id="input-confirm" class="form-control" />
+                  <input type="password" name="confirm" value="" placeholder="Password Confirm" id="input-confirm" class="form-control" ng-model="registerData.confirmpassword" required/>
                 </div>
               </div>
             </fieldset>
@@ -138,10 +134,10 @@
                 <label class="col-sm-2 control-label">Subscribe</label>
                 <div class="col-sm-10">
                   <label class="radio-inline">
-                    <input type="radio" name="newsletter" value="1" />Yes
+                    <input type="radio" name="newsletter" value="1" ng-model="registerData.subscriptionYes" />Yes
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="newsletter" value="0" checked="checked" />No
+                    <input type="radio" name="newsletter" value="0" ng-model="registerData.subscriptionNo" checked="checked" />No
                   </label>
                 </div>
               </div>
@@ -155,7 +151,7 @@
             </div>
           </form>
         </div>
-        <aside id="column-right" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
+        <aside id="column-right" ng-if="is_logged_in" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
           <div class="list-group">
           <a href="my_account.html" class="list-group-item">My Account</a>
           <a href="edit_account.html" class="list-group-item">Edit Account</a> 

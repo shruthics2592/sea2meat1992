@@ -1,5 +1,5 @@
 	// create the module and name it scotchApp
-	var scotchApp = angular.module('scotchApp', ['ngRoute']);
+	var scotchApp = angular.module('scotchApp', ['ngRoute','toastr']);
 
 	// configure our routes
 	scotchApp.config(function($routeProvider) {
@@ -54,6 +54,23 @@
 				templateUrl : 'pages/order_history.html',
 				controller  : 'orderHistoryController'
 			})
+			//------------ My account page -------- //
+			.when('/myaccount', {
+				templateUrl : 'pages/my_account.html',
+				controller  : 'myaccountController'
+			})
+
+			//------------ My account page -------- //
+			.when('/editaccount', {
+				templateUrl : 'pages/edit_account.html',
+				controller  : 'editaccountController'
+			})
+
+			//------------ My account page -------- //
+			.when('/changepassword', {
+				templateUrl : 'pages/change_password.html',
+				controller  : 'changepasswordController'
+			})
 			// ----------- when register ---------- //
 			.when('/register', {
 				templateUrl : 'pages/register.html',
@@ -79,7 +96,7 @@
 		
 
 
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -199,20 +216,23 @@
 
 	scotchApp.controller('registerController', function($scope,$http) {
 		console.log("I am in register controller")
-		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":""}
-		
-
-		$scope.login = function(){
-			$http.post($scope.server + 'app/login', $scope.data).success(function(response, status, headers) {
-				
-			}).error(function(response, status, headers) {
-			
-			});
-
-		}
-
+		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
+		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":"","street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
 		$scope.registerUser = function(){
 			$http.post($scope.server + 'app/register', $scope.registerData).success(function(response, status, headers) {
+				if(response.code == 200){
+					localStorage.setItem("userDetails",response.user) 
+					localStorage.setItem("is_logged_in",true)
+					$scope.is_logged_in = true
+					alert('Hello! Welcome', 'Registered Successfully!');
+
+
+				}else{
+					localStorage.setItem("is_logged_in",true)
+					$scope.is_logged_in = false
+					alert('Hello! Register', 'Invalid User Credentials!');
+
+				}
 				
 			}).error(function(response, status, headers) {
 			
@@ -220,16 +240,29 @@
 		}
 	});
 
-	scotchApp.controller('loginController', function($scope,$http) {
+	scotchApp.controller('loginController', function($scope,$http,toastr) {
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
 		$scope.server = "http://localhost:8081/";
-
+		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
 
 			$http.post($scope.server + 'app/login', $scope.data).success(function(response, status, headers) {
 				console.log("after api call",response)
+				if(response.code == 200){
+					localStorage.setItem("userDetails",response.user) 
+					localStorage.setItem("is_logged_in",true)
+					$scope.is_logged_in = true
+					alert('Hello! Welcome', 'Logged in Successfully!');
+
+				}else{
+					localStorage.setItem("is_logged_in",true)
+					$scope.is_logged_in = false
+					alert('Hello! Register', 'Invalid User Credentials!');
+
+				}
+				
 
 			}).error(function(response, status, headers) {
 			
@@ -238,6 +271,18 @@
 		}
 
 	
+	});
+
+	scotchApp.controller('myaccountController', function($scope,$http) {
+		$scope.message = 'Contact us! JK. This is just a demo.';
+	});
+
+	scotchApp.controller('editaccountController', function($scope,$http) {
+		$scope.message = 'Contact us! JK. This is just a demo.';
+	});
+
+	scotchApp.controller('changepasswordController', function($scope,$http) {
+		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
 
 

@@ -29,9 +29,9 @@ urls = (
 
 
 # shruthi
-# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 # shubham
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -56,18 +56,19 @@ class Applogin:
                     userdata["email"] = user.email
                     userdata["company"] = user.company
                     userdata["subscription"] = user.subscription
-                    userdata["authtoken"] = user.authtoken
-                    userdata["address"] = db.query("select * from address where userId="+user.id)
-                    pyDict = {'code':'200','status':'user data',user:userdata}            
+                    userdata["authtoken"] = user.authToken
+                    #userdata["address"] = db.query("select * from address where userId="+str(user.id))
+                    pyDict = {'code':'200','status':'user data',"user":userdata} 
+                    print(pyDict)           
                     return json.dumps(pyDict)
             else:
-                pyDict = {'code':'201','status':'user is invalid',"user":{}}
+                pyDict = {'code':201,'status':'user is invalid',"user":{}}
                 return json.dumps(pyDict)            
 
 
         except Exception as e:
             
-            pyDict = {'code':'201','status':'','failmessage':str(e)}            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
             response =json.dumps(pyDict)
             return response
 
@@ -76,33 +77,34 @@ class Applogin:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
+        return 0
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 
 #Register   
 class Register:
-    def POST(self,id):
+    def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
+        data = json.loads(web.data().decode('utf-8'))
         try:
-            userObj = db.query("select * from user where email="+data.email) 
-            if len(userObj) <= 0:
-                authtoken = "token"
-                userdata_data = db.insert("user",firstName=data.firstName,lastName=data.lastName,mobile=data.mobile,fax=data.fax,email=data.email,company=data.company,authtoken=authtoken,subscription=data.subscription)
-                user_address = db.insert("address",streetAddress=data.streetAddress,pincode=data.pincode,city=data.city,state=data.state,country=data.country,addressType=data.addressType,userId=userdata_data)
-                pyDict = {'code':'200','status':"succes",'user_data':userdata_data}            
+            userObj = db.query("select * from user where email='"+data['email']+"'") 
+            if not userObj:
+                data['authtoken'] = "token"
+                userdata_data= db.insert("user",firstName=data['firstName'],lastName=data['lastName'],mobile=data['mobile'],fax=data['fax'],email=data['email'],company=data['company'],authtoken=data['authtoken'],subscription=data['subscription'],password=data['password'])
+                user_address = db.insert("address",streetAddress=data['street'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType="billing",userId=userdata_data)
+                pyDict = {'code':200,'status':"succes",'user':data}            
                 return json.dumps(pyDict)
             else:
-                pyDict = {'code':'201','status':'user already exist',"user":{}}
+                pyDict = {'code':201,'status':'user already exist',"user":{}}
                 return json.dumps(pyDict)            
 
 
         except Exception as e:
-            pyDict = {'code':'201','status':'','failmessage':e}            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
             response =json.dumps(pyDict)
             return response
 
@@ -111,7 +113,7 @@ class Register:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
+        return 0
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 

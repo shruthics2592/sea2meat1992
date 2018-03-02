@@ -14,7 +14,7 @@
 
   <div class="container">
     <div class="row">                
-      <div id="content" class="col-sm-8">      
+      <div id="content" ng-if="!is_logged_in" class="col-sm-8">      
         <div class="row">
           <div class="col-sm-6">
             <div class="heading-bg mb-30">
@@ -24,29 +24,29 @@
             <p>
               By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.
             </p>
-            <a href="" class="btn btn-black">Continue</a>
+            <a href="#register" class="btn btn-black">Continue</a>
           </div>
           <div class="col-sm-6 mb-30">
             <div class="heading-bg mb-30">
               <h2 class="heading m-0">Account Login</h2>
             </div> 
             <p><strong>I am a returning customer</strong></p>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form ng-submit="login()" action="" method="post" enctype="multipart/form-data">
               <div class="form-group">
                 <label class="control-label" for="input-email">E-Mail Address</label>
-                <input type="text" name="email" value="" placeholder="E-Mail Address" ng-model="data.email" id="input-email" class="form-control" required/>
+                <input type="email" name="email" value="" placeholder="E-Mail Address" ng-model="data.email" id="input-email" class="form-control" required/>
               </div>
               <div class="form-group">
                 <label class="control-label" for="input-password">Password</label>
                 <input type="password" name="password" value="" placeholder="Password" ng-model="data.password" id="input-password" class="form-control" required/>
                 <a href="">Forgotten Password</a>
               </div>
-              <input type="submit" value="Login" class="btn btn-black" ng-click="login()"/>
+              <input type="submit" value="Login" class="btn btn-black" />
             </form>
           </div>
         </div>
       </div>
-      <aside id="column-right" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
+      <aside id="column-right" ng-if="is_logged_in" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
         <div class="list-group">
           <a href="" class="list-group-item">My Account</a>
           <a href="" class="list-group-item">Edit Account</a> 
