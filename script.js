@@ -332,7 +332,7 @@
 	scotchApp.controller('registerController', function($scope,$http) {
 		console.log("I am in register controller")
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
-		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":"","street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
+		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
 		$scope.registerUser = function(){
 			$http.post($scope.server + 'app/register', $scope.registerData).success(function(response, status, headers) {
 				if(response.code == 200){
@@ -478,6 +478,9 @@
 		}
 		$scope.getspecial_product()		
 	});
+
+
+
 	scotchApp.controller('addPeoductController', function($scope,$http,$routeParams) {
 		$scope.quantity = 1;
 		$('.thumbnails').magnificPopup({
