@@ -12,7 +12,7 @@
     </div>
     <div class="row">                
       <div id="content" class="col-sm-8">      
-        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <form name="myForm" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
           <fieldset>
             <div class="heading-bg mb-30">
               <h2 class="heading m-0">My Account Information</h2>
@@ -20,44 +20,49 @@
             <div class="form-group required">
               <label class="col-sm-2 control-label" for="input-firstname">First Name </label>
               <div class="col-sm-10">
-                <input type="text" name="firstname" value="Kathir" placeholder="First Name" id="input-firstname" class="form-control" />
+                <input type="text" name="firstname" ng-required="1" ng-model="firstname" placeholder="First Name" id="input-firstname" class="form-control" />
+                <span style="color:red" ng-if="myForm.firstname.$dirty && myForm.firstname.$invalid">Please Enter FirstName</span>
               </div>
             </div>
             <div class="form-group required">
               <label class="col-sm-2 control-label" for="input-lastname">Last Name</label>
               <div class="col-sm-10">
-                <input type="text" name="lastname" value="Jayam" placeholder="Last Name" id="input-lastname" class="form-control" />
+                <input type="text" name="lastname" ng-required="1" ng-model="lastname" placeholder="Last Name" id="input-lastname" class="form-control" />
+                <span style="color:red" ng-if="myForm.lastname.$dirty && myForm.lastname.$invalid">Please Enter LastName</span>
               </div>
             </div>
             <div class="form-group required">
               <label class="col-sm-2 control-label" for="input-email">E-Mail</label>
               <div class="col-sm-10">
-                <input type="email" name="email" value="jayakathir@gmail.com" placeholder="E-Mail" id="input-email" class="form-control" />
+                <input type="email" name="email" ng-required="1" ng-model="email" placeholder="E-Mail" ng-disabled="1" id="input-email" class="form-control" />
               </div>
             </div>
             <div class="form-group required">
               <label class="col-sm-2 control-label" for="input-telephone">Telephone</label>
               <div class="col-sm-10">
-                <input type="tel" name="telephone" value="9513089079" placeholder="Telephone" id="input-telephone" class="form-control" />
+                <input type="tel" name="telephone" ng-pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/"  ng-required="1" ng-model="mobile" placeholder="Telephone" id="input-telephone" class="form-control" />
+                <span style="color:red" ng-if="myForm.telephone.$dirty && myForm.telephone.$invalid ||myForm.telephone.$error.pattern">Please Enter Correct Mobile Number</span>
+                
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-fax">Fax</label>
               <div class="col-sm-10">
-                <input type="text" name="fax" value="9513089079" placeholder="Fax" id="input-fax" class="form-control" />
+                <input type="text" name="fax" ng-required="1" ng-model="fax" placeholder="Fax" id="input-fax" class="form-control" />
               </div>
             </div>
           </fieldset>
           <div class="buttons clearfix">
             <div class="pull-left"><a href="" class="btn btn-black">Back</a></div>
             <div class="pull-right">
-              <input type="submit" value="Continue" class="btn btn-black" />
+              <input type="submit" ng-disabled="myForm.telephone.$dirty && myForm.telephone.$invalid ||myForm.firstname.$dirty && myForm.firstname.$invalid ||  
+              myForm.lastname.$dirty && myForm.lastname.$invalid" value="Continue" ng-click="editAccount()" class="btn btn-black" />
             </div>
           </div>
         </form>
       </div>
       <aside id="column-right" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
-        <div class="list-group">
+        <!-- <div class="list-group">
           <a href="#my_account" class="list-group-item">My Account</a>
           <a href="#edit_account" class="list-group-item">Edit Account</a> 
           <a href="#change_password" class="list-group-item">Password</a>
@@ -71,7 +76,7 @@
           <a href="#transactions" class="list-group-item">Transactions</a> 
           <a href="#newsletter" class="list-group-item">Newsletter</a>
           <a href="#logout" class="list-group-item">Logout</a>
-        </div>
+        </div> -->
       </aside>
     </div>
   </div>

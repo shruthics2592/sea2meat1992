@@ -10,33 +10,61 @@
         </ul>
       </div>
     </div>
-    <div class="row">                
-      <div id="content" class="col-sm-8">     
+    <div id="content" class="col-sm-8" ng-if="wish_list.length==0">     
         <div class="heading-bg mb-20"> 
           <h2 class="heading m-0">My Wish List</h2>
         </div> 
         <p>Your wish list is empty.</p>
         <div class="buttons clearfix">
-          <div class="pull-right"><a href="" class="btn btn-black">Continue</a></div>
+          <div class="pull-right"><a href="#/" class="btn btn-black">Continue</a></div>
         </div>
       </div>
-      <aside id="column-right" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
-        <div class="list-group">
-          <a href="" class="list-group-item">My Account</a>
-          <a href="" class="list-group-item">Edit Account</a> 
-          <a href="" class="list-group-item">Password</a>
-          <a href="" class="list-group-item">Address Book</a> 
-          <a href="" class="list-group-item">Wish List</a> 
-          <a href="" class="list-group-item">Order History</a> 
-          <a href="" class="list-group-item">Downloads</a>
-          <a href="" class="list-group-item">Recurring payments</a>
-          <a href="" class="list-group-item">Reward Points</a> 
-          <a href="" class="list-group-item">Returns</a> 
-          <a href="" class="list-group-item">Transactions</a> 
-          <a href="" class="list-group-item">Newsletter</a>
-          <a href="" class="list-group-item">Logout</a>
-        </div>
-      </aside>
+    <div class="row mlr_-37" ng-repeat="product in wish_list">
+      <div class="product-layout product-list col-xs-12">
+                                <div class="product-thumb">
+                                                <div class="image">
+                                                  <!-- <a class='iframe button quickview' href=""><i class="fa fa-search"></i>Quickview</a> -->
+                                                  <a href="">
+                                                    <img src="{{product.image}}" title="{{product.image}}&quot;" alt="{{product.image}}&quot;" class="img-responsive"/>
+                                                    <img class="img-responsive hover-image" src="{{product.image}}" alt="{{product.image}}&quot;"/>
+                                                  </a>
+                                                  <div  ng-if="product.is_sale" class="sale-label"><span>Sale</span></div>         
+                                                </div>
+                                          <div class="caption">
+                                            
+                                                                  <div class="name">
+                                                                    <h3><a href="">{{product.name}}&quot;</a></h3>
+                                                                  </div>
+                                                                  <p class="price">
+                                                                      <span ng-if="!product.is_sale" class="price-new">{{product.currency}}{{product.price}}</span>
+                                                                    <span ng-if="product.is_sale" class="price-new">{{product.currency}}{{product.sale_price}} <span class="price-old">{{product.price}}</span></span> 
+                                                                    <!-- <span class="price-tax">Ex Tax: $90.00</span> -->
+                                                                  </p>
+                                                                                <p class="category-description">
+                                                                                    {{product.description}}</p>
+                                                              <div class="button-group main-product-btn product-item-action">
+                                                                                          <button  class="addtocart btn-color" type="button" onclick="cart.add('42');"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
+                                                                                              <div class="right-side">
+                                                                                                <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span><!-- fa fa-heart --></span></button>
+                                                                                              </div>    
+                                                              </div>        
+                                          </div>          
+                      </div>
+</div>
+      
+    
+    
+     
+     
+    </div>
+    </div>
+            
+          
+          
+           
+           
+          
+      
     </div>
   </div>
 
