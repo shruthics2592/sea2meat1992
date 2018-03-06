@@ -10,24 +10,167 @@
         </ul>
       </div>
     </div>
+
+
+    
+
+
+
     <div class="row">                
-      <div id="content" class="col-sm-8">      
+      <div id="content" class="col-sm-12">      
         <div class="heading-bg mb-20">
           <h2 class="heading m-0">Address Book Entries</h2>
         </div>  
         <div class="table-responsive">
           <table class="table table-bordered table-hover">
             <tr ng-repeat="address in my_address">
-              <td><input style="border-width:0px;border:none" type="text" value={{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}}) ng-disabled="true"></td>
-              <td class="text-right"><a href="" class="btn btn-info">Edit</a> &nbsp; <a href="" class="btn btn-danger">Delete</a></td>
+              <td width="70%">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</td>
+              <td width="30%" class="text-right"><a ng-click="editAddress(address)" class="btn btn-info">Edit</a> &nbsp; <a href="" ng-click="deleteAddress(address)" class="btn btn-danger">Delete</a></td>
             </tr>
           </table>
         </div>
         <div class="buttons clearfix">
-        <div class="pull-left"><a href="" class="btn btn-black">Back</a></div>
-        <div class="pull-right"><a href="" class="btn btn-black">New Address</a></div>
+        <div class="pull-left"><a href="#/my_account" class="btn btn-black">Back</a></div>
+        <div class="pull-right"><a href="" ng-click="addAddress1()" class="btn btn-black">New Address</a></div>
         </div>
       </div>
       
     </div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<!-- edit section -->
+<div class="row" ng-if="edit">                
+  <div id="content" class="col-sm-8">      
+    <form name="myForm" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+      <fieldset>
+        <div class="heading-bg mb-30">
+          <h2 class="heading m-0">Edit Address Information</h2>
+        </div> 
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-street">Street Address</label>
+          <div class="col-sm-10">{{data.streetAddress}}
+            <input type="text" name="street" ng-required="1"  ng-model="data.streetAddress" placeholder="Street Address" id="input-street" class="form-control" />
+            <span style="color:red" ng-if="myForm.street.$dirty && myForm.street.$invalid">Please Enter Street Address</span>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-city">City</label>
+          <div class="col-sm-10">
+            <input type="text" name="city" ng-required="1" ng-model="data.city" placeholder="City" id="input-city" class="form-control" />
+            <span style="color:red" ng-if="myForm.city.$dirty && myForm.city.$invalid">Please Enter City</span>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-state">State</label>
+          <div class="col-sm-10">
+            <input type="text" name="state" ng-required="1" ng-model="data.state" placeholder="state" id="input-state" class="form-control" />
+            <span style="color:red" ng-if="myForm.state.$dirty && myForm.state.$invalid">Please Enter state</span>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-country">Country</label>
+          <div class="col-sm-10">
+            <input type="text" name="country" ng-required="1" ng-model="data.country" placeholder="Country" id="input-country" class="form-control" />
+            <span style="color:red" ng-if="myForm.country.$dirty && myForm.country.$invalid">Please Enter Country</span>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-pincode">Pincode</label>
+          <div class="col-sm-10">
+            <input type="tel" name="pincode" ng-pattern="/^\+?\d{6}$/"  ng-required="1" ng-model="data.pincode" placeholder="pincode" id="input-pincode" class="form-control" />
+            <span style="color:red" ng-if="myForm.pincode.$dirty && myForm.pincode.$invalid ||myForm.pincode.$error.pattern">Please Enter Correct Pincode</span>
+            
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-2 control-label" for="input-addressType">Address Type</label>
+          <div class="col-sm-10">
+            <input type="text" name="addressType" ng-required="1" ng-model="data.addressType" placeholder="addressType" id="input-addressType" class="form-control" />
+            <span style="color:red" ng-if="myForm.addressType.$dirty && myForm.addressType.$invalid ||myForm.addressType.$error.pattern">Please Enter Correct addressType</span>
+          </div>
+        </div>
+      </fieldset>
+      <div class="buttons clearfix">
+        <!-- <div class="pull-left"><a href="" class="btn btn-black">Back</a></div> -->
+        <div class="pull-right">
+          <input type="submit" ng-disabled="myForm.addressType.$dirty && myForm.addressType.$invalid ||myForm.state.$dirty && myForm.state.$invalid ||myForm.pincode.$dirty && myForm.pincode.$invalid ||myForm.street.$dirty && myForm.street.$invalid ||  
+          myForm.city.$dirty && myForm.city.$invalid||myForm.country.$dirty && myForm.country.$invalid " value="Continue" ng-click="editAddress1()" class="btn btn-black" />
+        </div>
+      </div>
+    </form>
+  </div>
+  
+</div>
+<!-- end of edit section -->
+<!-- add section -->
+<div class="row" ng-if="add">                
+<div id="content" class="col-sm-12">      
+<form name="add_myForm" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+  <fieldset>
+    <div class="heading-bg mb-30">
+      <h2 class="heading m-0">Add Address Information</h2>
+    </div> 
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-street">Street Address</label>
+      <div class="col-sm-10">{{data.streetAddress}}
+        <input type="text" name="add_street" ng-required="1"  ng-model="data.streetAddress" placeholder="Street Address" id="input-street" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_street.$dirty && add_myForm.add_street.$invalid">Please Enter Street Address</span>
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-city">City</label>
+      <div class="col-sm-10">
+        <input type="text" name="add_city" ng-required="1" ng-model="data.city" placeholder="City" id="input-city" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_city.$dirty && add_myForm.add_city.$invalid">Please Enter City</span>
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-state">State</label>
+      <div class="col-sm-10">
+        <input type="text" name="add_state" ng-required="1" ng-model="data.state" placeholder="state" id="input-state" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_state.$dirty && add_myForm.add_state.$invalid">Please Enter state</span>
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-country">Country</label>
+      <div class="col-sm-10">
+        <input type="text" name="add_country" ng-required="1" ng-model="data.country" placeholder="Country" id="input-country" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_country.$dirty && add_myForm.add_country.$invalid">Please Enter Country</span>
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-pincode">Pincode</label>
+      <div class="col-sm-10">
+        <input type="tel" name="add_pincode" ng-pattern="/^\+?\d{6}$/"  ng-required="1" ng-model="data.pincode" placeholder="pincode" id="input-pincode" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_pincode.$dirty && add_myForm.add_pincode.$invalid ||add_myForm.add_pincode.$error.pattern">Please Enter Correct Pincode</span>
+        
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-addressType">Address Type</label>
+      <div class="col-sm-10">
+        <input type="text" name="add_addressType" ng-required="1" ng-model="data.addressType" placeholder="addressType" id="input-addressType" class="form-control" />
+        <span style="color:red" ng-if="add_myForm.add_addressType.$dirty && add_myForm.add_addressType.$invalid ||add_myForm.addressType.$error.pattern">Please Enter Correct addressType</span>
+      </div>
+    </div>
+  </fieldset>
+  <div class="buttons clearfix">
+    <!-- <div class="pull-left"><a href="" class="btn btn-black">Back</a></div> -->
+    <div class="pull-right">
+      <input type="submit" ng-disabled="add_myForm.add_addressType.$dirty && add_myForm.add_addressType.$invalid ||add_myForm.add_state.$dirty && add_myForm.add_state.$invalid ||add_myForm.add_pincode.$dirty && add_myForm.add_pincode.$invalid ||add_myForm.add_street.$dirty && add_myForm.add_street.$invalid ||  
+      add_myForm.add_city.$dirty && add_myForm.add_city.$invalid||add_myForm.add_country.$dirty && add_myForm.add_country.$invalid " value="Continue" ng-click="addAddress()" class="btn btn-black" />
+    </div>
+  </div>
+</form>
+</div>
+
+</div>
+<!-- add of edit section -->
+
+
   </div>

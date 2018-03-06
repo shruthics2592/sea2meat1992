@@ -675,21 +675,91 @@ var wish =[]
 
 	scotchApp.controller('address_bookController', function($scope,$window,$http) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
+		$scope.edit = false
+		$scope.addAddress = false
+		$scope.my_id = ""
+		$scope.data = {}
+	    
+		
 		if(user){
-			$scope.getAddress()	
+			
 		}else{
 			$window.location.href = '#/login';
 			
 		}
+		$scope.editAddress = function(address){
+			if($scope.edit == false){
+				$scope.edit = true
+			}
+			
+			$scope.data.a_id = address.id
+			$scope.data.u_id = user.id
+			$scope.data.streetAddress = address.streetAddress
+			$scope.data.city =  address.city
+			$scope.data.state =  address.state
+			$scope.data.country =  address.country
+			$scope.data.pincode =  address.pincode
+			$scope.data.addressType = address.addressType
+					
+			
+			
+
+		}
+
+		$scope.editAddress1 = function(){
+			console.log($scope.data)
+				data = $scope.data
+				console.log(data)
+				$http.post($scope.server + 'app/editaddress',data).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.edit = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+		$scope.addAddress1 = function(){
+			$scope.add = true
+		}
+		$scope.addAddress = function(){
+			console.log($scope.data)
+			$scope.data.u_id = user.id
+				data = $scope.data
+				console.log(data)
+				$http.post($scope.server + 'app/addaddress',data).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.add = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+
+		$scope.deleteAddress = function(address){
+			
+				console.log(address)
+				$http.delete($scope.server + 'app/addaddress?id='+address.id).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.add = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+
 		$scope.getAddress = function(){
-			$scope.id = user.id
-			$http.get($scope.server + 'app/getaddress?id='+$scope.id).success(function(response, status, headers) {
+			$scope.user_id = user.id
+			$http.get($scope.server + 'app/getaddress?id='+$scope.user_id).success(function(response, status, headers) {
 				console.log("address",response)
 				$scope.my_address = response
 			}).error(function(response, status, headers) {
 			
 			});
 		}
+		$scope.getAddress()	
 	});
 	
 	scotchApp.controller('newsletterController', function($scope,$window,$http) {

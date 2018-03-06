@@ -31,6 +31,7 @@ urls = (
   '/app/editaccount','EditAccount',
   '/app/editpassword','EditPassword',
   '/app/getaddress','GetAddress',
+  '/app/editaddress','EditAddress',
   '/app/addaddress','AddAddress',
   '/app/updatenewsletter','UpdateNewsletter',
 
@@ -39,9 +40,9 @@ urls = (
 
 
 # shruthi
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -210,6 +211,75 @@ class EditPassword:
         return 0
     def GET(self):
         return "Get Method only supported. No Authorization Required"
+
+
+
+class EditAddress:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = json.loads(web.data())
+        try:
+            
+            addressObj = db.query("select * from address where id='"+str(data['a_id'])+"' and userId="+str(data['u_id'])) 
+            for address in addressObj:
+                aid = address.id
+            uid = data['u_id']
+            if aid:
+                db.update('address',vars=locals(),where='id=$aid and userId=$uid',streetAddress = data['streetAddress'], pincode = data['pincode'],city= data['city'],state= data['state'],country= data['country'],addressType= data['addressType'])
+                pyDict = {'code':200,'status':"succes"}            
+                return json.dumps(pyDict)
+            else:
+                pyDict = {'code':201,'status':'user already exist'}
+                return json.dumps(pyDict)            
+
+
+        except Exception as e:
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
+
+class AddAddress:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = json.loads(web.data())
+        try:
+            wishObj = db.insert('address',streetAddress = data['streetAddress'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType=data['addressType'],userId=data['u_id'])
+            pyDict = {'code':'200','status':'success'} 
+            print(pyDict)           
+            return json.dumps(pyDict)    
+
+
+        except Exception as e:
+            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
+    def DELETE(self):
+        data = web.input()
+        delete_add = db.query("DELETE FROM address WHERE id = "+str(data.id))
 #Product CURD
 #Get all products for the selected category or all
 class GetProducts:
