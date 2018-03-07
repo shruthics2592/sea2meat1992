@@ -82,7 +82,7 @@
                   </ul>
                 </li>
                 <li class="wishlist-icon">
-                  <a href="#wish_list" id="wishlist-total" title="Wish List (0)"><i class="fa fa-heart"></i> <span class="hidden-xs hidden-sm hidden-md">Wish List (0)</span></a>
+                  <a href="#wish_list" id="wishlist-total" ng-controller="AddWishListController" title="Wish List ({{wish_list_length}})"><i class="fa fa-heart"></i> <span class="hidden-xs hidden-sm hidden-md">Wish List</span></a>
                 </li>
               </ul>
             </div>
@@ -116,9 +116,9 @@
   <div class="header-middle">
     <!-- Search Start -->
     <div class="container position-r">
-      <div class="top-search-bar">
-        <div id="search" class="input-group search-box">
-          <span class="input-group-btn search-btn">
+      <div class="">
+        <div id="" class="">
+          <span class="">
             <!-- <button type="button" class=""></button> -->
           </span>
           <!-- <input type="text" name="search" value="" placeholder="Search" class="form-control input-lg" /> -->
@@ -154,7 +154,7 @@
             <!-- For main menu end -->
             <div class="header-icon-part">
               <div class="search-btn-icon search-opener visible-lg visible-md">
-                <button class="search-btn"></button>
+                <!-- <button class="search-btn"></button> -->
               </div>
               <div id="cart" class="btn-group btn-block">
                 <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="btn btn-inverse btn-block btn-lg dropdown-toggle">

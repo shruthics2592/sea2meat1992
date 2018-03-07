@@ -154,10 +154,10 @@
                     <button  class="addtocart btn-color" type="button" ng-click="showAddItem(Fproduct);">
                       <span>Add to Cart</span>
                     </button>
-                    <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span class="icon"></span>
+                    <div class="right-side" id="{{Fproduct.id}}">
+                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" ng-click="addWish(Fproduct.id)" ng-controller="AddWishListController"><span class="icon"></span>
                       </button>
-                      <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('42');"><span class="icon"></span></button>
+                      <!-- <button class="compare" type="button" data-toggle="tooltip" title="Compare" onclick="compare.add('42');"><span class="icon"></span></button> -->
                     </div>   
                   </div>
                 </div> 

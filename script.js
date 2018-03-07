@@ -4,7 +4,7 @@
 	// configure our routes
 	scotchApp.config(function($routeProvider) {
 		$routeProvider
-
+			
 			// route for the home page
 			.when('/', {
 				templateUrl : 'pages/home.html',
@@ -78,7 +78,7 @@
 			})
 			//------------ My wish list page -------- //
 			.when('/wish_list', {
-				templateUrl : 'pages/wish_list.html',
+				templateUrl : 'pages/wishlist.html',
 				controller  : 'getwishListController'
 			})
 			//------------ My downloads page -------- //
@@ -121,18 +121,46 @@
 			.when('/register', {
 				templateUrl : 'pages/register.html',
 				controller  : 'registerController'
+			})
+			.when('/change_password', {
+				templateUrl : 'pages/change_password.html',
+				controller  : 'change_passwordController'
+			})
+			.when('/address_book', {
+				templateUrl : 'pages/address_book.html',
+				controller  : 'address_bookController'
+			})
+			.when('/newsletter', {
+				templateUrl : 'pages/newsletter.html',
+				controller  : 'newsletterController'
+			})
+			.when('/edit_account', {
+				templateUrl : 'pages/edit_account.html',
+				controller  : 'edit_accountController'
 			});
 
 			
 	});
-
+	var wLength = 0;
 	// create the controller and inject Angular's $scope
-	scotchApp.controller('mainController', function($scope,$http) {
+	scotchApp.controller('mainController', function($scope,$window,$http) {
 		
 
 	
-	
-		$scope.server = "http://localhost:8081/"
+		 // var user = JSON.parse(localStorage.getItem("userDetails"))
+			// $http.get($scope.server + 'app/getwish?id='+user.id).success(function(response) {
+			// 	if(wLength == 0){
+			// 	$scope.wish_list_length = response.length
+			// 	}else{
+			// 		$scope.wish_list_length = wLength
+			// 	}
+			// 	console.log("wl",$scope.wish_list_length)
+			// }).error(function(response) {
+			
+			// });
+		
+
+		$scope.server = "http://localhost:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -227,7 +255,7 @@
 				$('#tab_today').removeClass("active")
 
 			}
-			if(type=="today_special"){
+			if(type=="TODAY_SPECIAL"){
 				$('#tab_beef').removeClass("active")
 				$('#tab_lamb').removeClass("active")
 				$('#tab_poultry').removeClass("active")
@@ -307,7 +335,7 @@
 	});
 // Main Controller Ends here
 
-	scotchApp.controller('orderHistoryController', function($scope,$http) {
+	scotchApp.controller('orderHistoryController', function($scope,$window,$http) {
 		$scope.getOrderHistory = function(){
 			$http.get($scope.server + '/app/order_history').success(function(response, status, headers) {
 				console.log("product",response)
@@ -322,14 +350,14 @@
 		
 	});
 
-	scotchApp.controller('contactController', function($scope,$http) {
+	scotchApp.controller('contactController', function($scope,$window,$http) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
 
-	scotchApp.controller('registerController', function($scope,$http) {
+	scotchApp.controller('registerController', function($scope,$window,$http) {
 		console.log("I am in register controller")
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
-		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":"","street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
+		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
 		$scope.registerUser = function(){
 			$http.post($scope.server + 'app/register', $scope.registerData).success(function(response, status, headers) {
 				if(response.code == 200){
@@ -337,8 +365,7 @@
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
 					alert('Hello! Welcome', 'Registered Successfully!');
-
-
+					
 				}else{
 					localStorage.setItem("is_logged_in",false)
 					$scope.is_logged_in = false
@@ -352,7 +379,15 @@
 		}
 	});
 
-	scotchApp.controller('loginController', function($scope,$http,toastr) {
+	scotchApp.controller('loginController', function($scope,$window,$http,toastr,$window) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+			$window.location.href = '#/my_account';
+			
+		}else{
+			$window.location.href = '#/login';
+			
+		}
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
 		$scope.server = "http://localhost:8081/";
@@ -365,8 +400,8 @@
 					localStorage.setItem("userDetails",JSON.stringify(response.user)) 
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
-					alert('Hello! Welcome', 'Logged in Successfully!');
-
+					console.log( 'Logged in Successfully!');
+					$window.location.href = '#/my_account';
 				}else{
 					localStorage.setItem("is_logged_in",false)
 					$scope.is_logged_in = false
@@ -384,19 +419,20 @@
 	
 	});
 
-	scotchApp.controller('myaccountController', function($scope,$http) {
+	scotchApp.controller('myaccountController', function($scope,$window,$http) {
+		$scope.message = 'Contact us! JK. This is just a demo.';
+	
+	});
+
+	scotchApp.controller('editaccountController', function($scope,$window,$http) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
 
-	scotchApp.controller('editaccountController', function($scope,$http) {
-		$scope.message = 'Contact us! JK. This is just a demo.';
-	});
-
-	scotchApp.controller('changepasswordController', function($scope,$http) {
+	scotchApp.controller('changepasswordController', function($scope,$window,$http) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
 //********************************* other pages***************************************
-	scotchApp.controller('beefController', function($scope,$http) {
+	scotchApp.controller('beefController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
 			$scope.beef_product = []
 			
@@ -409,7 +445,7 @@
 		}
 		$scope.getspecial_product("BEEF")
 	});
-	scotchApp.controller('lambController', function($scope,$http) {
+	scotchApp.controller('lambController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
 			$scope.lamb_product = []
 			
@@ -422,7 +458,7 @@
 		}
 		$scope.getspecial_product("LAMB")
 	});
-	scotchApp.controller('todayspecialController', function($scope,$http) {
+	scotchApp.controller('todayspecialController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
 			$scope.today_product = []
 			
@@ -435,7 +471,7 @@
 		}
 		$scope.getspecial_product("TODAY_SPECIAL")
 	});
-	scotchApp.controller('poultryController', function($scope,$http) {
+	scotchApp.controller('poultryController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
 			$scope.poultry_product = []
 			
@@ -448,7 +484,7 @@
 		}
 		$scope.getspecial_product("POULTRY")
 	});
-	scotchApp.controller('sausageController', function($scope,$http) {
+	scotchApp.controller('sausageController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
 			$scope.sausage_product = []
 			
@@ -461,21 +497,88 @@
 		}
 		$scope.getspecial_product("SAUSAGE")
 	});
+var wish =[]
+	scotchApp.controller('getwishListController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+			if(user){
 
-	scotchApp.controller('getwishListController', function($scope,$http) {
-		$scope.getspecial_product = function(type){
+			}else{
+				$window.location.href = '#/login';
+				
+			}	
+		$scope.getspecial_product = function(){
 			$scope.wish_list = []
 			
-			$http.get($scope.server + 'app/getwish?name='+type).success(function(response) {
-				console.log("product",response.data)
-				$scope.wish_list = response.data
+			console.log("its user",user)
+			$http.get($scope.server + 'app/getwish?id='+user.id).success(function(response) {
+				console.log("wish_list",response)
+				$scope.wish_list = response
+				wish = $scope.wish_list
 			}).error(function(response) {
 			
 			});
 		}
 		$scope.getspecial_product()		
+
 	});
-	scotchApp.controller('addPeoductController', function($scope,$http,$routeParams) {
+
+	scotchApp.controller('AddWishListController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+
+		}else{
+			$window.location.href = '#/login';
+			
+		}
+		$scope.addWish = function(type){
+		
+			
+			$http.post($scope.server + 'app/addwish?user_id='+user.id+'&prod_id='+type).success(function(response) {
+				console.log("wish_list",response)
+				$scope.getwishList()
+
+			}).error(function(response) {
+			
+			});
+			
+			
+		}
+
+		$scope.getwishList = function(){
+			$http.get($scope.server + 'app/getwish?id='+user.id).success(function(response) {
+				console.log(response.length)
+				$scope.wish_list = response
+				
+			}).error(function(response) {
+			
+			});
+			
+		}
+		// $scope.getwishList()
+	
+});
+
+
+	scotchApp.controller('sewishListController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+			$scope.getspecial_product()		
+		}else{
+			$window.location.href = '#/login';
+			
+		}
+		$scope.getspecial_product = function(type){
+			$scope.wish_list = []
+			$http.get($scope.server + 'app/addwish?userId='+user.id).success(function(response) {
+				console.log("wish_list",response)
+				$scope.wish_list = response
+			}).error(function(response) {
+			
+			});
+		}
+	});
+
+	scotchApp.controller('addPeoductController', function($scope,$window,$http,$routeParams) {
 		$scope.quantity = 1;
 		$('.thumbnails').magnificPopup({
     		type:'image',
@@ -490,8 +593,12 @@
 		}).error(function(response, status, headers) {
 		
 		});
-		var userDetails = JSON.parse(localStorage.getItem("userDetails"))
-		$scope.cartDetails = {"userId":userDetails.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}		$scope.cartDetails = {"userId":userDetails.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
 		$scope.addtocart =  function(item){
 			console.log("::::in functionnnnnnnn")
 			var productDetails = {}
@@ -512,3 +619,167 @@
 
 
 	
+	scotchApp.controller('edit_accountController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}		$scope.id = user.id
+		$scope.firstname = user.firstName
+		$scope.lastname = user.lastName
+		$scope.email = user.email
+		$scope.mobile = user.mobile
+		$scope.fax = user.fax
+		$scope.editAccount = function(){
+			$http.post($scope.server + 'app/editaccount?email='+$scope.email+'&mobile='+$scope.mobile+'&firstname='+$scope.firstname+'&lastname='+$scope.lastname+'&fax='+$scope.fax+'&id='+$scope.id).success(function(response, status, headers) {
+				console.log("product",response)
+				localStorage.setItem("userDetails",JSON.stringify(response.user))
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+	});	
+	scotchApp.controller('change_passwordController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}		$scope.id = user.id
+		$scope.password = user.password
+		$scope.password_c = ""
+		$scope.p_match = false
+		$scope.showPassword = false;
+    $scope.toggleShowPassword = function() {
+        $scope.showPassword = !$scope.showPassword;
+    }
+		$scope.passChange= function(){
+				if($scope.password != $scope.password_c){
+				$scope.p_match = true
+				
+			}else{
+				$scope.p_match = false
+			}
+		}
+		$scope.editpassword = function(){
+			
+			$http.post($scope.server + 'app/editpassword?id='+$scope.id+'&password='+$scope.password).success(function(response, status, headers) {
+				console.log("product",response)
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+	});
+
+	scotchApp.controller('address_bookController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		$scope.edit = false
+		$scope.addAddress = false
+		$scope.my_id = ""
+		$scope.data = {}
+	    
+		
+		if(user){
+			
+		}else{
+			$window.location.href = '#/login';
+			
+		}
+		$scope.editAddress = function(address){
+			if($scope.edit == false){
+				$scope.edit = true
+			}
+			
+			$scope.data.a_id = address.id
+			$scope.data.u_id = user.id
+			$scope.data.streetAddress = address.streetAddress
+			$scope.data.city =  address.city
+			$scope.data.state =  address.state
+			$scope.data.country =  address.country
+			$scope.data.pincode =  address.pincode
+			$scope.data.addressType = address.addressType
+					
+			
+			
+
+		}
+
+		$scope.editAddress1 = function(){
+			console.log($scope.data)
+				data = $scope.data
+				console.log(data)
+				$http.post($scope.server + 'app/editaddress',data).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.edit = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+		$scope.addAddress1 = function(){
+			$scope.add = true
+		}
+		$scope.addAddress = function(){
+			console.log($scope.data)
+			$scope.data.u_id = user.id
+				data = $scope.data
+				console.log(data)
+				$http.post($scope.server + 'app/addaddress',data).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.add = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+
+		$scope.deleteAddress = function(address){
+			
+				console.log(address)
+				$http.delete($scope.server + 'app/addaddress?id='+address.id).success(function(response, status, headers) {
+					console.log("address",response)
+					$scope.getAddress()	
+					$scope.data = {}
+					$scope.add = false
+				}).error(function(response, status, headers) {
+				
+				});
+		}
+
+		$scope.getAddress = function(){
+			$scope.user_id = user.id
+			$http.get($scope.server + 'app/getaddress?id='+$scope.user_id).success(function(response, status, headers) {
+				console.log("address",response)
+				$scope.my_address = response
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+		$scope.getAddress()	
+	});
+	
+	scotchApp.controller('newsletterController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}			$scope.id = user.id
+			$scope.subs = user.subscription
+			radiobtn = document.getElementById("n_yes");
+			radiobtn.checked = $scope.subs;
+			// radiobtn = document.getElementById("n_yes");
+			// radiobtn.checked = $scope.subs;
+		$scope.setSubscription = function(){
+			$http.post($scope.server + 'app/updatenewsletter?id='+$scope.id+'&subscription='+$scope.subs).success(function(response, status, headers) {
+				console.log("Subscription",response)
+				localStorage.setItem("userDetails",JSON.stringify(response.user))
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+	});
