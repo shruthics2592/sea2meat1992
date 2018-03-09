@@ -390,7 +390,7 @@
 		}
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://localhost:8081/";
+		$scope.server = "http://localhost:8080/";
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
@@ -506,7 +506,7 @@ var wish =[]
 				$window.location.href = '#/login';
 				
 			}	
-		$scope.getspecial_product = function(){
+		$scope.getwishList = function(){
 			$scope.wish_list = []
 			
 			console.log("its user",user)
@@ -518,31 +518,11 @@ var wish =[]
 			
 			});
 		}
-		$scope.getspecial_product()		
+		$scope.getwishList()		
 
 	});
 
 	scotchApp.controller('AddWishListController', function($scope,$window,$http) {
-		var user = JSON.parse(localStorage.getItem("userDetails"))
-		if(user){
-
-		}else{
-			$window.location.href = '#/login';
-			
-		}
-		$scope.addWish = function(type){
-		
-			
-			$http.post($scope.server + 'app/addwish?user_id='+user.id+'&prod_id='+type).success(function(response) {
-				console.log("wish_list",response)
-				$scope.getwishList()
-
-			}).error(function(response) {
-			
-			});
-			
-			
-		}
 
 		$scope.getwishList = function(){
 			$http.get($scope.server + 'app/getwish?id='+user.id).success(function(response) {
@@ -552,31 +532,61 @@ var wish =[]
 			}).error(function(response) {
 			
 			});
+		}
+
+
+
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+			$scope.getwishList()
+		}else{
+			
 			
 		}
+		
+		$scope.addWish = function(type){
+			if($scope.wish_list.length==0)	{
+				$scope.adding(type)
+			}
+			angular.forEach($scope.wish_list, function(item){
+				// var obj = {};
+				// var valObj = {};
+
+				// valObj.id = item.id;
+				
+				console.log("item.id==type",item.id,type,item)
+				if(item.id==type)return false;
+				$scope.adding(type)
+			});
+				
+			
+		}
+
+		$scope.adding = function(type){
+			var user = JSON.parse(localStorage.getItem("userDetails"))
+			if(user){
+				$http.post($scope.server + 'app/addwish?user_id='+user.id+'&prod_id='+type).success(function(response) {
+					$scope.getwishList()
+				}).error(function(response) {
+				
+				});
+				
+			}else{
+				alert("Please Login To Add To WishList")
+				$window.location.href = '#/login';				
+			}
+		}
+
+		// $scope.getwishList = function(){
+			
+			
+		// }
 		// $scope.getwishList()
 	
 });
 
 
-	scotchApp.controller('sewishListController', function($scope,$window,$http) {
-		var user = JSON.parse(localStorage.getItem("userDetails"))
-		if(user){
-			$scope.getspecial_product()		
-		}else{
-			$window.location.href = '#/login';
-			
-		}
-		$scope.getspecial_product = function(type){
-			$scope.wish_list = []
-			$http.get($scope.server + 'app/addwish?userId='+user.id).success(function(response) {
-				console.log("wish_list",response)
-				$scope.wish_list = response
-			}).error(function(response) {
-			
-			});
-		}
-	});
+	
 
 	scotchApp.controller('addPeoductController', function($scope,$window,$http,$routeParams) {
 		$scope.quantity = 1;
