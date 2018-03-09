@@ -45,6 +45,13 @@
 				controller  : 'contactController'
 			})
 
+			//Checkout page
+
+			.when('/checkout', {
+				templateUrl : 'pages/checkout.html',
+				controller  : 'checkoutController'
+			})
+
 			// route for the login page
 			.when('/login', {
 				templateUrl : 'pages/login.html',
@@ -134,6 +141,10 @@
 				templateUrl : 'pages/newsletter.html',
 				controller  : 'newsletterController'
 			})
+			.when('/confirmorder', {
+				templateUrl : 'pages/confirmed_order.html',
+				controller  : 'confirmorderController'
+			})
 			.when('/edit_account', {
 				templateUrl : 'pages/edit_account.html',
 				controller  : 'edit_accountController'
@@ -142,6 +153,7 @@
 			
 	});
 	var wLength = 0;
+	var FinalCart = [];
 	// create the controller and inject Angular's $scope
 	scotchApp.controller('mainController', function($scope,$window,$http) {
 		
@@ -160,7 +172,7 @@
 			// });
 		
 
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -608,15 +620,22 @@ var wish =[]
 		}else{
 			$window.location.href = '#/login';
 			
-		}		$scope.cartDetails = {"userId":userDetails.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+		}		
+		
+		var cartDetails = JSON.parse(localStorage.getItem('cartDetails'))
+		if(cartDetails){
+			$scope.cartDetails = cartDetails
+		}else{
+			$scope.cartDetails = {"userId":user.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+
+		}
 		$scope.addtocart =  function(item){
-			console.log("::::in functionnnnnnnn")
 			var productDetails = {}
 			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
 			productDetails["productId"] = item.id
 			productDetails["quantity"] = $scope.quantity
 			$scope.cartDetails.cart.push(productDetails)
-			console.log(":::::::Cart :::::::",$scope.cartDetails)
+            localStorage.setItem("cartDetails",JSON.stringify($scope.cartDetails))
 		}
 
 
@@ -793,3 +812,42 @@ var wish =[]
 			});
 		}
 	});
+
+	scotchApp.controller('checkoutController', function($scope,$window,$http) {
+	  $scope.user = JSON.parse(localStorage.getItem("userDetails"))
+		
+		if($scope.user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}
+
+	   var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
+	   console.log(cartDetails,":::cartDetails")
+		
+		$scope.getAddress = function(){
+			$scope.user_id = $scope.user.id
+			$http.get($scope.server + 'app/getaddress?id='+$scope.user_id).success(function(response, status, headers) {
+				console.log("address",response)
+				$scope.my_address = response
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+		$scope.getAddress()	
+
+		$scope.confirmorder = function(){
+			var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
+
+			$http.post($scope.server + "app/order",JSON.stringify(cartDetails)).success(function(response, status, headers) {
+				$window.location.href = "#/confirmorder"
+
+			}).error(function(response, status, headers) {
+			
+			});
+		}
+
+
+	});
+
+	

@@ -40,9 +40,11 @@ urls = (
 
 
 # shruthi
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+#live server
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -70,7 +72,7 @@ class Applogin:
                     userdata["authtoken"] = user.authToken
                     #userdata["address"] = db.query("select * from address where userId="+str(user.id))
                     pyDict = {'code':'200','status':'user data',"user":userdata} 
-                    print(pyDict)           
+                    
                     return json.dumps(pyDict)
             else:
                 pyDict = {'code':201,'status':'user is invalid',"user":{}}
@@ -107,6 +109,7 @@ class Register:
                 data['authtoken'] = "token"
                 userdata_data= db.insert("user",firstName=data['firstName'],lastName=data['lastName'],mobile=data['mobile'],fax=data['fax'],email=data['email'],company=data['company'],authtoken=data['authtoken'],subscription=data['subscription'],password=data['password'])
                 user_address = db.insert("address",streetAddress=data['street'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType="billing",userId=userdata_data)
+                data["id"] = userdata_data
                 pyDict = {'code':200,'status':"succes",'user':data}            
                 return json.dumps(pyDict)
             else:
@@ -142,7 +145,7 @@ class EditAccount:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 firstname = data.firstname
                 lastname = data.lastname
                 mobile = data.mobile
@@ -188,7 +191,7 @@ class EditPassword:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 password = data.password
                 db.update('user',vars=locals(),where='id=$userid',password=password)
                 pyDict = {'code':200,'status':"succes"}            
@@ -260,7 +263,7 @@ class AddAddress:
         try:
             wishObj = db.insert('address',streetAddress = data['streetAddress'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType=data['addressType'],userId=data['u_id'])
             pyDict = {'code':'200','status':'success'} 
-            print(pyDict)           
+            
             return json.dumps(pyDict)    
 
 
@@ -732,7 +735,7 @@ class AddWish:
         try:
             wishObj = db.insert('wishList',productId = data.prod_id,userId=data.user_id)
             pyDict = {'code':'200','status':'success'} 
-            print(pyDict)           
+            
             return json.dumps(pyDict)    
 
 
@@ -764,7 +767,7 @@ class UpdateNewsletter:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 subscription = data.subscription
                 db.update('user',vars=locals(),where='id=$userid',subscription=subscription)
                 udatedUser = db.query("select * from user where id='"+str(userid)+"'")
@@ -916,7 +919,7 @@ class AddUpdateCategories:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.data() # to read raw data
+        data = web.input() # to read raw data
         try:
             if id:
                 product_data = db.update("category", where="id="+id,name=data.name,parentId=data.parentId,path=data.path,backgroudImage=data.backgroudImage)
@@ -939,7 +942,7 @@ class AddUpdateCategories:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
+        return 0
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 
@@ -977,17 +980,21 @@ class OrderHistory:
         return "Get Method only supported. No Authorization Required"
 
 class PlaceOrder:
-    def POST(self,id):
+    def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.data() # to read raw data
+        data = web.input() # to read raw data   
+        print("place order")
+        pyDict = {'code':'201','status':'fail','message':""}            
+        response =json.dumps(pyDict)
+
         try:
             createdAt = datetime.date.today()
             orderStatus = "Fail"
-            cart_id = db.insert("order",userId=data.userId,orderValue=data.orderValue,offerId=data.offerId,createdAt=createdAt,orderStatus=data.orderStatus,delivaryDate=data.delivaryDate)
-            for products in data.cart:
+            cart_id = db.insert("order",userId=data["userId"],orderValue=data["orderValue"],offerId=data["offerId"],createdAt=createdAt,orderStatus=data["orderStatus"],delivaryDate=data["delivaryDate"])
+            for products in data["cart"]:
                 db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,createdAt=createdAt)
             if cart_id:
                 orderStatus = "Placed"
@@ -997,7 +1004,7 @@ class PlaceOrder:
             return json.dumps(pyDict)  
         except Exception as e:
             
-            pyDict = {'code':'201','status':'fail','message':e}            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
             response =json.dumps(pyDict)
             return response
 
@@ -1006,8 +1013,8 @@ class PlaceOrder:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
-    def GET(self,categoryId):
+        return 0
+    def GET(self):
         return "Get Method only supported. No Authorization Required"
 if __name__ == "__main__": 
     app = web.application(urls, globals())    
