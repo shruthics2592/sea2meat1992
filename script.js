@@ -45,6 +45,13 @@
 				controller  : 'contactController'
 			})
 
+			//Checkout page
+
+			.when('/checkout', {
+				templateUrl : 'pages/checkout.html',
+				controller  : 'checkoutController'
+			})
+
 			// route for the login page
 			.when('/login', {
 				templateUrl : 'pages/login.html',
@@ -142,6 +149,7 @@
 			
 	});
 	var wLength = 0;
+	var FinalCart = [];
 	// create the controller and inject Angular's $scope
 	scotchApp.controller('mainController', function($scope,$window,$http) {
 		
@@ -160,7 +168,7 @@
 			// });
 		
 
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://localhost:8081/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -598,7 +606,9 @@ var wish =[]
 		}else{
 			$window.location.href = '#/login';
 			
-		}		$scope.cartDetails = {"userId":userDetails.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
+		}		
+		
+		$scope.cartDetails = {"userId":user.id,"orderValue":0.0,"offerId":"","":"","orderStatus":"Placed","delivaryDate":"","cart":[]}
 		$scope.addtocart =  function(item){
 			console.log("::::in functionnnnnnnn")
 			var productDetails = {}
@@ -607,6 +617,7 @@ var wish =[]
 			productDetails["quantity"] = $scope.quantity
 			$scope.cartDetails.cart.push(productDetails)
 			console.log(":::::::Cart :::::::",$scope.cartDetails)
+			$window.location.href = '#/checkout';
 		}
 
 
@@ -783,3 +794,14 @@ var wish =[]
 			});
 		}
 	});
+
+	scotchApp.controller('checkoutController', function($scope,$window,$http) {
+		var user = JSON.parse(localStorage.getItem("userDetails"))
+		if(user){
+		}else{
+			$window.location.href = '#/login';
+			
+		}			
+	});
+
+	

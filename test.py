@@ -72,7 +72,7 @@ class Applogin:
                     userdata["authtoken"] = user.authToken
                     #userdata["address"] = db.query("select * from address where userId="+str(user.id))
                     pyDict = {'code':'200','status':'user data',"user":userdata} 
-                    print(pyDict)           
+                    
                     return json.dumps(pyDict)
             else:
                 pyDict = {'code':201,'status':'user is invalid',"user":{}}
@@ -109,6 +109,7 @@ class Register:
                 data['authtoken'] = "token"
                 userdata_data= db.insert("user",firstName=data['firstName'],lastName=data['lastName'],mobile=data['mobile'],fax=data['fax'],email=data['email'],company=data['company'],authtoken=data['authtoken'],subscription=data['subscription'],password=data['password'])
                 user_address = db.insert("address",streetAddress=data['street'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType="billing",userId=userdata_data)
+                data["id"] = userdata_data
                 pyDict = {'code':200,'status':"succes",'user':data}            
                 return json.dumps(pyDict)
             else:
@@ -144,7 +145,7 @@ class EditAccount:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 firstname = data.firstname
                 lastname = data.lastname
                 mobile = data.mobile
@@ -190,7 +191,7 @@ class EditPassword:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 password = data.password
                 db.update('user',vars=locals(),where='id=$userid',password=password)
                 pyDict = {'code':200,'status':"succes"}            
@@ -262,7 +263,7 @@ class AddAddress:
         try:
             wishObj = db.insert('address',streetAddress = data['streetAddress'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType=data['addressType'],userId=data['u_id'])
             pyDict = {'code':'200','status':'success'} 
-            print(pyDict)           
+            
             return json.dumps(pyDict)    
 
 
@@ -734,7 +735,7 @@ class AddWish:
         try:
             wishObj = db.insert('wishList',productId = data.prod_id,userId=data.user_id)
             pyDict = {'code':'200','status':'success'} 
-            print(pyDict)           
+            
             return json.dumps(pyDict)    
 
 
@@ -766,7 +767,7 @@ class UpdateNewsletter:
             for user in userObj:
                 userid = user.id
             if userid:
-                print userid
+                
                 subscription = data.subscription
                 db.update('user',vars=locals(),where='id=$userid',subscription=subscription)
                 udatedUser = db.query("select * from user where id='"+str(userid)+"'")
