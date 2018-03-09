@@ -20,233 +20,73 @@
           <div class="panel-heading">
             <h4 class="panel-title"><a href="#collapse-checkout-option" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 1: Checkout Options <i class="fa fa-caret-down"></i></a></h4>
           </div>
-          <div class="panel-collapse collapse in" id="collapse-checkout-option" aria-expanded="true" style="">
+          <div class="panel-collapse collapse in" id="collapse-checkout-option" aria-expanded="true" >
             <div class="panel-body"><div class="row">
-  <div class="col-sm-6">
-    <h2>New Customer</h2>
-    <p>Checkout Options:</p>
-    <div class="radio">
-      <label>
-                <input type="radio" value="register" checked="checked">
-                Register Account</label>
+ 
+    <div class="col-sm-12">
+      <fieldset>
+        <legend>Your Personal Details</legend>
+        <div class="form-group" style="display: none;">
+          <label class="control-label">Customer Group</label>
+                          <div class="radio">
+            <label>
+              <input type="radio" value="" checked="checked">
+              Default</label>
+          </div>
+                        </div>
+        <div class="form-group required">
+          <label class="control-label">First Name</label>
+          <input type="text" name="firstname" placeholder="First Name" ng-model="user.firstName" class="form-control" readonly>
+        </div>
+        <div class="form-group required">
+          <label class="control-label" for="input-payment-lastname">Last Name</label>
+          <input type="text" ng-model="user.lastName" placeholder="Last Name" class="form-control" readonly>
+        </div>
+        <div class="form-group required">
+          <label class="control-label">E-Mail</label>
+          <input type="text" ng-model="user.email" placeholder="E-Mail" class="form-control" readonly>
+        </div>
+        <div class="form-group required">
+          <label class="control-label">Telephone</label>
+          <input type="text" ng-model="user.mobile" placeholder="Telephone" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Fax</label>
+          <input type="text" ng-model="user.fax" placeholder="Fax" class="form-control" readonly>
+        </div>
+            </fieldset>
+    
     </div>
-        <div class="radio">
-      <label>
-                <input type="radio" value="guest">
-                Guest Checkout</label>
-    </div>
-        <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
-    <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black">
-  </div>
-  <div class="col-sm-6">
-    <h2>Returning Customer</h2>
-    <p>I am a returning customer</p>
-    <div class="form-group">
-      <label class="control-label">E-Mail</label>
-      <input type="text" value="" placeholder="E-Mail" class="form-control">
-    </div>
-    <div class="form-group">
-      <label class="control-label">Password</label>
-      <input type="password" value="" placeholder="Password" class="form-control">
-      <a href="">Forgotten Password</a></div>
-    <input type="button" value="Login" data-loading-text="Loading..." class="btn btn-black">
-  </div>
+   
+ 
+
 </div>
 </div>
           </div>
         </div>
+
           <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 2: Account &amp; Billing Details <i class="fa fa-caret-down"></i></a></h4>
-          </div>
-          <div class="panel-collapse collapse in" id="collapse-payment-address" aria-expanded="true" style="">
-            <div class="panel-body"><div class="row">
-  <div class="col-sm-6">
-    <fieldset>
-      <legend>Your Personal Details</legend>
-      <div class="form-group" style="display: none;">
-        <label class="control-label">Customer Group</label>
-                        <div class="radio">
-          <label>
-            <input type="radio" value="" checked="checked">
-            Default</label>
-        </div>
-                      </div>
-      <div class="form-group required">
-        <label class="control-label">First Name</label>
-        <input type="text" value="" placeholder="First Name" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-lastname">Last Name</label>
-        <input type="text" value="" placeholder="Last Name" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">E-Mail</label>
-        <input type="text" value="" placeholder="E-Mail" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Telephone</label>
-        <input type="text" value="" placeholder="Telephone" class="form-control">
-      </div>
-      <div class="form-group">
-        <label class="control-label">Fax</label>
-        <input type="text" value="" placeholder="Fax" class="form-control">
-      </div>
-          </fieldset>
-    <fieldset>
-      <legend>Your Password</legend>
-      <div class="form-group required">
-        <label class="control-label">Password</label>
-        <input type="password" value="" placeholder="Password" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Password Confirm</label>
-        <input type="password" value="" placeholder="Password Confirm" class="form-control">
-      </div>
-    </fieldset>
-  </div>
-  <div class="col-sm-6">
-    <fieldset id="address">
-      <legend>Your Address</legend>
-      <div class="form-group">
-        <label class="control-label">Company</label>
-        <input type="text" value="" placeholder="Company" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Address 1</label>
-        <input type="text" value="" placeholder="Address 1" class="form-control">
-      </div>
-      <div class="form-group">
-        <label class="control-label">Address 2</label>
-        <input type="text" value="" placeholder="Address 2" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">City</label>
-        <input type="text" value="" placeholder="City" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Post Code</label>
-        <input type="text" value="" placeholder="Post Code" class="form-control">
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Country</label>
-        <select class="form-control">
-          <option value=""> --- Please Select --- </option>
-                              
-                            </select> 
-      </div>
-      <div class="form-group required">
-        <label class="control-label">Region / State</label>
-        <select class="form-control"><option value=""> --- Please Select --- </option></select>
-      </div>
-          </fieldset>
-
-      </div>
-</div>
-
-<div class="checkbox">
-  <label>
-    <input type="checkbox" value="" id="newsletter">
-    I wish to subscribe to the Store newsletter.</label>
-</div>
-<div class="checkbox">
-  <label>
-    <input type="checkbox" value="" checked="checked">
-    My delivery and billing addresses are the same.</label>
-</div>
-<div class="buttons clearfix">
-  <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Privacy Policy</b></a> &nbsp;
-    <input type="checkbox" value="">
-    <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black">
-  </div>
-</div>
-
-</div>
-          </div>
-        </div>
-          <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 3: Delivery Details <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 2: Delivery Address Details <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div class="panel-collapse collapse in" id="collapse-shipping-address" aria-expanded="true">
             <div class="panel-body"><form class="form-horizontal">
     <div class="radio">
     <label>
-      <input type="radio" value="existing" checked="checked">
+      <input type="radio" value="existing"  ng-If="my_address.length > 0">
       I want to use an existing address</label>
   </div>
   <div>
-    <select class="form-control">
-                  <option value="8" selected="selected">Kathir Jayam, Banaswadi, banaglore, Angus, United Kingdom</option>
+    <select class="form-control" ng-If="my_address.length > 0">
+                  <option value="8" ng-repeat="address in my_address">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</option>
                 </select>
   </div>
   <div class="radio">
     <label>
       <input type="radio" value="new">
-      I want to use a new address</label>
+      <a href="#/address_book">I want to use a new address</a></label>
   </div>
     <br>
-  <div id="shipping-new" style="display: none;">
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">First Name</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="First Name" class="form-control">
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">Last Name</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="Last Name" class="form-control">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Company</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="Company" id="input-shipping-company" class="form-control">
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">Address 1</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="Address 1" id="input-shipping-address-1" class="form-control">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Address 2</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="Address 2" id="input-shipping-address-2" class="form-control">
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">City</label>
-      <div class="col-sm-10">
-        <input type="text" value="" placeholder="City" id="input-shipping-city" class="form-control">
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">Post Code</label>
-      <div class="col-sm-10">
-        <input type="text" value="560033" placeholder="Post Code" id="input-shipping-postcode" class="form-control">
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label">Country</label>
-      <div class="col-sm-10">
-        <select  class="form-control">
-          <option value=""> --- Please Select --- </option>
-                              
-                            </select> 
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-zone">Region / State</label>
-      <div class="col-sm-10">
-        <select class="form-control">
-        	<option>Select</option>
-        </select>
-      </div>
-    </div>
-      </div>
   <div class="buttons clearfix">
     <div class="pull-right">
       <input type="button" value="Continue" class="btn btn-black">
@@ -359,7 +199,7 @@
 </div>
 <div class="buttons">
   <div class="pull-right">
-    <input type="button" value="Confirm Order" class="btn btn-black" data-loading-text="Loading...">
+    <input type="button" ng-click="confirmorder()" value="Confirm Order" class="btn btn-black" data-loading-text="Loading...">
   </div>
 </div>
 

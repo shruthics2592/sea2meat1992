@@ -919,7 +919,7 @@ class AddUpdateCategories:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.data() # to read raw data
+        data = web.input() # to read raw data
         try:
             if id:
                 product_data = db.update("category", where="id="+id,name=data.name,parentId=data.parentId,path=data.path,backgroudImage=data.backgroudImage)
@@ -942,7 +942,7 @@ class AddUpdateCategories:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
+        return 0
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 
@@ -980,17 +980,21 @@ class OrderHistory:
         return "Get Method only supported. No Authorization Required"
 
 class PlaceOrder:
-    def POST(self,id):
+    def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.data() # to read raw data
+        data = web.input() # to read raw data   
+        print("place order")
+        pyDict = {'code':'201','status':'fail','message':""}            
+        response =json.dumps(pyDict)
+
         try:
             createdAt = datetime.date.today()
             orderStatus = "Fail"
-            cart_id = db.insert("order",userId=data.userId,orderValue=data.orderValue,offerId=data.offerId,createdAt=createdAt,orderStatus=data.orderStatus,delivaryDate=data.delivaryDate)
-            for products in data.cart:
+            cart_id = db.insert("order",userId=data["userId"],orderValue=data["orderValue"],offerId=data["offerId"],createdAt=createdAt,orderStatus=data["orderStatus"],delivaryDate=data["delivaryDate"])
+            for products in data["cart"]:
                 db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,createdAt=createdAt)
             if cart_id:
                 orderStatus = "Placed"
@@ -1000,7 +1004,7 @@ class PlaceOrder:
             return json.dumps(pyDict)  
         except Exception as e:
             
-            pyDict = {'code':'201','status':'fail','message':e}            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
             response =json.dumps(pyDict)
             return response
 
@@ -1009,8 +1013,8 @@ class PlaceOrder:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        return
-    def GET(self,categoryId):
+        return 0
+    def GET(self):
         return "Get Method only supported. No Authorization Required"
 if __name__ == "__main__": 
     app = web.application(urls, globals())    
