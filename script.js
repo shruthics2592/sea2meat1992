@@ -172,7 +172,7 @@
 			// });
 		
 
-		$scope.server = "http://localhost:8081/"
+		$scope.server = "http://172.104.50.54:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -402,7 +402,7 @@
 		}
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://localhost:8081/";
+		$scope.server = "http://172.104.50.54:8080/";
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
