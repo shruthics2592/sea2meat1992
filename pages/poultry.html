@@ -46,14 +46,13 @@
                     </div>
                   </div>  
           <br />
-          <div class="row mlr_-37" ng-repeat="product in poultry_product">
+          <div class="row mlr_-37" >
                     <div class="product-layout product-list col-xs-12">
-              <div class="product-thumb">
+              <div class="product-thumb" ng-repeat="product in poultry_product">
                 <div class="image">
-                  <a class='iframe button quickview' href=""><i class="fa fa-search"></i>Quickview</a>
                   <a href="">
-                    <img src="{{product.image}}" title="{{product.image}}&quot;" alt="{{product.image}}&quot;" class="img-responsive"/>
-                    <img class="img-responsive hover-image" src="{{product.image}}" alt="{{product.image}}&quot;"/>
+                    <img src="{{product.imagelink}}" title="{{product.imagelink}}&quot;" alt="{{product.imagelink}}&quot;" class="img-responsive"/>
+                    <img class="img-responsive hover-image" src="{{product.swapImage}}" alt="{{product.swapImage}}&quot;"/>
                   </a>
                   <div  ng-if="product.is_sale" class="sale-label"><span>Sale</span></div>         
                 </div>
@@ -70,7 +69,7 @@
                                 <p class="category-description">
                                     {{product.description}}</p>
                   <div class="button-group main-product-btn product-item-action">
-                    <button  class="addtocart btn-color" type="button" onclick="cart.add('42');"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
+                    <button  class="addtocart btn-color" type="button" ng-click="showAddItem(product)"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
                     <div class="right-side">
                       <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span class="icon"><!-- fa fa-heart --></span></button>
                     </div>    
@@ -84,12 +83,12 @@
                    
                    
                   </div>
-          <div class="toolbar toolbar-products row">
+          <!-- <div class="toolbar toolbar-products row">
             <div class="col-sm-6 text-left page-counts">
               <div class="pagination-bar"><ul class="pagination"><li class="active"><span>1</span></li><li><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=product/category&amp;path=20&amp;page=2">2</a></li><li><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=product/category&amp;path=20&amp;page=2">&gt;</a></li><li><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=product/category&amp;path=20&amp;page=2">&gt;|</a></li></ul></div>
             </div>
             <div class="col-sm-6 text-right page-results center-xs">Showing 1 to 9 of 10 (2 Pages)</div>
-          </div>
+          </div> -->
                       </div>
           </div>
     </div>

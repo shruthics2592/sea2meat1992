@@ -127,10 +127,10 @@
               <div class="product-thumb transition">
                 <div class="image">
                   <!-- <a  class='iframe button btn quickview' href=""><i class="fa fa-search"></i></a> -->
-                  <a >
-                    <img src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;" title="{{Fproduct.image}}&quot;" class="img-responsive" />
-                    <img class="img-responsive hover-image" src="{{Fproduct.image}}" alt="{{Fproduct.image}}&quot;"/>
-                  </a>
+                
+                    <img src="{{Fproduct.imagelink}}" alt="{{Fproduct.imagelink}}&quot;" title="{{Fproduct.imagelink}}&quot;" class="img-responsive" />
+                    <img class="img-responsive hover-image" src="{{Fproduct.swapImage}}" alt="{{Fproduct.swapImage}}&quot;"/>
+                  
                   <div  ng-if="Fproduct.is_sale" class="sale-label"><span>Sale</span></div>         
                                 </div>
                 <div class="caption">
@@ -170,54 +170,39 @@
     </div>
   </div>
 
-  
-  <div class="blog-widget-recent blog-main ptb-95">
+
+  <div class="testimonial ptb-95">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="heading-part align-center mb-40">
-            <h2 class="main_title">Today's Special</h2>
-            <div style="margin-top: 10px;">
-              <p class="big">know about our delivery processes</p>
-            </div>
-            <div class="div_line-yal2 mt-20 mb-60">
-              <img src="assets/img/line-yal.png" class="meatshop">
+        <div class="client-main client-bg" >
+          <div class="client-inner align-center owl-slider">
+            <div id="slideshow1" class="testimonial-data">
+              <div class="item client-detail" ng-repeat="teste in testemonial">
+                <div class="client-img ">
+                  <img class="image-testimonial pull-left" src="{{teste.image_url}}" title="Emma Bower" alt="Emma Bower" /> 
+                </div>
+                <div class="quote">
+                  <h3 class="sub-title client-title">{{teste.name}}<span>&#160;{{teste.profession}}&#160;</span></h3>
+                  <p>{{teste.message}}</p>
+                  <div class="rating">
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i></span>
+                  </div>
+                </div>
+              </div>
+           
+           
             </div>
           </div>
         </div>
       </div>
-</div>
-      <div class="row">
-      <div class="blog-carousel owl-carousel owl-theme" style="opacity: 1; display: block;">
-                <div class="owl-wrapper-outer">
-                  <div  class="owl-wrapper" style="width: 3320px; left: 0px; display: block; transform: translate3d(-415px, 0px, 0px); transition: all 200ms ease;">
-                    <div class="owl-item" style="width: 415px;" ng-repeat="special in special_product">
-                  <div class="item" >        
-          <div class="blog-item "> 
-            <div class="blog-media">
-                            <img src="{{special.image}}" alt="New’s &amp; Blog’s" title="New’s &amp; Blog’s"> 
-            </div>          
-            <div class="blog-detail">
-              <div class="blog-detail-inner">
-                <div class="blog-contant">
-                  <div class="item post-posed-date"><span class="value"> 27/05/2017</span></div>
-                  <h3 class="blog-title mb-40"><a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=4">{{special.name}}</a></h3>
-                  <!-- <div class="post-text-hld clearfix">
-                    <p>Phasellus aliquam libero semper, lobortis tortor eu, ultrices augue. Donec ut elit sit amet est tincidunt rutrum. Aenean elementum mi a nisi consequat...</p>
-                  </div>-->
-                  <a href="http://webcotheme.com/opc/butcher/demo/btc01/index.php?route=information/blogger&amp;blogger_id=4" class="btn btn-yellow full"> Read more</a> </div>
-              </div>
-            </div> 
-           </div>     
-        </div></div>
-                
-                
-                
-              </div>
-    </div>
     </div>
   </div>
-</div>
+  
+
 
   <div class="contact-section">
     <div class="container">
@@ -295,29 +280,21 @@
       </div>
     </div>
   </div> -->
-
-  <div class="testimonial ptb-95">
-    <div class="container">
-      <div class="row">
-        <div class="client-main client-bg">
-          <div id="slideshow1" class="client-inner align-center owl-slider">
-            <div  class="testimonial-data" ng-repeat="teste in testemonial">
-              <div class="item client-detail" >
-                <div class="client-img ">
-                  <img class="image-testimonial pull-left" src="{{teste.image_url}}" title="Emma Bower" alt="Emma Bower" /> 
-                </div>
-                <div class="quote">
-                  <h3 class="sub-title client-title">{{teste.name}}<span>&#160;{{teste.profession}}&#160;</span></h3>
-                  <p>{{teste.message}}</p>
-                  <div class="rating">
-                    <!-- <span class="fa fa-stack" ng-repeat="n in {{teste.stars}}"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
-                    <span class="fa fa-stack" ng-repeat="n in 5-{{teste.stars}}"><i class="fa fa-star fa-stack-1x"></i></span> -->
-                  </div>
+  <div class="container">
+    <div class="row">                                
+      <div id="content" class="col-sm-12">
+        <div class="brand">
+          <div class="ptb-95">
+            <div id="brand-logo" class="owl-slider position-r">
+              <div  ng-repeat="brand in brandImages">
+                <div class="item text-center">
+                  <img src="{{brand.image}}" alt="Harley Davidson"/>
                 </div>
               </div>
             </div>
           </div>
         </div>
+       
       </div>
     </div>
   </div>
@@ -393,22 +370,5 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">                                
-      <div id="content" class="col-sm-12">
-        <div class="brand">
-          <div class="ptb-95">
-            <div id="brand-logo" class="owl-slider position-r">
-              <div  ng-repeat="brand in brandImages">
-                <div class="item text-center">
-                  <img src="{{brand.image}}" alt="Harley Davidson"/>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       
-      </div>
-    </div>
-  </div>
+
 </div>

@@ -294,7 +294,7 @@
 			
 			});
 		}
-		$scope.getspecial_product("BEEF")
+		$scope.getspecial_product("TODAY_SPECIAL")
 		$scope.testemonial = []
 		$scope.getTestemonial = function(){
 			$http.get($scope.server + 'app/gettestemonials').success(function(response, status, headers) {
@@ -302,14 +302,14 @@
 				$scope.testemonial = response.data	
 				setTimeout(function(){ 
 					$('#slideshow1').owlCarousel({
-						items: 6,
+						items: 1,
 						autoPlay: 3000,
 						singleItem: true,
 						navigation: true,
 						navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
 						pagination: false
 					  });
-				 }, 3000);			
+				 }, 1000);			
 			}).error(function(response, status, headers) {
 			
 			});
@@ -456,6 +456,12 @@
 			});
 		}
 		$scope.getspecial_product("BEEF")
+
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 	});
 	scotchApp.controller('lambController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
@@ -469,6 +475,12 @@
 			});
 		}
 		$scope.getspecial_product("LAMB")
+
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 	});
 	scotchApp.controller('todayspecialController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
@@ -482,6 +494,12 @@
 			});
 		}
 		$scope.getspecial_product("TODAY_SPECIAL")
+
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 	});
 	scotchApp.controller('poultryController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
@@ -495,6 +513,12 @@
 			});
 		}
 		$scope.getspecial_product("POULTRY")
+
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 	});
 	scotchApp.controller('sausageController', function($scope,$window,$http) {
 		$scope.getspecial_product = function(type){
@@ -508,6 +532,12 @@
 			});
 		}
 		$scope.getspecial_product("SAUSAGE")
+
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 	});
 var wish =[]
 	scotchApp.controller('getwishListController', function($scope,$window,$http) {
@@ -530,7 +560,13 @@ var wish =[]
 			
 			});
 		}
-		$scope.getwishList()		
+		$scope.getwishList()
+		
+			//------------- Adding into Cart ------------------- //
+			$scope.showAddItem = function(item){
+				console.log("item",item)
+				location.href = "#/add/"+item.id
+			}
 
 	});
 
@@ -612,6 +648,8 @@ var wish =[]
 		$http.get($scope.server + 'app/productDetails/'+$routeParams.productId).success(function(response, status, headers) {
 			
 			$scope.product = response.data[0]
+			$scope.selectedImage = $scope.product.product_image[0].imagelink
+
 		}).error(function(response, status, headers) {
 		
 		});
@@ -636,6 +674,16 @@ var wish =[]
 			productDetails["quantity"] = $scope.quantity
 			$scope.cartDetails.cart.push(productDetails)
             localStorage.setItem("cartDetails",JSON.stringify($scope.cartDetails))
+		}
+
+		$scope.continueShopping = function(){
+			$window.location.href = '#/';
+
+		}
+
+		$scope.selectedImagefun = function(image){
+			$scope.selectedImage = image.imagelink
+
 		}
 
 
