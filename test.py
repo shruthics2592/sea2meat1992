@@ -40,11 +40,11 @@ urls = (
 
 
 # shruthi
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #live server
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
 
 #User Registration and Login
 #Login
@@ -976,7 +976,7 @@ class OrderHistory:
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         return
-    def GET(self,categoryId):
+    def GET(self):
         return "Get Method only supported. No Authorization Required"
 
 class PlaceOrder:
