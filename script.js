@@ -592,29 +592,32 @@ var wish =[]
 			
 		}
 		
-		$scope.addWish = function(type){
-			if($scope.wish_list.length==0)	{
-				$scope.adding(type)
-			}
-			angular.forEach($scope.wish_list, function(item){
-				// var obj = {};
-				// var valObj = {};
+		// $scope.addWish = function(type){
+		// 	if($scope.wish_list.length==0)	{
+		// 		$scope.adding(type)
+		// 	}
+		// 	angular.forEach($scope.wish_list, function(item){
+		// 		// var obj = {};
+		// 		// var valObj = {};
 
-				// valObj.id = item.id;
+		// 		// valObj.id = item.id;
 				
-				console.log("item.id==type",item.id,type,item)
-				if(item.id==type)return false;
-				$scope.adding(type)
-			});
+		// 		console.log("item.id==type",item.id,type,item)
+		// 		if(item.id==type)return false;
+		// 		$scope.adding(type)
+		// 	});
 				
 			
-		}
+		// }
 
-		$scope.adding = function(type){
+		$scope.addWish = function(type){
 			var user = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
 				$http.post($scope.server + 'app/addwish?user_id='+user.id+'&prod_id='+type).success(function(response) {
 					$scope.getwishList()
+
+					$window.location.href = '#/wish_list';	
+
 				}).error(function(response) {
 				
 				});
@@ -660,7 +663,11 @@ var wish =[]
 			
 		}		
 		
-		var cartDetails = JSON.parse(localStorage.getItem('cartDetails'))
+		var cartDetails = null
+		if(localStorage.getItem('cartDetails') !="" || localStorage.getItem('cartDetails')){
+			 cartDetails = JSON.parse(localStorage.getItem('cartDetails'))
+
+		}
 		if(cartDetails){
 			$scope.cartDetails = cartDetails
 		}else{
@@ -669,10 +676,23 @@ var wish =[]
 		}
 		$scope.addtocart =  function(item){
 			var productDetails = {}
-			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
+			var price = item.price
+			if(item.is_sale && item.sale_price){
+				price = item.sale_price
+
+			}
+			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * price)
 			productDetails["productId"] = item.id
 			productDetails["quantity"] = $scope.quantity
-			$scope.cartDetails.cart.push(productDetails)
+			var index = $scope.cartDetails.cart.findIndex(eachele => eachele.productId == item.id)
+			if (index > -1){
+				console.log($scope.cartDetails.cart[index])
+				$scope.cartDetails.cart[index]['quantity'] = $scope.cartDetails.cart[index]['quantity'] + $scope.quantity
+			} else{
+				$scope.cartDetails.cart.push(productDetails)
+
+			}
+			console.log(":::$scope.cartDetails",$scope.cartDetails)
             localStorage.setItem("cartDetails",JSON.stringify($scope.cartDetails))
 		}
 

@@ -71,7 +71,7 @@
                   <div class="button-group main-product-btn product-item-action">
                     <button  class="addtocart btn-color" type="button" ng-click="showAddItem(product)"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
                     <div class="right-side">
-                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span class="icon"><!-- fa fa-heart --></span></button>
+                      <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" ng-click="addWish(product.id)" ng-controller="AddWishListController"><span class="icon"><!-- fa fa-heart --></span></button>
                     </div>    
                   </div>        
                 </div>          

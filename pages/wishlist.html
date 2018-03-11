@@ -1,8 +1,7 @@
-
-  <div class="container">
-    <div class="bread-crumb mtb-30 center-xs">
-      <div class="page-title">My Wish List</div>
-      <div class="bread-crumb-inner right-side float-none-xs">
+  <div class="bread-crumb mb-60">
+    <div class="container align-center">  
+      <div id="page-title" class="page-title">My Wish List</div> 
+      <div class="bread-crumb-inner">
         <ul>
           <li><a href=""><i class="fa fa-home"></i></a></li>
           <li><a href="">Account</a></li>
@@ -10,6 +9,9 @@
         </ul>
       </div>
     </div>
+  </div>
+  <div class="container">
+   
     <div id="content" class="col-sm-8" ng-if="wish_list.length==0">     
         <div class="heading-bg mb-20"> 
           <h2 class="heading m-0">My Wish List</h2>
@@ -44,10 +46,7 @@
                                                                                     {{product.description}}</p>
                                                               <div class="button-group main-product-btn product-item-action">
                                                                                           <button  class="addtocart btn-color" type="button" ng-click="showAddItem(product)"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
-                                                                                              <div class="right-side">
-                                                                                                <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span><!-- fa fa-heart --></span></button>
-                                                                                              </div>    
-                                                              </div>        
+                                                                                             
                                           </div>          
                       </div>
 </div>
