@@ -41,6 +41,7 @@ urls = (
 
 # shruthi
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
+#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #live server
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
@@ -394,6 +395,7 @@ class GetaProducts:
             for product in product_data:
                 product_json = {}
                 product_json["id"] = product.id
+                product_json["productCode"] = product.productCode
                 product_json["name"] = product.name
                 product_json["price"] = product.price
                 product_json["currency"] = product.currency
@@ -408,6 +410,8 @@ class GetaProducts:
                     imagesObj = {}
                     imagesObj["id"]= images.id
                     imagesObj["imagelink"] = images.imagelink
+                    imagesObj["swapImage"] = images.swapImage
+                    imagesObj["thumbnailImage"] = images.thumbnailImage
                     product_json["product_image"].append(imagesObj)
                 for size in product_sizes:
                     sizeObj = {}
@@ -445,11 +449,19 @@ class GetFeaturedProducts:
         try:
             post_data = web.input(name="")
             my_name = post_data.name
-            featured_product_data = db.query('''
-                                    select *,p.id as pid from product p
-                                    inner join category as c on c.id = p.categoryId
-                                    where c.c_name=$id
-                                ''',vars={"id":my_name}) 
+            if my_name == "TODAY_SPECIAL":
+                featured_product_data = db.query('''
+                                        select *,p.id as pid from product p
+                                        inner join category as c on c.id = p.categoryId
+                                        where is_todaysSpecial = true
+                                    ''') 
+            else:
+                featured_product_data = db.query('''
+                                        select *,p.id as pid from product p
+                                        inner join category as c on c.id = p.categoryId
+                                        where c.c_name=$id
+                                    ''',vars={"id":my_name}) 
+                
             final_data = []
             for product in featured_product_data:
                 prod_json ={}
@@ -467,11 +479,14 @@ class GetFeaturedProducts:
                 featured_product_data_image = db.query('''
                                     select * from product p
                                     inner join productImage as pi on p.id = pi.productId
-                                    inner join category as c on c.id = p.categoryId
-                                    where c.c_name=$id
-                                    LIMIT 1''',vars={"id":product.name})
+                                    where p.id = $id
+                                    LIMIT 1''',vars={"id":product.pid})
                 for image in featured_product_data_image:
-                    prod_json["image"] = image.imagelink
+                    print "::::Image::"
+                    print image
+                    prod_json["imagelink"] = image.imagelink
+                    prod_json["swapImage"] = image.swapImage
+                    prod_json["thumbnailImage"] = image.thumbnailImage
                 final_data.append(prod_json)
             pyDict = {'code':'200','status':'Success','data':final_data}  
             return json.dumps(pyDict) 
@@ -824,6 +839,7 @@ class GetWish:
                 for product in featured_product_data:
                     prod_json ={}
                     prod_json["id"] =  product.pid
+                    prod_json["productCode"] =  product.productCode
                     prod_json["name"] =  product.name
                     prod_json["price"] = product.price
                     prod_json["currency"] = product.currency
@@ -837,11 +853,12 @@ class GetWish:
                     featured_product_data_image = db.query('''
                                         select * from product p
                                         inner join productImage as pi on p.id = pi.productId
-                                        inner join category as c on c.id = p.categoryId
-                                        where c.c_name=$id
-                                        LIMIT 1''',vars={"id":product.name})
+                                        where p.id=$id
+                                        LIMIT 1''',vars={"id":product.pid})
                     for image in featured_product_data_image:
-                        prod_json["image"] = image.imagelink
+                        prod_json["imagelink"] = image.imagelink
+                        prod_json["swapImage"] = image.swapImage
+                        prod_json["thumbnailImage"] = image.thumbnailImage
                     final_data.append(prod_json)
             
             return json.dumps(final_data) 

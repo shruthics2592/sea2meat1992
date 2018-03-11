@@ -22,14 +22,14 @@
         <div class="col-sm-5 mb-xs-30">
           <div class="thumbnails-image ">
             <a title="iMac">
-            <img src="product.product_image[0].imagelink" data-zoom-image="product.product_image[0].imagelink" title="iMac" alt="iMac" />
+            <img src="{{selectedImage}}" data-zoom-image="{{selectedImage}}" title="iMac" alt="iMac" />
             </a>
           </div>
           <div class="position-r">
             <ul class="product-additional owl-slider">
               <li class="image-additional" ng-repeat="image in product.product_image">
-              <a href="javascript:void(0);" data-image="{{image.imagelink}}" data-zoom-image="{{image.imagelink}}" title="iMac">
-                <img src="{{image.imagelink}}" title="iMac" alt="iMac" />
+              <a href="javascript:void(0);" data-image="{{image.thumbnailImage}}" data-zoom-image="{{image.thumbnailImage}}" title="iMac">
+                <img ng-click="selectedImagefun(image)" src="{{image.thumbnailImage}}" title="iMac" alt="iMac" />
               </a>
               </li>
               
@@ -42,11 +42,11 @@
               <h1 class="product-item-name">{{product.name}}</h1>
               <ul class="list-unstyled product-page-price">
                 <li>
-                  <div class="product-price">${{product.price}}</div>
+                  <div class="product-price">{{product.currency}}{{product.price}}</div>
                 </li>
               </ul>
               <ul class="list-unstyled mb-30">
-                <li><label>Product Code:</label>{{product.id}}</li>
+                <li><label>Product Code:</label>{{product.productCode}}</li>
                 <li ng-if="product.is_available"><label>Availability:</label> In Stock</li>
                 <li ng-if="!product.is_available"><label>Availability:</label>Sold out</li>
 
@@ -59,7 +59,8 @@
                   <br />
                   <div class="button-group main-product-btn product-item-action">
                     <button ng-click="addtocart(product)" class="addtocart btn-black" type="button" id="button-cart" data-loading-text="Loading..."><span class="icon" ></span>Add to Cart</button>
-                    <button class="whishlist" type="button" data-toggle="tooltip" class="whishlist" title=" Wish List" onclick="wishlist.add('41');"><span class="icon"></span> Wish List</button>
+                    <button ng-click="continueShopping()" class="addtocart btn-black" type="button" id="button-cart" data-loading-text="Loading..."><span class="icon" ></span>Continue Shopping</button>
+
                   </div>
                 </div>
               </div>

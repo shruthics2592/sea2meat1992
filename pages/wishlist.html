@@ -19,14 +19,14 @@
           <div class="pull-right"><a href="#/" class="btn btn-black">Continue</a></div>
         </div>
       </div>
-    <div class="row mlr_-37" ng-repeat="product in wish_list">
+    <div class="row mlr_-37" >
       <div class="product-layout product-list col-xs-12">
-                                <div class="product-thumb">
+                                <div class="product-thumb" ng-repeat="product in wish_list">
                                                 <div class="image">
                                                   <!-- <a class='iframe button quickview' href=""><i class="fa fa-search"></i>Quickview</a> -->
                                                   <a href="">
-                                                    <img src="{{product.image}}" title="{{product.image}}&quot;" alt="{{product.image}}&quot;" class="img-responsive"/>
-                                                    <img class="img-responsive hover-image" src="{{product.image}}" alt="{{product.image}}&quot;"/>
+                                                    <img src="{{product.imagelink}}" title="{{product.imagelink}}&quot;" alt="{{product.imagelink}}&quot;" class="img-responsive"/>
+                                                    <img class="img-responsive hover-image" src="{{product.swapImage}}" alt="{{product.swapImage}}&quot;"/>
                                                   </a>
                                                   <div  ng-if="product.is_sale" class="sale-label"><span>Sale</span></div>         
                                                 </div>
@@ -43,7 +43,7 @@
                                                                                 <p class="category-description">
                                                                                     {{product.description}}</p>
                                                               <div class="button-group main-product-btn product-item-action">
-                                                                                          <button  class="addtocart btn-color" type="button" onclick="cart.add('42');"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
+                                                                                          <button  class="addtocart btn-color" type="button" ng-click="showAddItem(product)"><!-- <span class="icon">fa fa-shopping-cart --></span> <span>Add to Cart</span></button><!--  class="hidden-xs hidden-sm hidden-md" -->
                                                                                               <div class="right-side">
                                                                                                 <button class="whishlist" type="button" data-toggle="tooltip" title=" Wish List" onclick="wishlist.add('42');"><span><!-- fa fa-heart --></span></button>
                                                                                               </div>    
