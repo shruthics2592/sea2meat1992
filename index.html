@@ -158,18 +158,25 @@
               <div class="search-btn-icon search-opener visible-lg visible-md">
                 <!-- <button class="search-btn"></button> -->
               </div>
-              <div id="cart" class="btn-group btn-block">
-                <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="btn btn-inverse btn-block btn-lg dropdown-toggle">
+              <div id="cart" class="btn-group btn-block" ng-controller="checkoutController">
+                <button type="button" ng-click="getCartValue()" data-toggle="dropdown" data-loading-text="Loading..." class="btn btn-inverse btn-block btn-lg dropdown-toggle">
                   <!-- <i class="fa fa-shopping-cart"></i>  -->
                   <span class="icon"></span>
-                  <span id="cart-total">
-                    <small class="cart-notification">0</small>
-                    <span class="cart-total ">Shopping Cart <span class="cart-total-price">$150.00</span></span>
+                  <span id="cart-total" >
+                    <small class="cart-notification" ng-if="cartDetails.cart.length > 0">{{cartDetails.cart.length}}</small>
+                    <small class="cart-notification" ng-if="!cartDetails.cart">0</small>
+
                   </span>
                 </button>
-                <ul class="dropdown-menu pull-right hidden-xs">
-                  <li><p class="text-center">Your shopping cart is empty!</p></li>
+                <ul class="dropdown-menu pull-right hidden-xs" ng-if="cartDetails.cart.length > 0">
+                  <li><p class="text-center">{{cartDetails.cart.length}}</p></li>
+                  <li><span class="cart-total ">Shopping Cart <span class="cart-total-price">$ {{cartDetails.orderValue}}</span></span>
+                  </li>
                   <li><a href="#/checkout">Checkout</a></li>
+                </ul>
+
+                <ul class="dropdown-menu pull-right hidden-xs" ng-if="!cartDetails.cart">
+                  <li><p class="text-center">Your Cart is empty</p></li>
                 </ul>
               </div>
             </div>

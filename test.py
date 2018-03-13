@@ -1001,10 +1001,7 @@ class PlaceOrder:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.input() # to read raw data   
-        print("place order")
-        pyDict = {'code':'201','status':'fail','message':""}            
-        response =json.dumps(pyDict)
+        data = json.loads(web.input()) # to read raw data   
 
         try:
             createdAt = datetime.date.today()

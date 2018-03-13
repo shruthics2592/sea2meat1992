@@ -640,7 +640,7 @@ var wish =[]
 	
 
 	scotchApp.controller('addPeoductController', function($scope,$window,$http,$routeParams) {
-		$scope.quantity = 1;
+		$scope.cart = {"quantity":1};
 		$('.thumbnails').magnificPopup({
     		type:'image',
     		delegate: 'a',
@@ -681,13 +681,14 @@ var wish =[]
 				price = item.sale_price
 
 			}
-			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * price)
+			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.cart.quantity * price)
 			productDetails["productId"] = item.id
-			productDetails["quantity"] = $scope.quantity
+			productDetails["quantity"] = $scope.cart.quantity
+			productDetails["itemdetails"] = item
 			var index = $scope.cartDetails.cart.findIndex(eachele => eachele.productId == item.id)
 			if (index > -1){
 				console.log($scope.cartDetails.cart[index])
-				$scope.cartDetails.cart[index]['quantity'] = $scope.cartDetails.cart[index]['quantity'] + $scope.quantity
+				$scope.cartDetails.cart[index]['quantity'] = $scope.cartDetails.cart[index]['quantity'] + $scope.cart.quantity
 			} else{
 				$scope.cartDetails.cart.push(productDetails)
 
@@ -883,15 +884,23 @@ var wish =[]
 
 	scotchApp.controller('checkoutController', function($scope,$window,$http) {
 	  $scope.user = JSON.parse(localStorage.getItem("userDetails"))
-		
+	  $scope.taxDeatils = {"Shipping":5.00,"Vat":4.00,"eco_tax":2.00}
+
 		if($scope.user){
 		}else{
 			$window.location.href = '#/login';
 			
 		}
+		var cartDetails = {}
+	   if(localStorage.getItem("cartDetails") && localStorage.getItem("cartDetails") != ""){
+		cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
 
-	   var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
-	   console.log(cartDetails,":::cartDetails")
+	   }
+	   $scope.cartDetails = cartDetails
+
+	   $scope.getCartValue = function(){
+
+	   }
 		
 		$scope.getAddress = function(){
 			$scope.user_id = $scope.user.id

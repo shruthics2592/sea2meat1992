@@ -157,42 +157,42 @@
     <thead>
       <tr>
         <td class="text-left">Product Name</td>
-        <td class="text-left">Model</td>
+        <td class="text-left">Product Code</td>
         <td class="text-right">Quantity</td>
         <td class="text-right">Unit Price</td>
         <td class="text-right">Total</td>
       </tr>
     </thead>
     <tbody>
-            <tr>
-        <td class="text-left"><a href="">iPod Classic</a>
+            <tr ng-repeat="eachpro in cartDetails.cart">
+        <td class="text-left"><a href="">{{eachpro.itemdetails.name}}</a>
                     </td>
-        <td class="text-left">product 20</td>
-        <td class="text-right">1</td>
-        <td class="text-right">$122.00</td>
-        <td class="text-right">$122.00</td>
+        <td class="text-left">{{eachpro.itemdetails.productCode}}</td>
+        <td class="text-right">{{eachpro.quantity}}</td>
+        <td class="text-right">{{eachpro.itemdetails.currency}}: {{eachpro.itemdetails.price}}</td>
+        <td class="text-right">{{eachpro.itemdetails.currency}}: ({{eachpro.quantity * eachpro.itemdetails.price}})</td>
       </tr>
                 </tbody>
     <tfoot>
             <tr>
         <td colspan="4" class="text-right"><strong>Sub-Total:</strong></td>
-        <td class="text-right">$100.00</td>
+        <td class="text-right">{{cartDetails.orderValue}}</td>
       </tr>
             <tr>
         <td colspan="4" class="text-right"><strong>Flat Shipping Rate:</strong></td>
-        <td class="text-right">$5.00</td>
+        <td class="text-right">{{taxDeatils.Shipping}}</td>
       </tr>
             <tr>
-        <td colspan="4" class="text-right"><strong>Eco Tax (-2.00):</strong></td>
-        <td class="text-right">$4.00</td>
+        <td colspan="4" class="text-right"><strong>Eco Tax:</strong></td>
+        <td class="text-right">{{taxDeatils.eco_tax}}</td>
       </tr>
             <tr>
-        <td colspan="4" class="text-right"><strong>VAT (20%):</strong></td>
-        <td class="text-right">$21.00</td>
+        <td colspan="4" class="text-right"><strong>VAT:</strong></td>
+        <td class="text-right">{{taxDeatils.Vat}}</td>
       </tr>
             <tr>
         <td colspan="4" class="text-right"><strong>Total:</strong></td>
-        <td class="text-right">$130.00</td>
+        <td class="text-right">{{cartDetails.orderValue + taxDeatils.Shipping + taxDeatils.eco_tax + taxDeatils.Vat}}</td>
       </tr>
           </tfoot>
   </table>
