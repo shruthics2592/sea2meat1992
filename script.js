@@ -402,7 +402,7 @@
 	scotchApp.controller('registerController', function($scope,$window,$http,toaster) {
 		console.log("I am in register controller")
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
-		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
+		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","is_admin":0,"subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
 		$scope.registerUser = function(){
 			var headers = {
 				'Content-Type': "application/json"
@@ -598,6 +598,7 @@
 	});
 var wish =[]
 	scotchApp.controller('getwishListController', function($scope,$window,$http) {
+
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
 
@@ -798,6 +799,9 @@ var wish =[]
 		$scope.email = user.email
 		$scope.mobile = user.mobile
 		$scope.fax = user.fax
+		$scope.company = user.company
+		$scope.subscription = user.subscription
+		$scope.is_admin = user.is_admin
 		$scope.editAccount = function(){
 			$http.post($scope.server + 'app/editaccount?email='+$scope.email+'&mobile='+$scope.mobile+'&firstname='+$scope.firstname+'&lastname='+$scope.lastname+'&fax='+$scope.fax+'&id='+$scope.id).success(function(response, status, headers) {
 				console.log("product",response)

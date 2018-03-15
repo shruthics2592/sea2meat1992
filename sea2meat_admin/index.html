@@ -19,38 +19,39 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-
+    <script src="https://unpkg.com/ag-grid@17.0.0/dist/ag-grid.min.js"></script>
 	<script src="adminApp.js"></script>
 </head>
 
 <body>
 
 		<div id="wrapper">
-				<nav class="navbar navbar-default navbar-fixed-top">
+			<!-- <div ng-if="test"> -->
+				<nav   class="navbar navbar-default navbar-fixed-top" >
 					<div class="brand">
-						<a href="index.html">sea2meat</a>
+						<a href="#/">sea2meat</a>
 					</div>
 					<div class="container-fluid">
 						<div class="navbar-btn">
-							<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+							<button ng-show="test" type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
 						</div>
-						<div id="navbar-menu">
+						<div ng-if="test" id="navbar-menu">
 							<ul class="nav navbar-nav navbar-right">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+								<li class="dropdown" ng-controller="homeController">
+									<a href="#" class="dropdown-toggle"   data-toggle="dropdown"> <span>{{Fname}} {{Lname}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 									<ul class="dropdown-menu">
-										<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-										<li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+										<!-- <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li> -->
+										<li><a ng-click="logout()"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
 									</ul>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</nav>
-				<div id="sidebar-nav" class="sidebar">
+				<div ng-if="test" id="sidebar-nav"  class="sidebar">
 					<div class="sidebar-scroll">
-						<nav>
-							<ul class="nav">
+						<nav >
+							<ul class="nav" >
 								<li><a href="#/users" class=""><i class="fa fa-user-plus"></i> <span>Create Users - Admin & Mobile</span></a></li>
 								<li><a href="#/customer" class=""><i class="lnr lnr-dice"></i> <span>Cunstomer</span></a></li>
 								<li><a href="#/product" class=""><i class="lnr lnr-text-format"></i> <span>Products</span></a></li>
@@ -61,6 +62,7 @@
 						</nav>
 					</div>
 				</div>
+			<!-- </div> -->
 				   <div ng-view></div>
 				<div class="clearfix"></div>
 				<footer>

@@ -2,8 +2,9 @@ import web
 import MySQLdb
 import json
 import datetime
-
-
+import os
+from uuid import UUID
+import base64
 
 
 
@@ -15,18 +16,23 @@ urls = (
   '/admin/addproduct','AddProducts', #add all products for the selected category or all
   '/app/addUpdateproduct/?([0-9])*','AddUpdateProducts', #Get all products for the selected category or all
   '/app/login','Applogin',
+  '/admin/login','Adminlogin',
   '/app/register','Register',
+  '/admin/register','RegisterAdmin',
   '/app/order','PlaceOrder',
   '/app/order_history','OrderHistory',
   '/app/getbanner','GetBanner', #To get banner images for home page
+  '/admin/addbanner','AddBanner',
   '/app/getabout','GetAbout',#get about firm data'
   '/admin/setabout','SetAbout',#set about firm data
   '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
   '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
   '/admin/settestemonials','SetTestemonials', # Get all the feedbacks
-  '/app/getbrand','GetBrand', #To get brand images for home page
+  '/app/getbrand','GetBrandImages', #To get brand images for home page
   '/app/addwish','AddWish', # adds to wish list
-  '/app/getwish','GetWish', # get to wish list
+  '/admin/getwish','GetWish', # get to wish list
+  '/admin/getuser','GetUsers',
+  '/admin/addbrand','AddBrand',
   '/app/productDetails/?([0-9]*)','GetaProducts',
   '/app/editaccount','EditAccount',
   '/app/editpassword','EditPassword',
@@ -42,11 +48,12 @@ urls = (
 
 
 # shruthi
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #live server
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="new_schema")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="shubham")
 
 #User Registration and Login
 #Login
@@ -59,7 +66,56 @@ class Applogin:
         data = web.data() # to read raw data
         data = json.loads(web.data().decode('utf-8'))
         try:
-            userObj = db.query("select * from user where email='"+str(data['email'])+"' and password='"+str(data['password'])+"'") 
+            userObj = db.query("select * from user where is_admin=0 and email='"+str(data['email'])+"' and password='"+str(data['password'])+"'") 
+            if userObj:
+                userdata = {}
+                for user in userObj:
+                    userdata["id"] = user.id
+                    userdata["firstName"] = user.firstName
+                    userdata["lastName"] = user.lastName
+                    userdata["mobile"] = user.mobile
+                    userdata["fax"] = user.fax
+                    userdata["email"] = user.email
+                    userdata["company"] = user.company
+                    userdata["subscription"] = user.subscription
+                    userdata["authtoken"] = user.authToken
+                    userdata["is_admin"] = user.is_admin
+                    
+                    #userdata["address"] = db.query("select * from address where userId="+str(user.id))
+                    pyDict = {'code':'200','status':'user data',"user":userdata} 
+                    
+                    return json.dumps(pyDict)
+            else:
+                pyDict = {'code':201,'status':'user is invalid',"user":{}}
+                return json.dumps(pyDict)            
+
+
+        except Exception as e:
+            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
+
+#Login
+class Adminlogin:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        data = json.loads(web.data().decode('utf-8'))
+        try:
+            userObj = db.query("select * from user where is_admin=1 and email='"+str(data['email'])+"' and password='"+str(data['password'])+"'") 
             if userObj:
                 userdata = {}
                 for user in userObj:
@@ -96,8 +152,48 @@ class Applogin:
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 
+
 #Register   
 class Register:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        data = json.loads(web.data().decode('utf-8'))
+        try:
+            userObj = db.query("select * from user where email='"+data['email']+"'") 
+            if not userObj:
+                data['authtoken'] = "token"
+                userdata_data= db.insert("user",firstName=data['firstName'],lastName=data['lastName'],mobile=data['mobile'],fax=data['fax'],email=data['email'],company=data['company'],authtoken=data['authtoken'],subscription=data['subscription'],password=data['password'],is_admin=data['is_admin'])
+                user_address = db.insert("address",streetAddress=data['street'],pincode=data['pincode'],city=data['city'],state=data['state'],country=data['country'],addressType="billing",userId=userdata_data)
+                data["id"] = userdata_data
+                pyDict = {'code':200,'status':"succes",'user':data}            
+                return json.dumps(pyDict)
+            else:
+                pyDict = {'code':201,'status':'user already exist',"user":{}}
+                return json.dumps(pyDict)            
+
+
+        except Exception as e:
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
+
+
+
+#Register   
+class RegisterAdmin:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
@@ -134,6 +230,8 @@ class Register:
         return "Get Method only supported. No Authorization Required"
 
 
+
+
 class EditAccount:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
@@ -152,7 +250,14 @@ class EditAccount:
                 lastname = data.lastname
                 mobile = data.mobile
                 fax = data.fax
-                db.update('user',vars=locals(),where='id=$userid',FirstName=firstname,LastName=lastname,mobile=str(mobile),fax=str(fax))
+                udpdateAt  = datetime.date.today()
+                company = ""
+                if "company" in data :
+                    company = data.company
+                subscription = ""
+                if "subscription" in data :
+                    subscription = data.subscription
+                db.update('user',vars=locals(),where='id=$userid',subscription=subscription,company=company,updatedAt=udpdateAt,FirstName=firstname,LastName=lastname,mobile=str(mobile),fax=str(fax))
                 udatedUser = db.query("select * from user where email='"+data.email+"'")
                 for updates in udatedUser:
                     my_user = {"id":updates.id,"firstName":updates.firstName,"lastName":updates.lastName,"mobile":updates.mobile,"fax":updates.fax,"email":updates.email,"company":updates.company,"subscription":updates.subscription}
@@ -285,6 +390,86 @@ class AddAddress:
     def DELETE(self):
         data = web.input()
         delete_add = db.query("DELETE FROM address WHERE id = "+str(data.id))
+
+class AddBrand:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.input()
+        try:
+            print "VHVJHV"
+            path = os.path.abspath(os.path.join(os.path.dirname( __file__ ))) + "/brand"
+            print path
+            eachFile =data.image
+            filename=path.split('/')[-1]
+            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+            filename = 'brand_'+str(timestamp)+'_'+filename
+            fileData = eachFile
+            fout = open(path +'/'+filename, "wb")
+            fout.write(fileData)
+            fout.close()
+            db.insert('brand_images',brand_image=filename)
+            pyDict = {'code':'200','status':'success'} 
+            
+            return json.dumps(pyDict)    
+
+
+        except Exception as e:
+            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
+
+
+class AddBanner:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        data = web.input()
+        try:
+            print "VHVJHV"
+            path = os.path.abspath(os.path.join(os.path.dirname( __file__ ))) + "/banner"
+            print path
+            eachFile =data.image
+            filename=path.split('/')[-1]
+            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+            filename = 'brand_'+str(timestamp)+'_'+filename
+            fileData = eachFile
+            fout = open(path +'/'+filename, "wb")
+            fout.write(fileData)
+            fout.close()
+            db.insert('banner_images',brand_image=filename)
+            pyDict = {'code':'200','status':'success'} 
+            
+            return json.dumps(pyDict)    
+
+
+        except Exception as e:
+            
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
+    
 #Product CURD
 #Get all products for the selected category or all
 class GetProducts:
@@ -455,7 +640,14 @@ class GetFeaturedProducts:
                                         select *,p.id as pid from product p
                                         inner join category as c on c.id = p.categoryId
                                         where is_todaysSpecial = true
+                                ''') 
+            elif my_name=="ALL":
+                featured_product_data = db.query('''
+                                        select *,p.id as pid from product p
+                                        inner join category as c on c.id = p.categoryId
+                                        
                                     ''') 
+            
             else:
                 featured_product_data = db.query('''
                                         select *,p.id as pid from product p
@@ -664,6 +856,7 @@ class GetBanner:
                 category_json = {}
                 category_json["category_backgroudImage"] = image.banner_images
                 category_json["image_to"] = image.link_to
+                category_json["id"] = image.id
                 final_data.append(category_json)
             
             return json.dumps(final_data) 
@@ -675,7 +868,7 @@ class GetBanner:
 
 
 # Get all brand images
-class GetBrand:
+class GetBrandImages:
     def POST(self):
         return "Get Method only supported. No Authorization Required"
     def OPTIONS(self):
@@ -695,7 +888,51 @@ class GetBrand:
             for image in image_data:
                 category_json = {}
                 category_json["image"] = image.brand_image
+                category_json["id"] = image.id
+                # category_json["link"] = image.link_to
                 final_data.append(category_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+# Get all brand images
+class GetUsers:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        try:
+            data = web.input()
+            user_data = db.query("select * from user where is_admin="+data.is_admin)
+            final_data = []
+            for user in user_data:
+                user_json = {}
+                user_json["id"] = user.id
+                user_json["firstName"] = user.firstName
+                user_json["lastName"] = user.lastName
+                user_json["mobile"] = user.mobile
+                user_json["fax"] = user.fax
+                user_json["email"] = user.email
+                user_json["company"] = user.company
+                user_json["subscription"] = user.subscription
+                user_json["authtoken"] = user.authToken
+                user_json["createdAt"] = user.createdAt
+                user_json["updatedAt"] = str(user.updatedAt)
+                user_json["is_admin"] = user.is_admin
+                final_data.append(user_json)
             
             return json.dumps(final_data) 
         except Exception as e:
@@ -994,7 +1231,7 @@ class OrderHistory:
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         return
-    def GET(self,categoryId):
+    def GET(self):
         return "Get Method only supported. No Authorization Required"
 
 
