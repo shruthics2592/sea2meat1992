@@ -111,7 +111,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		});
 
 
-    adminApp.controller('productController', function($scope,$window,$http) {
+    adminApp.controller('productController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
 			}else{
@@ -396,7 +397,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	
     });
 
-    adminApp.controller('brandsController', function($scope,$window,$http) {
+    adminApp.controller('brandsController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -507,7 +509,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
     });
 
-    adminApp.controller('bannersController', function($scope,$window,$http) {
+    adminApp.controller('bannersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -623,7 +626,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
     });
 
 
-    adminApp.controller('usersController', function($scope,$window,$http) {
+    adminApp.controller('usersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -761,7 +765,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	});
 
 
-	adminApp.controller('ordersController', function($scope,$window,$http) {
+	adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -772,35 +777,16 @@ agGrid.initialiseAgGridWithAngular1(angular);
 				
 			}
 			$scope.gridOptions = {}
-			$scope.is_add = false
 		$scope.getAllOrders = function () {
 			$http.get($scope.server + 'app/getallorder').success(function(response, status, headers) {
 				if(response.code == 200 || response.code == "200"){
 					$scope.myorders = response.Orders
 				}
 				
-
 			}).error(function(response, status, headers) {
 			
 			});	
 		};
-		$scope.add = function(){
-			if ($scope.is_add == false){
-			$scope.is_add = true
-			}else{
-				$scope.is_add = false
-			}
-		}
-		$scope.registerData = {"is_admin":"","firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","is_admin":0,"subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
-		$scope.registerUser = function(){
-			$http.post(server + 'app/register', $scope.registerData).success(function(response, status, headers) {
-				$scope.is_add = false
-				$scope.getUser();
-				$scope.createRowData();
-			}).error(function(response, status, headers) {
-			
-			});
-		}
 
 		$scope.getAllOrders();
 		
@@ -850,19 +836,11 @@ agGrid.initialiseAgGridWithAngular1(angular);
 						console.log('cellEditingStarted',event);
 				},
 				onCellEditingStopped: function(event) {
-
-						console.log('cellEditingStopped',event);
-						if (event.data.subscription=="No" || event.data.subscription=="no"){
-							event.data.subscription = 0
-						}else{
-							event.data.subscription = 1
-						}
-						
-							$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
-								console.log("product",response)
-								localStorage.setItem("userDetails",JSON.stringify(response.user))
-							}).error(function(response, status, headers) {
-							});
+							// $http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
+							// 	console.log("product",response)
+							// 	localStorage.setItem("userDetails",JSON.stringify(response.user))
+							// }).error(function(response, status, headers) {
+							// });
 							
 				},
 					suppressRowClickSelection: true
