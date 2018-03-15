@@ -111,7 +111,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		});
 
 
-    adminApp.controller('productController', function($scope,$window,$http) {
+    adminApp.controller('productController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
 			}else{
@@ -396,7 +397,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	
     });
 
-    adminApp.controller('brandsController', function($scope,$window,$http) {
+    adminApp.controller('brandsController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -507,7 +509,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
     });
 
-    adminApp.controller('bannersController', function($scope,$window,$http) {
+    adminApp.controller('bannersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -623,7 +626,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
     });
 
 
-    adminApp.controller('usersController', function($scope,$window,$http) {
+    adminApp.controller('usersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -761,7 +765,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	});
 		
 		
-		adminApp.controller('ordersController', function($scope,$window,$http) {
+		adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
+			$rootScope.test = true
 			var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
