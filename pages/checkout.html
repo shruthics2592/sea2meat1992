@@ -25,7 +25,7 @@
  
     <div class="col-sm-12">
       <fieldset>
-        <legend>Your Personal Details</legend>
+        <legend>Your Personal Details </legend>
         <div class="form-group" style="display: none;">
           <label class="control-label">Customer Group</label>
                           <div class="radio">
@@ -73,7 +73,7 @@
             <div class="panel-body"><form class="form-horizontal">
     <div class="radio">
     <label ng-If="my_address.length > 0">
-      I want to use an existing address</label>
+      <b>I want to use an existing address</b></label>
   </div>
   <div>
     <select class="form-control" ng-If="my_address.length > 0" ng-model="cartDetails.addressId">
@@ -98,7 +98,7 @@
 </div>
           </div>
         </div>
-          <div class="panel panel-default">
+          <!-- <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title"><a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 4: Delivery Method <i class="fa fa-caret-down"></i></a></h4>
           </div>
@@ -121,10 +121,10 @@
 </div>
 </div>
           </div>
-        </div>
+        </div> -->
           <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 5: Payment Method <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 3: Payment Method <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div class="panel-collapse collapse in" id="collapse-payment-method" aria-expanded="true" style="">
             <div class="panel-body"><p>Please select the preferred payment method to use on this order.</p>
@@ -133,12 +133,12 @@
             <input type="radio" value="cod" checked="checked">
         Cash On Delivery      </label>
 </div>
-<p><strong>Add Comments About Your Order</strong></p>
+<!-- <p><strong>Add Comments About Your Order</strong></p>
 <p>
   <textarea name="comment" rows="8" class="form-control"></textarea>
-</p>
+</p> -->
 <div class="buttons">
-  <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Terms &amp; Conditions</b></a>        <input type="checkbox">
+  <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Terms &amp; Conditions</b></a>        <input type="checkbox" ng-model="cartDetails.termsandCondition">
         &nbsp;
     <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black" />
   </div>
@@ -148,7 +148,7 @@
         </div>
           <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-checkout-confirm" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 6: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a href="#collapse-checkout-confirm" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 4: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div class="panel-collapse collapse in" id="collapse-checkout-confirm" aria-expanded="true">
             <div class="panel-body"><div class="table-responsive">
