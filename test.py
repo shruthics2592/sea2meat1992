@@ -34,6 +34,8 @@ urls = (
   '/app/editaddress','EditAddress',
   '/app/addaddress','AddAddress',
   '/app/updatenewsletter','UpdateNewsletter',
+  '/app/getmyorder/?([0-9]*)','GetMyOrder',
+  '/app/getallorder','GetAllOrder'
 
 
 )
@@ -995,18 +997,164 @@ class OrderHistory:
     def GET(self,categoryId):
         return "Get Method only supported. No Authorization Required"
 
-class PlaceOrder:
+
+class GetMyOrder:
     def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
+        return
+    def GET(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        ordersList =[]
+        try:
+            orders = db.query("select * from userOrder where userId="+str(id)) 
+            for order in orders:
+                orderObj = {}
+                orderObj["id"] = order.id
+                orderObj["userId"] = order.userId
+                orderObj["offerId"] = order.offerId
+                orderObj["orderStatus"] = order.orderStatus
+                orderObj["orderValue"] = order.orderValue
+                orderObj["createdAt"] = str(order.createdAt)
+                orderObj["addressId"]=order.addressId
+                orderObj["addressDeatils"] = {}
+                orderObj["products"] = []
+                user_address = db.query("select * from address where id="+str(order.addressId))
+                for address in user_address:
+                    orderObj["addressDeatils"]["streetAddress"] = address.streetAddress
+                    orderObj["addressDeatils"]["city"] = address.city
+                    orderObj["addressDeatils"]["state"] = address.state
+                    orderObj["addressDeatils"]["country"] = address.country
+                    orderObj["addressDeatils"]["pincode"] = address.pincode
+                orderProduct = db.query("select * from orderProduct where orderId ="+str(order.id))
+                for product in  orderProduct:
+                    eachproduct = {}
+                    myproduct = db.query("select * from product where id="+str(product.productId))
+                    for eachpro in myproduct:
+                        prod_json ={}
+                        prod_json["quantity"] = product.quantity
+                        prod_json["id"] =  eachpro.id
+                        prod_json["productCode"] = eachpro.productCode
+                        prod_json["name"] =  eachpro.name
+                        prod_json["price"] = eachpro.price
+                        prod_json["currency"] = eachpro.currency
+                        prod_json["is_available"] = eachpro.is_available
+                        prod_json["is_todaysSpecial"] = eachpro.is_todaysSpecial
+                        prod_json["is_active"] = eachpro.is_active
+                        prod_json["description"] = eachpro.description
+                        prod_json["is_sale"] = eachpro.is_sale
+                        prod_json["sale_price"] = eachpro.sale_price
+                        featured_product_data_image = db.query('''
+                                            select * from product p
+                                            inner join productImage as pi on p.id = pi.productId
+                                            where p.id = $id
+                                            LIMIT 1''',vars={"id":eachpro.id})
+                        for image in featured_product_data_image:
+                            prod_json["imagelink"] = image.imagelink
+                            prod_json["swapImage"] = image.swapImage
+                            prod_json["thumbnailImage"] = image.thumbnailImage
+                        orderObj["products"].append(prod_json)
+                ordersList.append(orderObj)
+            pyDict = {'code':'200','status':'Success','Orders':ordersList}  
+            return json.dumps(pyDict)  
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+        
+
+class GetAllOrder:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','*')
+        web.header('Content-Type', 'application/json')
+        ordersList =[]
+        try:
+            orders = db.query("select * from userOrder") 
+            for order in orders:
+                orderObj = {}
+                orderObj["id"] = order.id
+                orderObj["userId"] = order.userId
+                orderObj["offerId"] = order.offerId
+                orderObj["orderStatus"] = order.orderStatus
+                orderObj["addressId"]=order.addressId
+                orderObj["addressDeatils"] = {}
+                orderObj["products"] = []
+                user_address = db.query("select * from address where id="+str(order.addressId))
+                for address in user_address:
+                    orderObj["addressDeatils"]["streetAddress"] = address.streetAddress
+                    orderObj["addressDeatils"]["city"] = address.city
+                    orderObj["addressDeatils"]["state"] = address.state
+                    orderObj["addressDeatils"]["country"] = address.country
+                    orderObj["addressDeatils"]["pincode"] = address.pincode
+                orderProduct = db.query("select * from orderProduct where orderId ="+str(order.id))
+                for product in  orderProduct:
+                    eachproduct = {}
+                    myproduct = db.query("select * from product where id="+str(product.productId))
+                    for eachpro in myproduct:
+                        prod_json ={}
+                        prod_json["quantity"] = product.quantity
+                        prod_json["id"] =  eachpro.id
+                        prod_json["name"] =  eachpro.name
+                        prod_json["price"] = eachpro.price
+                        prod_json["currency"] = eachpro.currency
+                        prod_json["is_available"] = eachpro.is_available
+                        prod_json["is_todaysSpecial"] = eachpro.is_todaysSpecial
+                        prod_json["is_active"] = eachpro.is_active
+                        prod_json["description"] = eachpro.description
+                        prod_json["is_sale"] = eachpro.is_sale
+                        prod_json["sale_price"] = eachpro.sale_price
+                        featured_product_data_image = db.query('''
+                                            select * from product p
+                                            inner join productImage as pi on p.id = pi.productId
+                                            where p.id = $id
+                                            LIMIT 1''',vars={"id":eachpro.id})
+                        for image in featured_product_data_image:
+                            prod_json["imagelink"] = image.imagelink
+                            prod_json["swapImage"] = image.swapImage
+                            prod_json["thumbnailImage"] = image.thumbnailImage
+                        orderObj["products"].append(prod_json)
+                ordersList.append(orderObj)
+            pyDict = {'code':'200','status':'Success','Orders':ordersList}  
+            return json.dumps(pyDict)  
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+        
+
+class PlaceOrder:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+        # web.header('Content-Type', 'application/json')
         data =json.loads(web.data())# to read raw data   
         try:
             createdAt = str(datetime.datetime.now())
             delivaryDate = str(datetime.datetime.now().date())
             orderStatus = "Fail"
-            cart_id = db.insert('order',userId = data['userId'],orderValue=data['orderValue'],orderStatus=data['orderStatus'],addressId=data['addressId'],paymentMethod='COD')            
+            #cart_id = db.query("Insert into order (userId, orderValue, orderStatus,addressId, paymentMethod) values ("+str(data['userId'])+","+str(data['orderValue'])+",'"+data['orderStatus']+"',"+str(data['addressId'])+",'COD')")
+            cart_id = db.insert('userOrder',userId = data['userId'],orderValue=data['orderValue'],orderStatus=data['orderStatus'],addressId=data['addressId'],paymentMethod='COD')            
             for products in data["cart"]:
                 db.insert('orderProduct',orderId=cart_id,productId=products['productId'],quantity=products['quantity'],createdAt=createdAt)
             if cart_id:
@@ -1024,9 +1172,10 @@ class PlaceOrder:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
-        web.header('Content-Type', 'application/json')
-        return 0
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        return "Options Method only supported. No Authorization Required"
     def GET(self):
         return "Get Method only supported. No Authorization Required"
 if __name__ == "__main__": 

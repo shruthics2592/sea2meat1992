@@ -357,13 +357,36 @@
 	});
 // Main Controller Ends here
 
-	scotchApp.controller('orderHistoryController', function($scope,$window,$http) {
+	scotchApp.controller('orderHistoryController', function($scope,$window,$http,toaster) {
+		$scope.myorder = []
+		$scope.selectedOrder = []
+		$scope.selectedOrderfun = function(order){
+			$scope.selectedOrder = order.products
+		}
 		$scope.getOrderHistory = function(){
-			$http.get($scope.server + '/app/order_history').success(function(response, status, headers) {
-				console.log("product",response)
-			}).error(function(response, status, headers) {
+			var user = JSON.parse(localStorage.getItem("userDetails"))
+			if(user){
+				$http.get($scope.server + 'app/getmyorder/'+user.id).success(function(response, status, headers) {
+					console.log("product",response)
+					if(response.code == 200 || response.code == "200"){
+						$scope.myorder = response.Orders
+					}else{
+						toaster.pop({
+							type: 'error',
+							title: 'No orders',
+							body: "No orders yet!",
+							timeout: 3000
+						});
+						
+					}
+					
+
+				}).error(function(response, status, headers) {
+				
+				});
+
+			}
 			
-			});
 		}
 
 		$scope.getOrderHistory()
@@ -381,7 +404,10 @@
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
 		$scope.registerUser = function(){
-			$http.post($scope.server + 'app/register', $scope.registerData).success(function(response, status, headers) {
+			var headers = {
+				'Content-Type': "application/json"
+			  }
+			$http.post($scope.server + 'app/register', $scope.registerData,headers).success(function(response, status, headers) {
 				if(response.code == 200){
 					localStorage.setItem("userDetails",JSON.stringify(response.user))
 					localStorage.setItem("is_logged_in",true)

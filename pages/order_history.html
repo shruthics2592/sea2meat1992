@@ -1,18 +1,21 @@
 
-  
-  <div class="container">
-    <div class="bread-crumb mtb-30 center-xs">
-      <div class="page-title">Order History</div>
-      <div class="bread-crumb-inner right-side float-none-xs">
-        <ul>
-            <li><a href=""><i class="fa fa-home"></i></a></li>
-            <li><a href="">Account</a></li>
-            <li><a href="">Order History</a></li>
-          </ul>
+   
+    <div class="bread-crumb mb-60">
+        <div class="container align-center">
+          <div class="page-title">Order History</div>
+          <div class="bread-crumb-inner">
+            <ul>
+                <li><a href=""><i class="fa fa-home"></i></a></li>
+                <li><a href="">Account</a></li>
+                <li><a href="">Order History</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+  <div class="container">
+   
     <div class="row">                
-      <div id="content" class="col-sm-8">      
+      <div id="content" class="col-sm-12" ng-if="myorder.length > 0">      
         <div class="heading-bg mb-20"> 
          <h2 class="heading m-0">Order History</h2>
         </div> 
@@ -21,7 +24,7 @@
             <thead>
               <tr>
                 <td class="text-right">Order ID</td>
-                <td class="text-left">Customer</td>
+                <td class="text-right">Address</td>
                 <td class="text-right">No. of Products</td>
                 <td class="text-left">Status</td>
                 <td class="text-right">Total</td>
@@ -30,42 +33,62 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-right">#8</td>
-                <td class="text-left">Kathir Jayam</td>
-                <td class="text-right">1</td>
-                <td class="text-left">Pending</td>
-                <td class="text-right">$252.00</td>
-                <td class="text-left">24/01/2018</td>
-                <td class="text-right"><a href="" data-toggle="tooltip" title="View" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+              <tr ng-repeat="order in myorder">
+                <td class="text-right">{{order.id}}</td>
+                <td class="text-right">{{order.addressDeatils.streetAddress}},{{order.addressDeatils.city}} {{order.addressDeatils.state}} {{order.addressDeatils.country}} - {{order.addressDeatils.pincode}}</td>
+                <td class="text-left">{{order.products.length}}</td>
+                <td class="text-right">{{order.orderStatus}}</td>
+                <td class="text-left">{{order.orderValue}}</td>
+                <td class="text-right">{{order.createdAt}}</td>
+                <td class="text-right">  
+                  <button type="button" class="btn btn-info" ng-click="selectedOrderfun(order)">View Products</button>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="row">
-          <div class="col-sm-6 text-left"></div>
-          <div class="col-sm-6 text-right">Showing 1 to 1 of 1 (1 Pages)</div>
-        </div>
-        <div class="buttons clearfix">
-          <div class="pull-right"><a href="" class="btn btn-black">Continue</a></div>
-        </div>
       </div>
-      <aside id="column-right" class="col-md-4 col-sm-4 mb-xs-30 sidebar-block">
-        <div class="list-group">
-          <a href="#my_account" class="list-group-item">My Account</a>
-          <a href="#edit_account" class="list-group-item">Edit Account</a> 
-          <a href="#change_password" class="list-group-item">Password</a>
-          <a href="#address_book" class="list-group-item">Address Book</a> 
-          <a href="#wish_list" class="list-group-item">Wish List</a> 
-          <a href="#order_history" class="list-group-item">Order History</a> 
-          <a href="#downloads" class="list-group-item">Downloads</a>
-          <a href="#recurring_payments" class="list-group-item">Recurring payments</a>
-          <a href="#reward_points" class="list-group-item">Reward Points</a> 
-          <a href="#returns" class="list-group-item">Returns</a> 
-          <a href="#transactions" class="list-group-item">Transactions</a> 
-          <a href="#newsletter" class="list-group-item">Newsletter</a>
-          <a href="#logout" class="list-group-item">Logout</a>
+      <div id="content" class="col-sm-12" ng-if="selectedOrder.length > 0">      
+          <div class="heading-bg mb-20"> 
+           <h2 class="heading m-0">Selected Order Products</h2>
+          </div> 
+            <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td class="text-right">Product ID</td>
+                  <td class="text-right">Product Code</td>
+                  <td class="text-right">Product Name</td>
+                  <td class="text-left">Quantity</td>
+                  <td class="text-right">Total</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="order in selectedOrder">
+                  <td class="text-right">{{order.id}}</td>
+                  <td class="text-right">{{order.productCode}}</td>
+                  <td class="text-left">{{order.name}}</td>
+                  <td class="text-right">{{order.quantity}}</td>
+                  <td class="text-left">{{order.quantity * order.price}}</td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </aside>
+
+     
+
+      <div>
+          <div class="heading-bg mb-20" ng-if="myorder.length <= 0"> 
+              <h2 class="heading m-0">Order is empty</H3></h2>
+          </div> 
+
+      </div>
+
+
+     
     </div>
   </div>
+
+ 
