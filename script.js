@@ -914,9 +914,8 @@ var wish =[]
 		$scope.getAddress()	
 
 		$scope.confirmorder = function(){
-			var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
 
-			$http.post($scope.server + "app/order",JSON.stringify(cartDetails)).success(function(response, status, headers) {
+			$http.post($scope.server + "app/order",JSON.stringify($scope.cartDetails)).success(function(response, status, headers) {
 				$window.location.href = "#/confirmorder"
 
 			}).error(function(response, status, headers) {

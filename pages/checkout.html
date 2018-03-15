@@ -72,19 +72,18 @@
           <div class="panel-collapse collapse in" id="collapse-shipping-address" aria-expanded="true">
             <div class="panel-body"><form class="form-horizontal">
     <div class="radio">
-    <label>
-      <input type="radio" value="existing"  ng-If="my_address.length > 0">
+    <label ng-If="my_address.length > 0">
       I want to use an existing address</label>
   </div>
   <div>
-    <select class="form-control" ng-If="my_address.length > 0">
-                  <option value="8" ng-repeat="address in my_address">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</option>
+    <select class="form-control" ng-If="my_address.length > 0" ng-model="cartDetails.addressId">
+                  
+                  <option  ng-repeat="address in my_address" value="{{address.id}}">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</option>
                 </select>
   </div>
   <div class="radio">
     <label>
-      <input type="radio" value="new">
-      <a href="#/address_book">I want to use a new address</a></label>
+      <a href="#/address_book">I want to Add a new address</a></label>
   </div>
     <br>
   <div class="buttons clearfix">

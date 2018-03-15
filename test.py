@@ -1001,12 +1001,14 @@ class PlaceOrder:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = json.loads(web.input()) # to read raw data   
+        data =json.loads(web.data())# to read raw data   
 
+        print data
         try:
-            createdAt = datetime.date.today()
+            createdAt = str(datetime.datetime.now())
+            delivaryDate = str(datetime.datetime.now().date())
             orderStatus = "Fail"
-            cart_id = db.insert("order",userId=data["userId"],orderValue=data["orderValue"],offerId=data["offerId"],createdAt=createdAt,orderStatus=data["orderStatus"],delivaryDate=data["delivaryDate"])
+            cart_id = db.insert('order', userId=data["userId"],orderValue=data["orderValue"],offerId=data["offerId"],createdAt=createdAt,orderStatus=data["orderStatus"],delivaryDate=delivaryDate,addressId=data["addressId"],paymentMethod="COD")
             for products in data["cart"]:
                 db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,createdAt=createdAt)
             if cart_id:
