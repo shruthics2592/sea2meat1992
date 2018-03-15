@@ -55,7 +55,7 @@
               <div id="product" class="mt-30">
                 <div class="form-group">
                   <label class="control-label" for="input-quantity">Qty</label>
-                  <input type="text" mg-model="quantity" name="quantity"  size="2" id="input-quantity" class="form-control" />
+                  <input type="number" ng-model="cart.quantity" name="quantity"  id="input-quantity" class="form-control" required />
                   <br />
                   <div class="button-group main-product-btn product-item-action">
                     <button ng-click="addtocart(product)" class="addtocart btn-black" type="button" id="button-cart" data-loading-text="Loading..."><span class="icon" ></span>Add to Cart</button>

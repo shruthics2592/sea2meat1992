@@ -673,8 +673,8 @@ class GetFeaturedProducts:
                                     where p.id = $id
                                     LIMIT 1''',vars={"id":product.pid})
                 for image in featured_product_data_image:
-                    print "::::Image::"
-                    print image
+                    
+                    
                     prod_json["imagelink"] = image.imagelink
                     prod_json["swapImage"] = image.swapImage
                     prod_json["thumbnailImage"] = image.thumbnailImage
@@ -1238,20 +1238,17 @@ class PlaceOrder:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
-        data = web.input() # to read raw data   
-        print("place order")
-        pyDict = {'code':'201','status':'fail','message':""}            
-        response =json.dumps(pyDict)
-
+        data =json.loads(web.data())# to read raw data   
         try:
-            createdAt = datetime.date.today()
+            createdAt = str(datetime.datetime.now())
+            delivaryDate = str(datetime.datetime.now().date())
             orderStatus = "Fail"
-            cart_id = db.insert("order",userId=data["userId"],orderValue=data["orderValue"],offerId=data["offerId"],createdAt=createdAt,orderStatus=data["orderStatus"],delivaryDate=data["delivaryDate"])
+            cart_id = db.insert('order',userId = data['userId'],orderValue=data['orderValue'],orderStatus=data['orderStatus'],addressId=data['addressId'],paymentMethod='COD')            
             for products in data["cart"]:
-                db.insert("orderProduct",orderId=cart_id,productId=products.productId,quantity=products.quantity,createdAt=createdAt)
+                db.insert('orderProduct',orderId=cart_id,productId=products['productId'],quantity=products['quantity'],createdAt=createdAt)
             if cart_id:
                 orderStatus = "Placed"
-            db.insert("orderHistory",orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
+            db.insert('orderHistory',orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
             
             pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
             return json.dumps(pyDict)  

@@ -25,7 +25,7 @@
  
     <div class="col-sm-12">
       <fieldset>
-        <legend>Your Personal Details</legend>
+        <legend>Your Personal Details </legend>
         <div class="form-group" style="display: none;">
           <label class="control-label">Customer Group</label>
                           <div class="radio">
@@ -72,19 +72,18 @@
           <div class="panel-collapse collapse in" id="collapse-shipping-address" aria-expanded="true">
             <div class="panel-body"><form class="form-horizontal">
     <div class="radio">
-    <label>
-      <input type="radio" value="existing"  ng-If="my_address.length > 0">
-      I want to use an existing address</label>
+    <label ng-If="my_address.length > 0">
+      <b>I want to use an existing address</b></label>
   </div>
   <div>
-    <select class="form-control" ng-If="my_address.length > 0">
-                  <option value="8" ng-repeat="address in my_address">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</option>
+    <select class="form-control" ng-If="my_address.length > 0" ng-model="cartDetails.addressId">
+                  
+                  <option  ng-repeat="address in my_address" value="{{address.id}}">{{address.streetAddress}},{{address.city}},{{address.state}},{{address.pincode}},{{address.country}}({{address.addressType}})</option>
                 </select>
   </div>
   <div class="radio">
     <label>
-      <input type="radio" value="new">
-      <a href="#/address_book">I want to use a new address</a></label>
+      <a href="#/address_book">I want to Add a new address</a></label>
   </div>
     <br>
   <div class="buttons clearfix">
@@ -99,7 +98,7 @@
 </div>
           </div>
         </div>
-          <div class="panel panel-default">
+          <!-- <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title"><a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 4: Delivery Method <i class="fa fa-caret-down"></i></a></h4>
           </div>
@@ -122,10 +121,10 @@
 </div>
 </div>
           </div>
-        </div>
+        </div> -->
           <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 5: Payment Method <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 3: Payment Method <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div class="panel-collapse collapse in" id="collapse-payment-method" aria-expanded="true" style="">
             <div class="panel-body"><p>Please select the preferred payment method to use on this order.</p>
@@ -134,12 +133,12 @@
             <input type="radio" value="cod" checked="checked">
         Cash On Delivery      </label>
 </div>
-<p><strong>Add Comments About Your Order</strong></p>
+<!-- <p><strong>Add Comments About Your Order</strong></p>
 <p>
   <textarea name="comment" rows="8" class="form-control"></textarea>
-</p>
+</p> -->
 <div class="buttons">
-  <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Terms &amp; Conditions</b></a>        <input type="checkbox">
+  <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Terms &amp; Conditions</b></a>        <input type="checkbox" ng-model="cartDetails.termsandCondition">
         &nbsp;
     <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black" />
   </div>
@@ -149,7 +148,7 @@
         </div>
           <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a href="#collapse-checkout-confirm" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 6: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a href="#collapse-checkout-confirm" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Step 4: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div class="panel-collapse collapse in" id="collapse-checkout-confirm" aria-expanded="true">
             <div class="panel-body"><div class="table-responsive">
@@ -157,42 +156,42 @@
     <thead>
       <tr>
         <td class="text-left">Product Name</td>
-        <td class="text-left">Model</td>
+        <td class="text-left">Product Code</td>
         <td class="text-right">Quantity</td>
         <td class="text-right">Unit Price</td>
         <td class="text-right">Total</td>
       </tr>
     </thead>
     <tbody>
-            <tr>
-        <td class="text-left"><a href="">iPod Classic</a>
+            <tr ng-repeat="eachpro in cartDetails.cart">
+        <td class="text-left"><a href="">{{eachpro.itemdetails.name}}</a>
                     </td>
-        <td class="text-left">product 20</td>
-        <td class="text-right">1</td>
-        <td class="text-right">$122.00</td>
-        <td class="text-right">$122.00</td>
+        <td class="text-left">{{eachpro.itemdetails.productCode}}</td>
+        <td class="text-right">{{eachpro.quantity}}</td>
+        <td class="text-right">{{eachpro.itemdetails.currency}}: {{eachpro.itemdetails.price}}</td>
+        <td class="text-right">{{eachpro.itemdetails.currency}}: ({{eachpro.quantity * eachpro.itemdetails.price}})</td>
       </tr>
                 </tbody>
     <tfoot>
             <tr>
         <td colspan="4" class="text-right"><strong>Sub-Total:</strong></td>
-        <td class="text-right">$100.00</td>
+        <td class="text-right">{{cartDetails.orderValue}}</td>
       </tr>
             <tr>
         <td colspan="4" class="text-right"><strong>Flat Shipping Rate:</strong></td>
-        <td class="text-right">$5.00</td>
+        <td class="text-right">{{taxDeatils.Shipping}}</td>
       </tr>
             <tr>
-        <td colspan="4" class="text-right"><strong>Eco Tax (-2.00):</strong></td>
-        <td class="text-right">$4.00</td>
+        <td colspan="4" class="text-right"><strong>Eco Tax:</strong></td>
+        <td class="text-right">{{taxDeatils.eco_tax}}</td>
       </tr>
             <tr>
-        <td colspan="4" class="text-right"><strong>VAT (20%):</strong></td>
-        <td class="text-right">$21.00</td>
+        <td colspan="4" class="text-right"><strong>VAT:</strong></td>
+        <td class="text-right">{{taxDeatils.Vat}}</td>
       </tr>
             <tr>
         <td colspan="4" class="text-right"><strong>Total:</strong></td>
-        <td class="text-right">$130.00</td>
+        <td class="text-right">{{cartDetails.orderValue + taxDeatils.Shipping + taxDeatils.eco_tax + taxDeatils.Vat}}</td>
       </tr>
           </tfoot>
   </table>

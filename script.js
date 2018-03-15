@@ -1,5 +1,5 @@
 	// create the module and name it scotchApp
-	var scotchApp = angular.module('scotchApp', ['ngRoute','toastr']);
+	var scotchApp = angular.module('scotchApp', ['ngRoute','toaster']);
 
 	// configure our routes
 	scotchApp.config(function($routeProvider) {
@@ -172,9 +172,19 @@
 			// });
 		
 
-		$scope.server = "http://172.104.50.54:8080/"
+		//$scope.server = "http://172.104.50.54:8080/"
+		$scope.server = "http://sea2meat.com:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
+
+		if(localStorage.getItem("userDetails")){
+			$scope.user = true
+			$scope.userName = JSON.parse(localStorage.getItem("userDetails"))
+
+		}else{
+			$scope.user = false
+		}
+		
 
 		//------------- Adding into Cart ------------------- //
 		$scope.showAddItem = function(item){
@@ -362,11 +372,11 @@
 		
 	});
 
-	scotchApp.controller('contactController', function($scope,$window,$http) {
+	scotchApp.controller('confirmorderController', function($scope,$window,$http) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
 
-	scotchApp.controller('registerController', function($scope,$window,$http) {
+	scotchApp.controller('registerController', function($scope,$window,$http,toaster) {
 		console.log("I am in register controller")
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 		$scope.registerData = {"firstName":"","lastName":"","mobile":"","fax":"","email":"","company":"","is_admin":0,"subscription":false,"street":"","pincode":"","city":"","country":"","password":"","confirmpassword":"","state":"","subcriptionYes":"","subcriptionNo":""}
@@ -376,12 +386,25 @@
 					localStorage.setItem("userDetails",JSON.stringify(response.user))
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
-					alert('Hello! Welcome', 'Registered Successfully!');
+					toaster.pop({
+						type: 'success',
+						title: 'Hello! Welcome',
+						body: "Registered Successfully!",
+						timeout: 3000
+					});
+					$window.location.href = '#/my_account';
+                    $window.location.reload()
 					
 				}else{
 					localStorage.setItem("is_logged_in",false)
 					$scope.is_logged_in = false
 					alert('Hello! Register', 'Invalid User Credentials!');
+					toaster.pop({
+						type: 'success',
+						title: 'Hello! Register',
+						body: "Invalid User Credentials!",
+						timeout: 3000
+					});
 
 				}
 				
@@ -391,7 +414,7 @@
 		}
 	});
 
-	scotchApp.controller('loginController', function($scope,$window,$http,toastr,$window) {
+	scotchApp.controller('loginController', function($scope,$window,$http,toaster,$window) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 		if(user){
 			$window.location.href = '#/my_account';
@@ -402,7 +425,9 @@
 		}
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-		$scope.server = "http://172.104.50.54:8080/";
+//		$scope.server = "http://172.104.50.54:8080/";
+		$scope.server = "http://sea2meat.com:8080/"
+
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
 		$scope.login = function(){
@@ -413,6 +438,12 @@
 					localStorage.setItem("is_logged_in",true)
 					$scope.is_logged_in = true
 					console.log( 'Logged in Successfully!');
+					toaster.pop({
+						type: 'success',
+						title: 'Logged in Successfully!',
+						body: "Logged In",
+						timeout: 3000
+					});
 					$window.location.href = '#/my_account';
 				}else{
 					localStorage.setItem("is_logged_in",false)
@@ -571,7 +602,7 @@ var wish =[]
 
 	});
 
-	scotchApp.controller('AddWishListController', function($scope,$window,$http) {
+	scotchApp.controller('AddWishListController', function($scope,$window,$http,toaster) {
 
 		$scope.getwishList = function(){
 			$http.get($scope.server + 'app/getwish?id='+user.id).success(function(response) {
@@ -593,29 +624,38 @@ var wish =[]
 			
 		}
 		
-		$scope.addWish = function(type){
-			if($scope.wish_list.length==0)	{
-				$scope.adding(type)
-			}
-			angular.forEach($scope.wish_list, function(item){
-				// var obj = {};
-				// var valObj = {};
+		// $scope.addWish = function(type){
+		// 	if($scope.wish_list.length==0)	{
+		// 		$scope.adding(type)
+		// 	}
+		// 	angular.forEach($scope.wish_list, function(item){
+		// 		// var obj = {};
+		// 		// var valObj = {};
 
-				// valObj.id = item.id;
+		// 		// valObj.id = item.id;
 				
-				console.log("item.id==type",item.id,type,item)
-				if(item.id==type)return false;
-				$scope.adding(type)
-			});
+		// 		console.log("item.id==type",item.id,type,item)
+		// 		if(item.id==type)return false;
+		// 		$scope.adding(type)
+		// 	});
 				
 			
-		}
+		// }
 
-		$scope.adding = function(type){
+		$scope.addWish = function(type){
 			var user = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
 				$http.post($scope.server + 'app/addwish?user_id='+user.id+'&prod_id='+type).success(function(response) {
 					$scope.getwishList()
+					toaster.pop({
+						type: 'success',
+						title: 'Added to your wishList',
+						body: "Wish List",
+						timeout: 3000
+					});
+
+					$window.location.href = '#/wish_list';	
+
 				}).error(function(response) {
 				
 				});
@@ -637,8 +677,8 @@ var wish =[]
 
 	
 
-	scotchApp.controller('addPeoductController', function($scope,$window,$http,$routeParams) {
-		$scope.quantity = 1;
+	scotchApp.controller('addPeoductController', function($scope,$window,$http,$routeParams,toaster) {
+		$scope.cart = {"quantity":1};
 		$('.thumbnails').magnificPopup({
     		type:'image',
     		delegate: 'a',
@@ -661,7 +701,11 @@ var wish =[]
 			
 		}		
 		
-		var cartDetails = JSON.parse(localStorage.getItem('cartDetails'))
+		var cartDetails = null
+		if(localStorage.getItem('cartDetails') !="" || localStorage.getItem('cartDetails')){
+			 cartDetails = JSON.parse(localStorage.getItem('cartDetails'))
+
+		}
 		if(cartDetails){
 			$scope.cartDetails = cartDetails
 		}else{
@@ -670,11 +714,31 @@ var wish =[]
 		}
 		$scope.addtocart =  function(item){
 			var productDetails = {}
-			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.quantity * item.price)
+			var price = item.price
+			if(item.is_sale && item.sale_price){
+				price = item.sale_price
+
+			}
+			$scope.cartDetails.orderValue = $scope.cartDetails.orderValue + ($scope.cart.quantity * price)
 			productDetails["productId"] = item.id
-			productDetails["quantity"] = $scope.quantity
-			$scope.cartDetails.cart.push(productDetails)
-            localStorage.setItem("cartDetails",JSON.stringify($scope.cartDetails))
+			productDetails["quantity"] = $scope.cart.quantity
+			productDetails["itemdetails"] = item
+			var index = $scope.cartDetails.cart.findIndex(eachele => eachele.productId == item.id)
+			if (index > -1){
+				console.log($scope.cartDetails.cart[index])
+				$scope.cartDetails.cart[index]['quantity'] = $scope.cartDetails.cart[index]['quantity'] + $scope.cart.quantity
+			} else{
+				$scope.cartDetails.cart.push(productDetails)
+
+			}
+			localStorage.setItem("cartDetails",JSON.stringify($scope.cartDetails))
+			toaster.pop({
+				type: 'success',
+				title: 'Item is added to cart',
+				body: "Please check cart to checkout",
+				timeout: 3000
+			});
+			$window.location.reload()
 		}
 
 		$scope.continueShopping = function(){
@@ -697,7 +761,7 @@ var wish =[]
 
 
 	
-	scotchApp.controller('edit_accountController', function($scope,$window,$http) {
+	scotchApp.controller('edit_accountController', function($scope,$window,$http,toaster) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 		if(user){
 		}else{
@@ -716,13 +780,19 @@ var wish =[]
 			$http.post($scope.server + 'app/editaccount?email='+$scope.email+'&mobile='+$scope.mobile+'&firstname='+$scope.firstname+'&lastname='+$scope.lastname+'&fax='+$scope.fax+'&id='+$scope.id).success(function(response, status, headers) {
 				console.log("product",response)
 				localStorage.setItem("userDetails",JSON.stringify(response.user))
+				toaster.pop({
+					type: 'success',
+					title: 'Updated Account',
+					body: "Account",
+					timeout: 3000
+				});
 			}).error(function(response, status, headers) {
 			
 			});
 		}
 
 	});	
-	scotchApp.controller('change_passwordController', function($scope,$window,$http) {
+	scotchApp.controller('change_passwordController', function($scope,$window,$http,toaster) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 		if(user){
 		}else{
@@ -748,13 +818,19 @@ var wish =[]
 			
 			$http.post($scope.server + 'app/editpassword?id='+$scope.id+'&password='+$scope.password).success(function(response, status, headers) {
 				console.log("product",response)
+				toaster.pop({
+					type: 'success',
+					title: 'Updated Password',
+					body: "Password",
+					timeout: 3000
+				});
 			}).error(function(response, status, headers) {
 			
 			});
 		}
 	});
 
-	scotchApp.controller('address_bookController', function($scope,$window,$http) {
+	scotchApp.controller('address_bookController', function($scope,$window,$http,toaster) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 		$scope.edit = false
 		$scope.addAddress = false
@@ -796,6 +872,12 @@ var wish =[]
 					$scope.getAddress()	
 					$scope.data = {}
 					$scope.edit = false
+					toaster.pop({
+						type: 'success',
+						title: 'Edited Address',
+						body: "Address",
+						timeout: 3000
+					});
 				}).error(function(response, status, headers) {
 				
 				});
@@ -813,6 +895,12 @@ var wish =[]
 					$scope.getAddress()	
 					$scope.data = {}
 					$scope.add = false
+					toaster.pop({
+						type: 'success',
+						title: 'Added Address',
+						body: "Address",
+						timeout: 3000
+					});
 				}).error(function(response, status, headers) {
 				
 				});
@@ -820,30 +908,39 @@ var wish =[]
 
 		$scope.deleteAddress = function(address){
 			
-				console.log(address)
 				$http.delete($scope.server + 'app/addaddress?id='+address.id).success(function(response, status, headers) {
 					console.log("address",response)
 					$scope.getAddress()	
 					$scope.data = {}
 					$scope.add = false
+					toaster.pop({
+						type: 'success',
+						title: 'Deleted Address',
+						body: "Address",
+						timeout: 3000
+					});
 				}).error(function(response, status, headers) {
 				
 				});
 		}
 
 		$scope.getAddress = function(){
-			$scope.user_id = user.id
+			if(user){
+				$scope.user_id = user.id
 			$http.get($scope.server + 'app/getaddress?id='+$scope.user_id).success(function(response, status, headers) {
 				console.log("address",response)
 				$scope.my_address = response
 			}).error(function(response, status, headers) {
 			
 			});
+
+			}
+			
 		}
 		$scope.getAddress()	
 	});
 	
-	scotchApp.controller('newsletterController', function($scope,$window,$http) {
+	scotchApp.controller('newsletterController', function($scope,$window,$http,toaster) {
 		var user = JSON.parse(localStorage.getItem("userDetails"))
 		if(user){
 		}else{
@@ -857,46 +954,103 @@ var wish =[]
 			// radiobtn.checked = $scope.subs;
 		$scope.setSubscription = function(){
 			$http.post($scope.server + 'app/updatenewsletter?id='+$scope.id+'&subscription='+$scope.subs).success(function(response, status, headers) {
-				console.log("Subscription",response)
 				localStorage.setItem("userDetails",JSON.stringify(response.user))
+				toaster.pop({
+					type: 'success',
+					title: 'Updated Subscription',
+					body: "Subscription",
+					timeout: 3000
+				});
+
 			}).error(function(response, status, headers) {
 			
 			});
 		}
 	});
 
-	scotchApp.controller('checkoutController', function($scope,$window,$http) {
+	scotchApp.controller('checkoutController', function($scope,$window,$http,toaster) {
 	  $scope.user = JSON.parse(localStorage.getItem("userDetails"))
-		
+	  $scope.taxDeatils = {"Shipping":5.00,"Vat":4.00,"eco_tax":2.00}
+
 		if($scope.user){
 		}else{
 			$window.location.href = '#/login';
 			
 		}
+		var cartDetails = {}
+	   if(localStorage.getItem("cartDetails") && localStorage.getItem("cartDetails") != ""){
+		cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
 
-	   var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
-	   console.log(cartDetails,":::cartDetails")
+	   }
+	   $scope.cartDetails = cartDetails
+
+	   $scope.getCartValue = function(){
+
+	   }
 		
 		$scope.getAddress = function(){
-			$scope.user_id = $scope.user.id
+			if($scope.user){
+				$scope.user_id = $scope.user.id
 			$http.get($scope.server + 'app/getaddress?id='+$scope.user_id).success(function(response, status, headers) {
-				console.log("address",response)
 				$scope.my_address = response
 			}).error(function(response, status, headers) {
 			
 			});
+
+			}
+			
 		}
 		$scope.getAddress()	
 
 		$scope.confirmorder = function(){
-			var cartDetails = JSON.parse(localStorage.getItem("cartDetails"))
 
-			$http.post($scope.server + "app/order",JSON.stringify(cartDetails)).success(function(response, status, headers) {
-				$window.location.href = "#/confirmorder"
+			if($scope.cartDetails.addressId && $scope.cartDetails.termsandCondition && $scope.cartDetails.userId){
 
-			}).error(function(response, status, headers) {
+				$http.post($scope.server + "app/order",JSON.stringify($scope.cartDetails)).success(function(response, status, headers) {
+					$window.location.href = "#/confirmorder"
+	
+				}).error(function(response, status, headers) {
+				
+				});
+			}else{
+				if(!$scope.cartDetails.addressId){
+					//alert("Please Select address")
+					toaster.pop({
+						type: 'error',
+						title: 'Please Select address',
+						body: "Address",
+						timeout: 3000
+					});
+				}else if(!$scope.cartDetails.termsandCondition){
+					toaster.pop({
+						type: 'error',
+						title: 'Please Check Tearms and Condition',
+						body: "Terms And Condition",
+						timeout: 3000
+					});
+				}
+				else if(!$scope.cartDetails.userId){
+					toaster.pop({
+						type: 'error',
+						title: 'Please Login to checkout the order',
+						body: "Login",
+						timeout: 3000
+					});
+					alert("")
+
+
+				}else{
+					toaster.pop({
+						type: 'error',
+						title: 'Please Contact admin',
+						body: "Admin",
+						timeout: 3000
+					});
+				}
+				
+			}
+
 			
-			});
 		}
 
 
