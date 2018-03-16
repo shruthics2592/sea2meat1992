@@ -775,22 +775,123 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 			
 	});
-		
-		
-adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
-	$rootScope.test = true
-	var user   = JSON.parse(localStorage.getItem("userDetails"))
 
-	if(user){
-		
-	}else{
 
-		$window.location.href = '#/login';
-		
-	}
-	$scope.message = 'in users controller';
+	adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
+		$rootScope.test = true
+		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
+			if(user){
+				
+			}else{
+	
+				$window.location.href = '#/login';
+				
+			}
+			$scope.gridOptions = {}
+		$scope.getAllOrders = function () {
+			$http.get($scope.server + 'app/getallorder').success(function(response, status, headers) {
+				if(response.code == 200 || response.code == "200"){
+					$scope.myorders = response.Orders
+				}
+				
+			}).error(function(response, status, headers) {
+			
+			});	
+		};
+
+		$scope.getAllOrders();
+		
+		var columnDefs = [
+					
+					
+					{
+						headerName: 'Basic Info',
+							children: [
+								{headerName: "Id",editable: false, field: "id",
+											width: 150, pinned: true},
+									{headerName: "First Name", field: "firstname",
+											width: 150, pinned: true},
+											{headerName: "Last Name", field: "lastname",
+											width: 150, pinned: true},
+									{headerName: "Email",editable: false, field: "email", width: 150, pinned: true,
+											filterParams: { cellHeight: 20}},
+							]
+					},
+					
+					{
+							headerName: 'Contact',
+							children: [
+									{headerName: "Mobile", field: "mobile", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Fax", field: "fax", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Company", field: "company", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Created At",editable: false, field: "createdAt", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Updated At",editable: false, field: "updatedAt", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Admin",editable: false, field: "admin", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Subscription", field: "subscription", width: 150, filter: 'agTextColumnFilter'},
+							]
+					}
+			];
+
+			$scope.gridOptions = {
+					columnDefs: columnDefs,
+					rowData: [],
+					rowSelection: 'multiple',
+					enableColResize: true,
+					enableSorting: true,
+					enableFilter: true,
+					onModelUpdated: $scope.onModelUpdated,
+					defaultColDef: {
+						editable: true
+					},
+					onCellEditingStarted: function(event) {
+						console.log('cellEditingStarted',event);
+				},
+				onCellEditingStopped: function(event) {
+							// $http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
+							// 	console.log("product",response)
+							// 	localStorage.setItem("userDetails",JSON.stringify(response.user))
+							// }).error(function(response, status, headers) {
+							// });
+							
+				},
+					suppressRowClickSelection: true
+			};
+			
+			 $scope.onModelUpdated = function() {
+					var model = $scope.gridOptions.api.getModel();
+					var totalRows = $scope.gridOptions.rowData.length;
+					var processedRows = model.getRowCount();
+					$scope.rowCount = processedRows.toLocaleString() + ' / ' + totalRows.toLocaleString();
+			}
+		
+			$scope.createRowData = function() {
+					var rowData = [];
+					for (var i = 0; i < $scope.model.length; i++) {
+							rowData.push({
+								id: $scope.model[i].id,	
+								firstname: $scope.model[i].firstName,
+								lastname: $scope.model[i].lastName,
+								email: $scope.model[i].email,
+								mobile: $scope.model[i].mobile,
+								fax: $scope.model[i].fax,
+								company: $scope.model[i].company,
+								createdAt: $scope.model[i].createdAt,
+								updatedAt: $scope.model[i].updatedAt,
+								admin: $scope.model[i].is_admin ? "yes" : "no",
+								subscription: $scope.model[i].subscription ? "yes" : "no"
+							 });
+					}
+					console.log("row",$scope.gridOptions)
+					// $scope.gridOptions.rowData =rowData
+					$scope.gridOptions.api.setRowData(rowData)
+					// return rowData;
+			}
+			
 	});
+		
+		
+	
     
 adminApp.controller('update_webContent', function($scope,$window,$http,$rootScope) {
 	$rootScope.test = true
