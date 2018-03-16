@@ -403,6 +403,7 @@ class AddBrand:
             path = os.path.abspath(os.path.join(os.path.dirname( __file__ ))) + "/brand"
             print path
             eachFile =data.image
+            print "safe"
             filename=path.split('/')[-1]
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
             filename = 'brand_'+str(timestamp)+'_'+filename
@@ -501,7 +502,7 @@ class GetProducts:
                 product_json["price"] = product.price
                 product_json["currency"] = product.currency
                 product_json["categoryId"] = product.categoryId
-                product_json["createdAt"] = product.createdAt
+                product_json["createdAt"] = str(product.createdAt)
                 product_json["is_active"] = product.is_active
                 product_json["is_available"] = product.is_available
                 product_json["is_todaysSpecial"] = product.is_todaysSpecial
@@ -732,7 +733,7 @@ class GetTestemonials:
 
 
 class SetTestemonials:
-    def POST(self):
+    def GET(self):
         return "Get Method only supported. No Authorization Required"
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
@@ -740,14 +741,15 @@ class SetTestemonials:
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         return
-    def GET(self):
+    def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','*')
         web.header('Content-Type', 'application/json')
         try:
-            data = web.input()
-            featured_testemonial_data = db.insert("testemonial_data",t_name=data.name,t_proffesion=data.proffesion,t_message=data.message,t_stars=data.stars,t_image=data.image)
+            data = json.loads(web.data())
+            print data
+            featured_testemonial_data = db.insert("testemonial_data",t_name=data["name"],t_proffesion=data["profession"],t_message=data["message"],t_stars="5",t_image=data["image"])
             
             pyDict = {'code':'200','status':'Success','data':featured_testemonial_data}  
             return json.dumps(pyDict) 
@@ -824,7 +826,7 @@ class GetCategories:
                 category_json.category_parentId = category.parentId
                 category_json.category_path = category.path
                 category_json.category_backgroudImage = category.backgroudImage
-                category_json.category_createdAt = category.createdAt
+                category_json.category_createdAt = str(category.createdAt)
                 final_data.append(category_json)
             
             return json.dumps(final_data) 
@@ -929,7 +931,7 @@ class GetUsers:
                 user_json["company"] = user.company
                 user_json["subscription"] = user.subscription
                 user_json["authtoken"] = user.authToken
-                user_json["createdAt"] = user.createdAt
+                user_json["createdAt"] = str(user.createdAt)
                 user_json["updatedAt"] = str(user.updatedAt)
                 user_json["is_admin"] = user.is_admin
                 final_data.append(user_json)
