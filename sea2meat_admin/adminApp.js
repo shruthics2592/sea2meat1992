@@ -60,7 +60,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		})
     adminApp.controller('homeController', function($scope,$window,$http,$rootScope) {
 			console.log("$rootScope.test home",$rootScope.test)
-			var user   = JSON.parse(localStorage.getItem("userDetails"))
+			var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 			console.log("hi",user)
 			
 			$scope.logout=function(){
@@ -85,7 +85,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			console.log("I am in login controller")
 			$scope.data = {"email":"","password":""}
 			$rootScope.test = false
-			var user   = JSON.parse(localStorage.getItem("userDetails"))
+			var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 			if(user){
 				$window.location.href = '#/';
 			}else{
@@ -97,7 +97,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	
 				$http.post(server + 'admin/login', $scope.data).success(function(response, status, headers) {
 					if(response.code == 200){
-						localStorage.setItem("userDetails",JSON.stringify(response.user)) 
+						localStorage.setItem("adminuserDetails",JSON.stringify(response.user)) 
 						localStorage.setItem("is_admin_in",true)
 						console.log( 'Logged in Successfully!');
 						$window.location.href = '#/';
@@ -118,7 +118,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 
     adminApp.controller('productController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 			if(user){
 			}else{
 				$window.location.href = '#/login';
@@ -221,7 +221,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 					
 						$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 							console.log("product",response)
-							localStorage.setItem("userDetails",JSON.stringify(response.user))
+							localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 						}).error(function(response, status, headers) {
 						});
 						
@@ -265,7 +265,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 
     adminApp.controller('customerController', function($scope,$rootScope,$window,$http) {
 		$rootScope.test = true
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 		
 
 			if(user){
@@ -362,7 +362,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 						
 							$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 								console.log("product",response)
-								localStorage.setItem("userDetails",JSON.stringify(response.user))
+								localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 							}).error(function(response, status, headers) {
 							});
 							
@@ -409,7 +409,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
     adminApp.controller('brandsController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
 		
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 
 			if(user){
 				
@@ -491,7 +491,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 						
 							$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 								console.log("product",response)
-								localStorage.setItem("userDetails",JSON.stringify(response.user))
+								localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 							}).error(function(response, status, headers) {
 							});
 							
@@ -523,7 +523,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 
     adminApp.controller('bannersController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 
 			if(user){
 				
@@ -605,7 +605,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 						
 							$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 								console.log("product",response)
-								localStorage.setItem("userDetails",JSON.stringify(response.user))
+								localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 							}).error(function(response, status, headers) {
 							});
 							
@@ -640,7 +640,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 
     adminApp.controller('usersController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 
 			if(user){
 				
@@ -736,7 +736,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 						
 							$http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 								console.log("product",response)
-								localStorage.setItem("userDetails",JSON.stringify(response.user))
+								localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 							}).error(function(response, status, headers) {
 							});
 							
@@ -779,7 +779,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 
 	adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
-		var user   = JSON.parse(localStorage.getItem("userDetails"))
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 
 			if(user){
 				
@@ -862,7 +862,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 				onCellEditingStopped: function(event) {
 							// $http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
 							// 	console.log("product",response)
-							// 	localStorage.setItem("userDetails",JSON.stringify(response.user))
+							// 	localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
 							// }).error(function(response, status, headers) {
 							// });
 							
@@ -899,7 +899,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
     
 adminApp.controller('update_webContent', function($scope,$window,$http,$rootScope) {
 	$rootScope.test = true
-	var user   = JSON.parse(localStorage.getItem("userDetails"))
+	var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
 
 	if(user){
 

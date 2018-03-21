@@ -61,7 +61,9 @@ class Applogin:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         data = json.loads(web.data().decode('utf-8'))
@@ -99,7 +101,9 @@ class Applogin:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self,categoryId):
@@ -110,7 +114,9 @@ class Adminlogin:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         data = json.loads(web.data().decode('utf-8'))
@@ -146,7 +152,9 @@ class Adminlogin:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self,categoryId):
@@ -158,7 +166,9 @@ class Register:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         data = json.loads(web.data().decode('utf-8'))
@@ -184,7 +194,9 @@ class Register:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self,categoryId):
@@ -197,7 +209,9 @@ class RegisterAdmin:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         data = json.loads(web.data().decode('utf-8'))
@@ -223,7 +237,9 @@ class RegisterAdmin:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self,categoryId):
@@ -236,7 +252,9 @@ class EditAccount:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input() # to read raw data
         try:
@@ -276,7 +294,9 @@ class EditAccount:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -289,7 +309,9 @@ class EditPassword:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input() # to read raw data
         try:
@@ -316,7 +338,9 @@ class EditPassword:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -328,7 +352,9 @@ class EditAddress:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = json.loads(web.data())
         try:
@@ -354,7 +380,9 @@ class EditAddress:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -364,7 +392,9 @@ class AddAddress:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = json.loads(web.data())
         try:
@@ -382,7 +412,9 @@ class AddAddress:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -395,7 +427,9 @@ class AddBrand:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input()
         try:
@@ -425,7 +459,9 @@ class AddBrand:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -436,7 +472,9 @@ class AddBanner:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input()
         try:
@@ -465,7 +503,9 @@ class AddBanner:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -479,13 +519,17 @@ class GetProducts:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self,categoryId):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             if categoryId:
@@ -531,13 +575,17 @@ class AddProducts:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             data = json.loads(web.data())
@@ -563,13 +611,17 @@ class GetaProducts:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             if id:
@@ -625,13 +677,17 @@ class GetFeaturedProducts:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             post_data = web.input(name="")
@@ -699,13 +755,17 @@ class GetTestemonials:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             featured_testemonial_data = db.query('''
@@ -738,13 +798,17 @@ class SetTestemonials:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             data = json.loads(web.data())
@@ -768,7 +832,9 @@ class AddUpdateProducts:
     def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         try:
@@ -791,7 +857,9 @@ class AddUpdateProducts:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self,categoryId):
@@ -807,13 +875,17 @@ class GetCategories:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         get_customer_response =[]
         try:
@@ -842,13 +914,17 @@ class GetBanner:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         get_customer_response =[]
         try:
@@ -876,13 +952,17 @@ class GetBrandImages:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             image_data = db.query("select * from brand_images")
@@ -908,13 +988,17 @@ class GetUsers:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             data = web.input()
@@ -949,13 +1033,17 @@ class GetAddress:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             data = web.input()
@@ -984,7 +1072,9 @@ class AddWish:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input() # to read raw data
         try:
@@ -1003,7 +1093,9 @@ class AddWish:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -1013,7 +1105,9 @@ class UpdateNewsletter:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input() # to read raw data
         try:
@@ -1042,7 +1136,9 @@ class UpdateNewsletter:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -1054,13 +1150,17 @@ class GetWish:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         try:
             my_params = web.input()
@@ -1115,13 +1215,17 @@ class GetAbout:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         get_customer_response =[]
         try:
@@ -1147,13 +1251,17 @@ class SetAbout:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         get_customer_response =[]
         try:
@@ -1173,7 +1281,9 @@ class AddUpdateCategories:
     def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.input() # to read raw data
         try:
@@ -1196,7 +1306,9 @@ class AddUpdateCategories:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self,categoryId):
@@ -1206,7 +1318,9 @@ class OrderHistory:
     def POST(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         data = web.data() # to read raw data
         try:
@@ -1229,7 +1343,8 @@ class OrderHistory:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
@@ -1242,13 +1357,17 @@ class GetMyOrder:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self,id):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         ordersList =[]
         try:
@@ -1315,13 +1434,17 @@ class GetAllOrder:
     def OPTIONS(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Methods','*')
-        web.header('Access-Control-Allow-Headers','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
         web.header('Content-Type', 'application/json')
         ordersList =[]
         try:
