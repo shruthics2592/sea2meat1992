@@ -1,0 +1,158 @@
+
+
+<div class="main">
+    
+	<div class="main-content">
+
+
+                        <!-- ********************************************************************************************** -->
+
+		<div class="container-fluid">
+            
+            <h3 class="page-title">Web Updates </h3>
+			<div class="panel panel-headline">
+                
+				<div class="panel-body">
+                        <h2 class="page-title">About Us </h2>
+					<div  style="height: 100%">
+                            
+                        <table>
+                            <tr>
+                                <th>HEAD</th>      
+                                <th>BODY</th>      
+                            </tr>
+                            <tr>
+                                    <td>{{getAboutData[0].header}}</td>      
+                                    <td>{{getAboutData[0].body}}</td>      
+                            </tr>
+                        </table>
+                        <div style="float: left;">
+                                <button ng-click="addAboutEnable()">Edit About Us</button>           </div>   
+                        <div class="container" ng-if="is_add_about">
+								<div class="row">                        
+								  <div id="content" ng-if="!is_logged_in" class="col-sm-8">        
+									<form ng-submit="addAbout()" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+									  <fieldset id="account">
+										<div class="heading-bg mb-30">
+										  <h2 class="heading m-0">Edit About Us</h2>
+										</div> 
+										
+										<div class="form-group required">
+										  <label class="col-sm-2 control-label" for="input-header">About Us Header</label>
+										  <div class="col-sm-10">
+											<input type="text"   name="header"  id="input-header" class="form-control" ng-model="aboutData.my_header" required/>
+										  </div>
+                                        </div>
+                                        <div class="form-group required">
+                                                <label class="col-sm-2 control-label" for="input-body">About Us Body</label>
+                                                <div class="col-sm-10">
+                                                  <input type="text"   name="body"  id="input-body" class="form-control" ng-model="aboutData.my_body" required/>
+                                                </div>
+                                              </div>
+					
+									  </fieldset>
+									  
+									  
+									  
+									  <div class="buttons">
+										<div class="pull-right">
+										  
+										  <input type="submit" value="Add" class="btn btn-black" />
+										</div>
+									  </div>
+									</form>
+								  </div>
+								  <!--  -->
+								</div>
+							  </div>
+                    </div>
+				</div>
+            </div>            
+        </div>
+        
+                <!-- ********************************************************************************************** -->
+
+        <div class="container-fluid">
+            
+                <div class="panel panel-headline">
+                    
+                    <div class="panel-body">
+                            <h2 class="page-title">Testemonials </h2>
+                        <div  style="height: 100%">
+                                
+                            <table>
+                                <tr>
+                                    <th>Name</th>      
+                                    <th>Profession</th>      
+                                    <th>Message</th>      
+                                    <th>Image</th>      
+                                </tr>
+                                <tr ng-repeat = "test in gettestemonialData">
+                                        <td>{{test.name}}</td>      
+                                        <td>{{test.profession}}</td>      
+                                        <td>{{test.message}}</td>      
+                                        <td>{{test.image_url}}</td>      
+                                </tr>
+                            </table>
+                            <div style="float: left;">
+                                    <button ng-click="addtestemonialEnable()">Add Testemonials</button>           </div>   
+                            <div class="container" ng-if="is_add_testemonial">
+                                    <div class="row">                        
+                                      <div id="content"  class="col-sm-8">        
+                                        <form ng-submit="addtestemonial()" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                          <fieldset id="account">
+                                            <div class="heading-bg mb-30">
+                                              <h2 class="heading m-0">Add Testemonials</h2>
+                                            </div> 
+                                            
+                                            <div class="form-group required">
+                                              <label class="col-sm-2 control-label" for="input-name">Name</label>
+                                              <div class="col-sm-10">
+                                                <input type="text"   name="name"  id="input-name" class="form-control" ng-model="testemonialData.name" required/>
+                                              </div>
+                                            </div>
+                                            <div class="form-group required">
+                                                    <label class="col-sm-2 control-label" for="input-profession">Profession</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text"   name="profession"  id="input-profession" class="form-control" ng-model="testemonialData.profession" required/>
+                                                    </div>
+                                                  </div>
+                                                  <div class="form-group required">
+                                                        <label class="col-sm-2 control-label" for="input-message">Message</label>
+                                                        <div class="col-sm-10">
+                                                          <input type="text"   name="message"  id="input-message" class="form-control" ng-model="testemonialData.message" required/>
+                                                        </div>
+                                                      </div>
+                                            <div class="form-group required">
+                                                    <label class="col-sm-2 control-label" for="input-image">Image</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text"   name="image"  id="input-image" class="form-control" ng-model="testemonialData.image" required/>
+                                                    </div>
+                                                  </div>
+                        
+                                          </fieldset>
+                                          
+                                          
+                                          
+                                          <div class="buttons">
+                                            <div class="pull-right">
+                                              
+                                              <input type="submit" value="Add" class="btn btn-black" />
+                                            </div>
+                                          </div>
+                                        </form>
+                                      </div>
+                                      <!--  -->
+                                    </div>
+                                  </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+                            <!-- ********************************************************************************************** -->
+
+	</div>
+</div>
+

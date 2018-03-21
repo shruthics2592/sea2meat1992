@@ -44,6 +44,10 @@ agGrid.initialiseAgGridWithAngular1(angular);
             .when('/banners', {
 				templateUrl : 'pages/banners.html',
 				controller  : 'bannersController'
+			})
+			.when('/update_webContent', {
+				templateUrl : 'pages/update_webContent.html',
+				controller  : 'update_webContent'
 			});
 
 			
@@ -52,6 +56,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		var server = "http://sea2meat.com:8080/";
 		adminApp.run(function($rootScope) {
 			$rootScope.test = false
+			
 		})
     adminApp.controller('homeController', function($scope,$window,$http,$rootScope) {
 			console.log("$rootScope.test home",$rootScope.test)
@@ -138,11 +143,11 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			$scope.is_add = false
 		}
 	}
-	$scope.registerData = {"image":""}
+	$scope.my_image = ""
 	
 	$scope.registerUser = function(){
-		console.log($scope.registerData)
-		$http.post(server + 'admin/addbrand', $scope.registerData).success(function(response, status, headers) {
+		console.log($scope.my_image)
+		$http.post(server + 'admin/addbrand', $scope.my_image).success(function(response, status, headers) {
 			$scope.is_add = false
 			$scope.getUser();
 			$scope.createRowData();
@@ -395,10 +400,15 @@ agGrid.initialiseAgGridWithAngular1(angular);
 					// return rowData;
 			}
 	
-    });
-
+	});
+	var image_toE =""
+	function imageChange  (el){
+		console.log("jhvjhbj",el)
+		image_toE = el
+	}
     adminApp.controller('brandsController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
+		
 		var user   = JSON.parse(localStorage.getItem("userDetails"))
 
 			if(user){
@@ -426,11 +436,13 @@ agGrid.initialiseAgGridWithAngular1(angular);
 				$scope.is_add = false
 			}
 		}
-		$scope.registerData = {"image":""}
+		$scope.my_image = ""
 		
 		$scope.registerUser = function(){
-			console.log($scope.registerData)
-			$http.post(server + 'admin/addbrand', $scope.registerData).success(function(response, status, headers) {
+			
+			var data = {"image":image_toE.target.value}
+			console.log("hi",data)
+			$http.post(server + 'admin/addbrand?image='+image_toE.target.value).success(function(response, status, headers) {
 				$scope.is_add = false
 				$scope.getUser();
 				$scope.createRowData();
@@ -885,3 +897,72 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		
 	
     
+adminApp.controller('update_webContent', function($scope,$window,$http,$rootScope) {
+	$rootScope.test = true
+	var user   = JSON.parse(localStorage.getItem("userDetails"))
+
+	if(user){
+
+	}else{
+
+		$window.location.href = '#/login';
+
+	}
+	$scope.is_add_about = false
+	$scope.addAboutEnable = function(){
+		if ($scope.is_add_about){
+			$scope.is_add_about = false
+		}else{
+			$scope.is_add_about = true
+		}
+	}
+	
+	$scope.getAbout = function () {
+		$http.get(server + 'app/getabout').success(function(response, status, headers) {
+			$scope.getAboutData = response
+			console.log($scope.getAboutData)
+		}).error(function(response, status, headers) {
+		
+		});		
+	};
+	$scope.getAbout();
+	$scope.aboutData = {"my_header":"","my_body":""}
+	$scope.addAbout = function(){
+		$http.get(server + 'admin/setabout?header='+$scope.aboutData.my_header+'&body='+$scope.aboutData.my_body).success(function(response, status, headers) {
+			console.log(response)
+			$scope.is_add_about = false
+			$scope.getAbout();
+		}).error(function(response, status, headers) {
+		
+		});
+	}
+	// ***********************
+	$scope.is_add_testemonial = false
+	$scope.addtestemonialEnable = function(){
+		if ($scope.is_add_testemonial){
+			$scope.is_add_testemonial = false
+		}else{
+			$scope.is_add_testemonial = true
+		}
+	}
+	
+	$scope.gettestemonial = function () {
+		$http.get(server + 'app/gettestemonials').success(function(response, status, headers) {
+			$scope.gettestemonialData = response.data
+			console.log($scope.gettestemonialData)
+		}).error(function(response, status, headers) {
+		
+		});		
+	};
+	$scope.gettestemonial();
+	$scope.testemonialData = {"name":"","profession":"","message":"","image":""}
+	$scope.addtestemonial = function(){
+		$http.post(server + 'admin/settestemonials',$scope.testemonialData).success(function(response, status, headers) {
+			console.log(response)
+			$scope.is_add_testemonial = false
+			$scope.gettestemonial();
+		}).error(function(response, status, headers) {
+		
+		});
+	}
+});
