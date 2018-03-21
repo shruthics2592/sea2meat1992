@@ -1020,7 +1020,6 @@ class UpdateNewsletter:
             for user in userObj:
                 userid = user.id
             if userid:
-                
                 subscription = data.subscription
                 db.update('user',vars=locals(),where='id=$userid',subscription=subscription)
                 udatedUser = db.query("select * from user where id='"+str(userid)+"'")
@@ -1332,8 +1331,18 @@ class GetAllOrder:
                 orderObj["offerId"] = order.offerId
                 orderObj["orderStatus"] = order.orderStatus
                 orderObj["addressId"]=order.addressId
+                orderObj["orderValue"]=order.orderValue
+                orderObj["paymentMethod"]=order.paymentMethod
                 orderObj["addressDeatils"] = {}
+                orderObj["userDeatils"] = {}
                 orderObj["products"] = []
+                user_details = db.query("select * from user where id="+str(order.userId))
+                for userdetails in user_details:
+                    orderObj["userDeatils"]["id"] = userdetails.id
+                    orderObj["userDeatils"]["firstName"] = userdetails.firstName
+                    orderObj["userDeatils"]["lastName"] = userdetails.lastName
+                    orderObj["userDeatils"]["mobile"] = userdetails.mobile
+                    orderObj["userDeatils"]["email"] = userdetails.email
                 user_address = db.query("select * from address where id="+str(order.addressId))
                 for address in user_address:
                     orderObj["addressDeatils"]["streetAddress"] = address.streetAddress

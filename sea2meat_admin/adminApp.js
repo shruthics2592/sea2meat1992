@@ -49,7 +49,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			
     });
     
-		var server = "http://localhost:8080/";
+		var server = "http://sea2meat.com:8080/";
 		adminApp.run(function($rootScope) {
 			$rootScope.test = false
 		})
@@ -778,9 +778,12 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 			$scope.gridOptions = {}
 		$scope.getAllOrders = function () {
-			$http.get($scope.server + 'app/getallorder').success(function(response, status, headers) {
+			$http.get(server + 'app/getallorder').success(function(response, status, headers) {
 				if(response.code == 200 || response.code == "200"){
+					
 					$scope.myorders = response.Orders
+					$scope.gridOptions.api.setRowData($scope.myorders)
+
 				}
 				
 			}).error(function(response, status, headers) {
@@ -791,39 +794,30 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		$scope.getAllOrders();
 		
 		var columnDefs = [
+
+			{headerName: "Order Id",editable: false, field: "id",width: 150, pinned: true ,cellRenderer:'agGroupCellRenderer'},
+			{headerName: "Order Status", field: "orderStatus",width: 150, pinned: true},
+			{headerName: "Order Value", field: "orderValue",width: 150, pinned: true},
+			{headerName: "Payment Method", field: "paymentMethod",width: 150, pinned: true},
+			{headerName: "First Name", field: "userDeatils.firstName",width: 150},
+						{headerName: "Last Name", field: "userDeatils.lastName",width: 150},
+						{headerName: "Address", field: "addressDeatils.streetAddress",width: 150},
+						{headerName: "Mobile", field: "userDeatils.mobile",width: 150},
+		                {headerName: "Email", field: "userDeatils.email",width: 150},
+		                {headerName: "City", field: "addressDeatils.city",width: 150},
+			
+			
 					
-					
-					{
-						headerName: 'Basic Info',
-							children: [
-								{headerName: "Id",editable: false, field: "id",
-											width: 150, pinned: true},
-									{headerName: "First Name", field: "firstname",
-											width: 150, pinned: true},
-											{headerName: "Last Name", field: "lastname",
-											width: 150, pinned: true},
-									{headerName: "Email",editable: false, field: "email", width: 150, pinned: true,
-											filterParams: { cellHeight: 20}},
-							]
-					},
-					
-					{
-							headerName: 'Contact',
-							children: [
-									{headerName: "Mobile", field: "mobile", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Fax", field: "fax", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Company", field: "company", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Created At",editable: false, field: "createdAt", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Updated At",editable: false, field: "updatedAt", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Admin",editable: false, field: "admin", width: 150, filter: 'agTextColumnFilter'},
-									{headerName: "Subscription", field: "subscription", width: 150, filter: 'agTextColumnFilter'},
-							]
-					}
+		
+
+		
+
 			];
 
 			$scope.gridOptions = {
 					columnDefs: columnDefs,
 					rowData: [],
+					masterDetail:true,
 					rowSelection: 'multiple',
 					enableColResize: true,
 					enableSorting: true,
@@ -831,6 +825,24 @@ agGrid.initialiseAgGridWithAngular1(angular);
 					onModelUpdated: $scope.onModelUpdated,
 					defaultColDef: {
 						editable: true
+					},
+					detailCellRendererParams: {
+						detailGridOptions: {
+							columnDefs: [
+								{field: 'id'},
+								{field: 'productCode'},
+								{field: 'name'},
+								{field: 'quantity'},
+								{field: 'price'}
+							],
+							onGridReady: function(params) {
+								params.api.sizeColumnsToFit();
+							}
+						},
+						getDetailRowData: function(params) {
+							console.log("parama::",params.data)
+							params.successCallback(params.products);
+						}
 					},
 					onCellEditingStarted: function(event) {
 						console.log('cellEditingStarted',event);
@@ -854,26 +866,18 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 		
 			$scope.createRowData = function() {
-					var rowData = [];
-					for (var i = 0; i < $scope.model.length; i++) {
-							rowData.push({
-								id: $scope.model[i].id,	
-								firstname: $scope.model[i].firstName,
-								lastname: $scope.model[i].lastName,
-								email: $scope.model[i].email,
-								mobile: $scope.model[i].mobile,
-								fax: $scope.model[i].fax,
-								company: $scope.model[i].company,
-								createdAt: $scope.model[i].createdAt,
-								updatedAt: $scope.model[i].updatedAt,
-								admin: $scope.model[i].is_admin ? "yes" : "no",
-								subscription: $scope.model[i].subscription ? "yes" : "no"
-							 });
-					}
-					console.log("row",$scope.gridOptions)
-					// $scope.gridOptions.rowData =rowData
-					$scope.gridOptions.api.setRowData(rowData)
-					// return rowData;
+					// var rowData = [];
+					// for (var i = 0; i < $scope.model.length; i++) {
+					// 		rowData.push({
+					// 			id: $scope.model[i].id,	
+					// 			address: $scope.model[i].firstName,
+								
+					// 		 });
+					// }
+					// console.log("row",$scope.gridOptions)
+					// // $scope.gridOptions.rowData =rowData
+					// $scope.gridOptions.api.setRowData(rowData)
+					// // return rowData;
 			}
 			
 	});
