@@ -126,6 +126,15 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 		$scope.gridOptions = {}
 		$scope.is_add = false
+		$scope.files = [];
+
+		//listen for the file selected event
+    $scope.$on("fileSelected", function (event, args) {
+        $scope.$apply(function () {            
+            //add the file object to the scope's files collection
+            $scope.files.push(args.file);
+        });
+    });
 	$scope.getUser = function () {
 		type = "ALL"
 		$http.get(server + 'app/getfeaturedproducts?name='+type).success(function(response, status, headers) {
@@ -146,8 +155,17 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	$scope.my_image = ""
 	
 	$scope.registerUser = function(){
-		console.log($scope.my_image)
-		$http.post(server + 'admin/addbrand', $scope.my_image).success(function(response, status, headers) {
+		var formData = new FormData();
+		formData.append("productname","Product Beef1")
+		for (var i = 0; i < $scope.files.length; i++) {
+			//add each file to the form data and iteratively name them
+			formData.append("image", $scope.files[i]);
+		}
+		var config = {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }
+		$http.post(server + 'admin/addbrand', formData,config).success(function(response, status, headers) {
 			$scope.is_add = false
 			$scope.getUser();
 			$scope.createRowData();
@@ -965,4 +983,20 @@ adminApp.controller('update_webContent', function($scope,$window,$http,$rootScop
 		
 		});
 	}
+});
+
+adminApp.directive('fileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("fileSelected", { file: files[i] });
+                }                                       
+            });
+        }
+    };
 });
