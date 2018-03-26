@@ -53,7 +53,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			
     });
     
-		var server = "http://sea2meat.com:8080/";
+		var server = "http://localhost:8080/";
 		adminApp.run(function($rootScope) {
 			$rootScope.test = false
 			
@@ -153,7 +153,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		}
 	}
 	$scope.my_image = ""
-	
+	$scope.registerData = {"product_code":"","categoryId":"","description":"","currency":"","price":"","sale_price":"","is_active":"","is_available":"","is_sale":"","is_special":""}
 	$scope.registerUser = function(){
 		var formData = new FormData();
 		formData.append("productname","Product Beef1")
@@ -165,7 +165,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }
-		$http.post(server + 'admin/addbrand', formData,config).success(function(response, status, headers) {
+		$http.post(server + 'admin/addproduct', $scope.registerData).success(function(response, status, headers) {
 			$scope.is_add = false
 			$scope.getUser();
 			$scope.createRowData();
@@ -572,7 +572,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		
 		$scope.registerUser = function(){
 			console.log($scope.registerData)
-			$http.post(server + 'admin/addbrand', $scope.registerData).success(function(response, status, headers) {
+			$http.post(server + 'admin/addbrand?image='+image_toE.target.value).success(function(response, status, headers) {
 				$scope.is_add = false
 				$scope.getUser();
 				$scope.createRowData();

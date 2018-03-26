@@ -51,9 +51,9 @@ urls = (
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #live server
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
+# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="shubham")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="shubham")
 
 #User Registration and Login
 #Login
@@ -440,7 +440,7 @@ class AddBrand:
             print "safe"
             filename=path.split('/')[-1]
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-            filename = 'brand_'+str(timestamp)+'_'+filename
+            filename = 'brand/'+'brand_'+str(timestamp)+'_'+filename+".jpg"
             fileData = eachFile
             fout = open(path +'/'+filename, "wb")
             fout.write(fileData)
@@ -484,7 +484,7 @@ class AddBanner:
             eachFile =data.image
             filename=path.split('/')[-1]
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-            filename = 'brand_'+str(timestamp)+'_'+filename
+            filename = 'banner/'+'banner_'+str(timestamp)+'_'+filename+".jpg"
             fileData = eachFile
             fout = open(path +'/'+filename, "wb")
             fout.write(fileData)
@@ -590,7 +590,7 @@ class AddProducts:
         try:
             data = json.loads(web.data())
             createdAt = createdAt = datetime.date.today()
-            add_product = db.insert("product",name=data['name'],price=data['price'],currency=data['currency'],categoryId=data['categoryId'],is_available=data['is_available'],is_todaysSpecial=data['is_todaysSpecial'],is_active=data['is_active'],createdAt=createdAt,description=data['description'],sale_price=data['sale_price'],is_sale=data['is_sale'])
+            add_product = db.insert("product",productCode=data['product_code'],name=data['name'],price=data['price'],currency=data['currency'],categoryId=data['categoryId'],is_available=data['is_available'],is_todaysSpecial=data['is_special'],is_active=data['is_active'],createdAt=createdAt,description=data['description'],sale_price=data['sale_price'],is_sale=data['is_sale'])
             pyDict = {'code':'200','status':'Success','data':add_product}  
             return json.dumps(pyDict) 
         except Exception as e:

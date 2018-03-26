@@ -7,46 +7,145 @@
 						<div  style="height: 100%">
 							<div style="padding: 4px">
 								<div class="container" ng-if="is_add">
-									<div class="row">                        
-									  <div id="content" ng-if="!is_logged_in" class="col-sm-8">        
-										<form ng-submit="registerUser()" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-										  <fieldset id="account">
-											<div class="heading-bg mb-30">
-											  <h2 class="heading m-0">Add Product</h2>
-											</div> 
-											
-											<div class="form-group required">
-											  <label class="col-sm-2 control-label" for="input-firstname">Product Image</label>
-											  <div class="col-sm-10">
-												<input type="file"   name="image"  class="form-control" file-upload multiple/>
+										<div class="row">                        
+										  <div id="content" ng-if="!is_logged_in" class="col-sm-8">        
+											<form ng-submit="registerUser()" action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+											  <fieldset id="account">
+												<div class="heading-bg mb-30">
+												  <h2 class="heading m-0">Add Product</h2>
+												</div> 
 												
-											  </div>
-											</div>
-						
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-categoryname">Category Name</label>
+												  <div class="col-sm-10">
+													<select name="categoryname"  id="input-categoryname" class="form-control" ng-model="registerData.categoryId" required>
+														<option value="1">BEEF</option>
+														<option value="2">LAMB</option>
+														<option value="3">POULTRY</option>
+														<option value="4">SAUSAGE</option>
+														<option value="4">TODAY_SPECIAL</option>
+													</select>
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-description">Description</label>
+												  <div class="col-sm-10">
+													<input type="text" name="description" value="" placeholder="Description" id="input-description" class="form-control" ng-model="registerData.description" required/>
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-product_code">Product Code</label>
+												  <div class="col-sm-10">
+													<input type="text" name="product_code" value="" placeholder="Product Code" id="input-product_code" class="form-control" ng-model="registerData.product_code" required/>
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-currency">Currency</label>
+												  <div class="col-sm-10">
+													<input type="text" name="currency" value="" placeholder="Currency" id="input-currency" class="form-control" ng-model="registerData.currency" required/>
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-image">Image</label>
+												  <div class="col-sm-10">
+														<!-- <input type="file"   name="imageBrand"  id="input-imageBrand" class="form-control" onchange="imageChange(event)" required/> -->
+												  </div>
+												</div>
+												<div class="form-group">
+												  <label class="col-sm-2 control-label" for="input-name">Name</label>
+												  <div class="col-sm-10">
+													<input type="text" name="name" value="" placeholder="Name" id="input-name" class="form-control" ng-model="registerData.name"/>
+												  </div>
+												</div>
+											  </fieldset>
+											  <fieldset id="address">
+												
+												<div class="form-group">
+												  <label class="col-sm-2 control-label" for="input-price">Price</label>
+												  <div class="col-sm-10">
+													<input type="number" name="price" value="" placeholder="Price" id="input-price" class="form-control" ng-model="registerData.price"/>
+												  </div>
+												</div>
+												<div class="form-group">
+												  <label class="col-sm-2 control-label" for="input-sale_price">Sale-Price</label>
+												  <div class="col-sm-10">
+													<input type="number" name="sale_price" value="" placeholder="Sale-Price" id="input-sale_price" class="form-control" ng-model="registerData.sale_price" required/>
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-swap_image">Swap Image</label>
+												  <div class="col-sm-10">
+														<!-- <input type="file"   name="imageBrand"  id="input-imageBrand" class="form-control" onchange="imageChange(event)" required/> -->
+												  </div>
+												</div>
+												<div class="form-group required">
+												  <label class="col-sm-2 control-label" for="input-postcode">Thumbnail Image</label>
+												  <div class="col-sm-10">
+														<!-- <input type="file"   name="imageBrand"  id="input-imageBrand" class="form-control" onchange="imageChange(event)" required/> -->
+												  </div>
+												</div>
 										  </fieldset>
-										  
-										  
-										  
-										  <div class="buttons">
-											<div class="pull-right">
-											  
-											  <input type="submit" value="Add" class="btn btn-black" />
-											</div>
+											  <fieldset>
+												
+												<div class="form-group">
+												  <label class="col-sm-2 control-label">Is Active</label>
+												  <div class="col-sm-10">
+													<label class="radio-inline">
+													  <input type="radio" name="is_active" value="1" ng-model="registerData.is_active" />Yes
+													</label>
+													<label class="radio-inline">
+													  <input type="radio" name="is_active" value="0" ng-model="registerData.is_active" checked="checked" />No
+													</label>
+													</div>
+													<label class="col-sm-2 control-label">Is Available</label>
+												  <div class="col-sm-10">
+													<label class="radio-inline">
+													  <input type="radio" name="is_available" value="1" ng-model="registerData.is_available" />Yes
+													</label>
+													<label class="radio-inline">
+													  <input type="radio" name="is_available" value="0" ng-model="registerData.is_available" checked="checked" />No
+													</label>
+													</div>
+													<label class="col-sm-2 control-label">Is Sale</label>
+												  <div class="col-sm-10">
+													<label class="radio-inline">
+													  <input type="radio" name="is_sale" value="1" ng-model="registerData.is_sale" />Yes
+													</label>
+													<label class="radio-inline">
+													  <input type="radio" name="is_sale" value="0" ng-model="registerData.is_sale" checked="checked" />No
+													</label>
+												  </div>
+												  <label class="col-sm-2 control-label">Is Today's Special</label>
+												  <div class="col-sm-10">
+													<label class="radio-inline">
+													  <input type="radio" name="is_special" value="1" ng-model="registerData.is_special" />Yes
+													</label>
+													<label class="radio-inline">
+													  <input type="radio" name="is_special" value="0" ng-model="registerData.is_special" checked="checked" />No
+													</label>
+												  </div>
+												</div>
+											  </fieldset>
+											  <div class="buttons">
+												<div class="pull-right">
+												  
+												  <input type="submit" value="Add" class="btn btn-black" />
+												</div>
+											  </div>
+											</form>
 										  </div>
-										</form>
+										  <!--  -->
+										</div>
 									  </div>
-									  <!--  -->
-									</div>
-								  </div>
-								  <div style="float: right;">
-									<input type="text" ng-model="gridOptions.quickFilterText" placeholder="Type text to filter..."/>            </div>
-									<div style="float: left;">
-											<button ng-click="add()">ADD</button>           </div>
-								<div style="padding: 4px;">
-									<b>   Product Details</b>
-								</div>
-								<div style="clear: both;"/>
+							<div style="float: right;">
+								<input type="text" ng-model="gridOptions.quickFilterText" placeholder="Type text to filter..."/>            </div>
+								<div style="float: left;">
+										<button ng-click="add()">ADD</button>           </div>
+							<div style="padding: 4px;">
+								<b>Product Details</b>
 							</div>
+							<div style="clear: both;"/>
+						</div>
 							<div style="width: 100%; height: 400px;"
 								 ag-grid="gridOptions"
 								 class="ag-theme-balham ag-basic">
