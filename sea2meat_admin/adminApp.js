@@ -53,7 +53,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			
     });
     
-		var server = "http://localhost:8080/";
+		//var server = "http://localhost:8080/";
+		var server = "http://sea2meat.com:8080/";
 		adminApp.run(function($rootScope) {
 			$rootScope.test = false
 			
@@ -455,12 +456,25 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 		}
 		$scope.my_image = ""
+		$scope.files = [];
+
+			//listen for the file selected event
+		$scope.$on("brandfileSelected", function (event, args) {
+			$scope.$apply(function () {            
+				//add the file object to the scope's files collection
+				$scope.files = args.file;
+			});
+		});
 		
 		$scope.registerUser = function(){
+			var formData = new FormData();
+			formData.append("image", $scope.files);
+			var config = {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+			}
 			
-			var data = {"image":image_toE.target.value}
-			console.log("hi",data)
-			$http.post(server + 'admin/addbrand?image='+image_toE.target.value).success(function(response, status, headers) {
+			$http.post(server + 'admin/addbrand',formData,config).success(function(response, status, headers) {
 				$scope.is_add = false
 				$scope.getUser();
 				$scope.createRowData();
@@ -569,10 +583,26 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 		}
 		$scope.registerData = {"image":""}
+
+		$scope.files = [];
+
+			//listen for the file selected event
+		$scope.$on("bannerfileSelected", function (event, args) {
+			$scope.$apply(function () {            
+				//add the file object to the scope's files collection
+				$scope.files = args.file;
+			});
+		});
 		
 		$scope.registerUser = function(){
-			console.log($scope.registerData)
-			$http.post(server + 'admin/addbrand?image='+image_toE.target.value).success(function(response, status, headers) {
+			var formData = new FormData();
+			formData.append("image", $scope.files);
+			var config = {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+			}
+
+			$http.post(server + 'admin/addbanner' , formData,config).success(function(response, status, headers) {
 				$scope.is_add = false
 				$scope.getUser();
 				$scope.createRowData();
@@ -1000,3 +1030,43 @@ adminApp.directive('fileUpload', function () {
         }
     };
 });
+
+adminApp.directive('bannerfileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+				console.log(event.target.files)
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("bannerfileSelected", { file: files[i] });
+				
+				
+				}                                       
+            });
+        }
+    };
+});
+
+adminApp.directive('brandfileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+				console.log(event.target.files)
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("brandfileSelected", { file: files[i] });
+				
+				
+				}                                       
+            });
+        }
+    };
+});
+
+

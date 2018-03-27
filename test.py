@@ -51,9 +51,9 @@ urls = (
 # db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="Spur2Win", db="seatomeat")
 #live server
-# db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
+db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="spur2win", db="seatomeat")
 # shubham
-db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="shubham")
+#db = web.database(host="127.0.0.1", port=3306 , dbn='mysql' , user="root", pw="root", db="shubham")
 
 #User Registration and Login
 #Login
@@ -440,12 +440,12 @@ class AddBrand:
             print "safe"
             filename=path.split('/')[-1]
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-            filename = 'brand/'+'brand_'+str(timestamp)+'_'+filename+".jpg"
+            filename = 'brand_'+str(timestamp)+'_'+filename+".jpg"
             fileData = eachFile
             fout = open(path +'/'+filename, "wb")
             fout.write(fileData)
             fout.close()
-            db.insert('brand_images',brand_image=filename)
+            db.insert('brand_images',brand_image="brand/"+filename)
             pyDict = {'code':'200','status':'success'} 
             
             return json.dumps(pyDict)    
@@ -484,12 +484,12 @@ class AddBanner:
             eachFile =data.image
             filename=path.split('/')[-1]
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-            filename = 'banner/'+'banner_'+str(timestamp)+'_'+filename+".jpg"
+            filename = 'banner_'+str(timestamp)+'_'+filename+".jpg"
             fileData = eachFile
             fout = open(path +'/'+filename, "wb")
             fout.write(fileData)
             fout.close()
-            db.insert('banner_images',brand_image=filename)
+            db.insert('banner_images',banner_images="banner/"+filename)
             pyDict = {'code':'200','status':'success'} 
             
             return json.dumps(pyDict)    
