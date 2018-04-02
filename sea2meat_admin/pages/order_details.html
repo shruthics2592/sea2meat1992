@@ -1,0 +1,104 @@
+
+
+<div class="main">
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Orders Details</h3>
+            <div class="panel panel-headline">
+                <div class="panel-body">
+                    <div  style="height: 100%">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Order Informantion</label>
+                                <ul>
+                                    <li><label>Order Id:</label>{{orderdetails.id}}</li><br>
+                                    <li><label>Order Value:</label>{{orderdetails.orderValue}}</li> <br>
+                                    <li><label>Offer Id:</label>{{orderdetails.offerId}}</li>
+                                    <li><label>Order Status:</label>{{orderdetails.orderStatus}}
+                                    <button ng-click="enableChange()">Change Status</button>
+                                    <div ng-if="changeenable">
+                                        <select ng-model="changeStatus">
+                                            <option value="Shipping">Shipping</option>
+                                            <option value="Shipped">Shipped</option>
+                                            <option value="Delivered">Delivered</option>
+                                        </select>
+                                        <button ng-click ="changeOrderrStatus(changeStatus)">Done Changing</button>
+                                    </div>
+                                    </li>
+                                    <li><label>Payment Method:</label>{{orderdetails.paymentMethod}}</li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-headline">
+                        <div class="panel-body">
+                            <div  style="height: 100%">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>Order Address Informantion</label>
+                                        <ul>
+                                            <li><label>Address Id:</label>{{orderdetails.addressId}}</li><br>
+                                            <li><label>City:</label>{{orderdetails.addressDeatils.city}}</li> <br>
+                                            <li><label>State:</label>{{orderdetails.addressDeatils.state}}</li>
+                                            <li><label>Country:</label>{{orderdetails.addressDeatils.country}}</li>
+                                            <li><label>PinCode:</label>{{orderdetails.addressDeatils.pincode}}</li>
+                                        </ul>
+                                    </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-headline">
+                        <div class="panel-body">
+                            <div  style="height: 100%">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Order User Informantion</label>
+                                <ul>
+                                    <li><label>user Id:</label>{{orderdetails.userId}}</li><br>
+                                    <li><label>First Name:</label>{{orderdetails.userDeatils.firstName}}</li> <br>
+                                    <li><label>Last Name:</label>{{orderdetails.userDeatils.lastName}}</li>
+                                    <li><label>Mobile:</label>{{orderdetails.userDeatils.mobile}}</li>
+                                    <li><label>Email:</label>{{orderdetails.userDeatils.email}}</li>
+                                </ul>
+                            </div>
+                           
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="panel panel-headline">
+                            <div class="panel-body">
+                                <div  style="height: 100%">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Order Product Informantion</label>
+                                 <table>
+                                     <tr>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            <th>Quntity</th>
+                                     </tr>
+                                     <tr ng-repeat="eachproduct in orderdetails.products">
+                                         <td>{{eachproduct.name}}</td>
+                                         <td ng-if="!eachproduct.is_sale">{{eachproduct.price}}</td>
+                                         <td ng-if="eachproduct.is_sale">{{eachproduct.sale_price}}</td>
+                                         <td>{{eachproduct.quantity}}</td>
+
+                                     </tr>
+                                 </table>
+                            </div>
+                           
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

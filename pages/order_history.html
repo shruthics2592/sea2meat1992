@@ -42,6 +42,7 @@
                 <td class="text-right">{{order.createdAt}}</td>
                 <td class="text-right">  
                   <button type="button" class="btn btn-info" ng-click="selectedOrderfun(order)">View Products</button>
+                  <button type="button" class="btn btn-info" ng-if="order.orderStatus == 'Placed'" ng-click="cancelOrder(order.id)">Cancel Order</button>
                 </td>
               </tr>
             </tbody>

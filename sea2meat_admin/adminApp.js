@@ -40,6 +40,10 @@ agGrid.initialiseAgGridWithAngular1(angular);
             .when('/orders', {
 				templateUrl : 'pages/orders.html',
 				controller  : 'ordersController'
+			})
+			.when('/order_details/:orderId', {
+				templateUrl : 'pages/order_details.html',
+				controller  : 'orderdetailsController'
             })
             .when('/banners', {
 				templateUrl : 'pages/banners.html',
@@ -127,15 +131,33 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			}
 		$scope.gridOptions = {}
 		$scope.is_add = false
-		$scope.files = [];
+		$scope.imageFile = [];
+		$scope.swapimageFile = [];
+		$scope.thumbimageFile = [];
 
 		//listen for the file selected event
-    $scope.$on("fileSelected", function (event, args) {
+    $scope.$on("imagelinkfileSelected", function (event, args) {
         $scope.$apply(function () {            
             //add the file object to the scope's files collection
-            $scope.files.push(args.file);
+            $scope.imageFile = args.file;
         });
-    });
+	});
+	
+			//listen for the file selected event
+	$scope.$on("swapimagefileSelected", function (event, args) {
+		$scope.$apply(function () {            
+			//add the file object to the scope's files collection
+			$scope.swapimageFile = args.file;
+		});
+	});
+
+	//listen for the file selected event
+	$scope.$on("thumbnailimagefileSelected", function (event, args) {
+		$scope.$apply(function () {            
+			//add the file object to the scope's files collection
+			$scope.thumbimageFile = args.file;
+		});
+	});
 	$scope.getUser = function () {
 		type = "ALL"
 		$http.get(server + 'app/getfeaturedproducts?name='+type).success(function(response, status, headers) {
@@ -157,16 +179,25 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	$scope.registerData = {"product_code":"","categoryId":"","description":"","currency":"","price":"","sale_price":"","is_active":"","is_available":"","is_sale":"","is_special":""}
 	$scope.registerUser = function(){
 		var formData = new FormData();
-		formData.append("productname","Product Beef1")
-		for (var i = 0; i < $scope.files.length; i++) {
-			//add each file to the form data and iteratively name them
-			formData.append("image", $scope.files[i]);
-		}
+		formData.append("product_code",$scope.registerData.product_code)
+		formData.append("name",$scope.registerData.name)
+		formData.append("categoryId",$scope.registerData.categoryId)
+		formData.append("description",$scope.registerData.description)
+		formData.append("currency",$scope.registerData.currency)
+		formData.append("price",$scope.registerData.price)
+		formData.append("sale_price",$scope.registerData.sale_price)
+		formData.append("is_active",$scope.registerData.is_active)
+		formData.append("is_available",$scope.registerData.is_available)
+		formData.append("is_sale",$scope.registerData.is_sale)
+		formData.append("is_special",$scope.registerData.is_special)
+		formData.append("imagelink",$scope.imageFile)
+		formData.append("swapImage",$scope.swapimageFile)
+		formData.append("thumbnailImage",$scope.thumbimageFile)
 		var config = {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }
-		$http.post(server + 'admin/addproduct', $scope.registerData).success(function(response, status, headers) {
+		$http.post(server + 'admin/addproduct', formData,config).success(function(response, status, headers) {
 			$scope.is_add = false
 			$scope.getUser();
 			$scope.createRowData();
@@ -824,6 +855,60 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			
 	});
 
+	adminApp.controller("orderdetailsController",function($scope,$window,$http,$rootScope,$routeParams){
+		$rootScope.test = true
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
+
+			if(user){
+				
+			}else{
+	
+				$window.location.href = '#/login';
+				
+			}
+			$scope.changeenable = false
+			$scope.enableChange = function(){
+				$scope.changeenable = true
+
+			}
+
+			$scope.getAOrders = function () {
+				$http.get(server + 'admin/getorderdetails/'+$routeParams.orderId).success(function(response, status, headers) {
+					if(response.code == 200 || response.code == "200"){
+						if(response.Orders.length > 0){
+							$scope.orderdetails = response.Orders[0]
+						}	
+					}
+					
+				}).error(function(response, status, headers) {
+				
+				});	
+			};
+
+			$scope.getAOrders()
+
+			$scope.changeOrderrStatus = function(status){
+				var formData = new FormData();
+				formData.append("status",status);
+				formData.append("orderId",$routeParams.orderId);
+				var config = {
+					transformRequest: angular.identity,
+					headers: {'Content-Type': undefined}
+				}
+	
+				$http.post(server + 'app/changeOrderStatus' , formData,config).success(function(response, status, headers) {
+					$scope.getAOrders();
+					$scope.changeenable = false
+				}).error(function(response, status, headers) {
+				
+				});
+	
+			}
+
+
+
+
+	})
 
 	adminApp.controller('ordersController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
@@ -882,6 +967,7 @@ agGrid.initialiseAgGridWithAngular1(angular);
 					enableColResize: true,
 					enableSorting: true,
 					enableFilter: true,
+					enableRowSelection:true,
 					onModelUpdated: $scope.onModelUpdated,
 					defaultColDef: {
 						editable: true
@@ -915,7 +1001,11 @@ agGrid.initialiseAgGridWithAngular1(angular);
 							// });
 							
 				},
-					suppressRowClickSelection: true
+				onRowSelectionChanged : function(event){
+					console.log("event",event)
+					location.href = "#/order_details/"+event.data.id
+
+				}
 			};
 			
 			 $scope.onModelUpdated = function() {
@@ -1061,6 +1151,65 @@ adminApp.directive('brandfileUpload', function () {
                 for (var i = 0;i<files.length;i++) {
                     //emit event upward
                     scope.$emit("brandfileSelected", { file: files[i] });
+				
+				
+				}                                       
+            });
+        }
+    };
+});
+
+adminApp.directive('imagelinkfileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+				console.log(event.target.files)
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("imagelinkfileSelected", { file: files[i] });
+				
+				
+				}                                       
+            });
+        }
+    };
+});
+
+
+adminApp.directive('swapimagefileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+				console.log(event.target.files)
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("swapimagefileSelected", { file: files[i] });
+				
+				
+				}                                       
+            });
+        }
+    };
+});
+
+
+adminApp.directive('thumbnailimagefileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+				console.log(event.target.files)
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("thumbnailimagefileSelected", { file: files[i] });
 				
 				
 				}                                       

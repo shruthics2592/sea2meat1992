@@ -172,8 +172,8 @@
 			// });
 		
 
-		//$scope.server = "http://172.104.50.54:8080/"
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://sea2meat.com:8080/"
+		//$scope.server = "http://localhost:8080/"
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
 
@@ -363,6 +363,23 @@
 		$scope.selectedOrderfun = function(order){
 			$scope.selectedOrder = order.products
 		}
+		$scope.cancelOrder = function(orderId){
+			console.log("in function",orderId)
+			var formData = new FormData();
+			formData.append("status","Cancelled");
+			formData.append("orderId",orderId);
+			var config = {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+			}
+
+			$http.post($scope.server + 'app/changeOrderStatus' , formData,config).success(function(response, status, headers) {
+				$scope.getOrderHistory();
+			}).error(function(response, status, headers) {
+			
+			});
+
+		}
 		$scope.getOrderHistory = function(){
 			var user = JSON.parse(localStorage.getItem("userDetails"))
 			if(user){
@@ -451,8 +468,8 @@
 		}
 		console.log("I am in login controller")
 		$scope.data = {"email":"","password":""}
-//		$scope.server = "http://172.104.50.54:8080/";
-		$scope.server = "http://localhost:8080/"
+		$scope.server = "http://sea2meat.com:8080/";
+		//$scope.server = "http://localhost:8080/"
 
 		$scope.is_logged_in  = localStorage.getItem("is_logged_in")
 
@@ -1033,7 +1050,10 @@ var wish =[]
 			if($scope.cartDetails.addressId && $scope.cartDetails.termsandCondition && $scope.cartDetails.userId){
 
 				$http.post($scope.server + "app/order",JSON.stringify($scope.cartDetails)).success(function(response, status, headers) {
+					localStorage.removeItem('cartDetails') 
+					$window.location.reload()
 					$window.location.href = "#/confirmorder"
+
 	
 				}).error(function(response, status, headers) {
 				

@@ -30,7 +30,7 @@ urls = (
   '/admin/settestemonials','SetTestemonials', # Get all the feedbacks
   '/app/getbrand','GetBrandImages', #To get brand images for home page
   '/app/addwish','AddWish', # adds to wish list
-  '/admin/getwish','GetWish', # get to wish list
+  '/app/getwish','GetWish', # get to wish list
   '/admin/getuser','GetUsers',
   '/admin/addbrand','AddBrand',
   '/app/productDetails/?([0-9]*)','GetaProducts',
@@ -41,7 +41,9 @@ urls = (
   '/app/addaddress','AddAddress',
   '/app/updatenewsletter','UpdateNewsletter',
   '/app/getmyorder/?([0-9]*)','GetMyOrder',
-  '/app/getallorder','GetAllOrder'
+  '/app/getallorder','GetAllOrder',
+  '/app/changeOrderStatus','ChangeStatus',
+  '/admin/getorderdetails/?([0-9]*)','GetAOrderDetails'
 
 
 )
@@ -568,6 +570,48 @@ class GetProducts:
 
 
 
+class ChangeStatus:
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        try:
+            data = web.input()
+            createdAt = str(datetime.datetime.now())
+            delivaryDate = str(datetime.datetime.now().date())
+            orderStatus = data.status
+            orderId = data.orderId
+            #cart_id = db.query("Insert into order (userId, orderValue, orderStatus,addressId, paymentMethod) values ("+str(data['userId'])+","+str(data['orderValue'])+",'"+data['orderStatus']+"',"+str(data['addressId'])+",'COD')")
+            cart_id = db.update('userOrder',where="id="+orderId,orderStatus=orderStatus)            
+            db.insert('orderHistory',orderId=orderId,orderStatus=orderStatus,createdAt=createdAt)
+            
+            # Change Order Status
+            pyDict = {'code':'200','status':'Success'}  
+            return json.dumps(pyDict) 
+        except Exception as e:
+            
+            
+            response = []
+            pyDict = {'code':'201','status':'fail','message':str(e)}  
+            response.append(pyDict)          
+            finalresponse =json.dumps(response)
+            return finalresponse
+    
+
+
 #Get all products for the selected category or all
 class AddProducts:
     def GET(self):
@@ -588,9 +632,43 @@ class AddProducts:
 
         web.header('Content-Type', 'application/json')
         try:
-            data = json.loads(web.data())
+            data = web.input()
             createdAt = createdAt = datetime.date.today()
-            add_product = db.insert("product",productCode=data['product_code'],name=data['name'],price=data['price'],currency=data['currency'],categoryId=data['categoryId'],is_available=data['is_available'],is_todaysSpecial=data['is_special'],is_active=data['is_active'],createdAt=createdAt,description=data['description'],sale_price=data['sale_price'],is_sale=data['is_sale'])
+            path = os.path.abspath(os.path.join(os.path.dirname( __file__ ))) + "/product"
+            # image Link 
+            eachFile =data.imagelink
+            filename=path.split('/')[-1]
+            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+            filename = 'product_'+str(timestamp)+'_'+filename+".jpg"
+            fileData = eachFile
+            fout = open(path +'/'+filename, "wb")
+            fout.write(fileData)
+            fout.close()
+            imagelink = "product/"+filename
+            # Swap Image
+            eachFile =data.swapImage
+            filename=path.split('/')[-1]
+            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+            filename = 'product_'+str(timestamp)+'_'+filename+".jpg"
+            fileData = eachFile
+            fout = open(path +'/'+filename, "wb")
+            fout.write(fileData)
+            fout.close()
+            swapImage = "product/"+filename
+            #thumbnail Image
+            eachFile =data.thumbnailImage
+            filename=path.split('/')[-1]
+            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+            filename = 'product_'+str(timestamp)+'_'+filename+".jpg"
+            fileData = eachFile
+            fout = open(path +'/'+filename, "wb")
+            fout.write(fileData)
+            fout.close()
+            thumbnailImage = "product/"+filename
+            #Adding Product
+            add_product = db.insert("product",productCode=data.product_code,name=data.name,price=data.price,currency=data.currency,categoryId=data.categoryId,is_available=data.is_available,is_todaysSpecial=data.is_special,is_active=data.is_active,createdAt=createdAt,description=data.description,sale_price=data.sale_price,is_sale=data.is_sale)
+            # Adding Product Image
+            add_product_image = db.insert("productImage",productId=add_product,imagelink=imagelink,swapImage=swapImage,thumbnailImage=thumbnailImage)
             pyDict = {'code':'200','status':'Success','data':add_product}  
             return json.dumps(pyDict) 
         except Exception as e:
@@ -1095,7 +1173,6 @@ class AddWish:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','Content-Type')
         web.header('Access-Control-Request-Headers','Content-Type')
-
         web.header('Content-Type', 'application/json')
         return 0
     def GET(self):
@@ -1152,7 +1229,6 @@ class GetWish:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','Content-Type')
         web.header('Access-Control-Request-Headers','Content-Type')
-
         web.header('Content-Type', 'application/json')
         return
     def GET(self):
@@ -1160,7 +1236,6 @@ class GetWish:
         web.header('Access-Control-Allow-Methods','*')
         web.header('Access-Control-Allow-Headers','Content-Type')
         web.header('Access-Control-Request-Headers','Content-Type')
-
         web.header('Content-Type', 'application/json')
         try:
             my_params = web.input()
@@ -1426,6 +1501,96 @@ class GetMyOrder:
             pyDict = {'code':'201','status':'fail','message':str(e)}            
             response =json.dumps(pyDict)
             return response
+
+class GetAOrderDetails:
+    def POST(self,id):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self,id):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        ordersList =[]
+        try:
+            if id:
+                orders = db.query("select * from userOrder where id="+id)
+            else:
+                pyDict = {'code':'201','status':'fail','message':"order id is not provided"}            
+                response =json.dumps(pyDict)
+                return response
+                 
+            for order in orders:
+                orderObj = {}
+                orderObj["id"] = order.id
+                orderObj["userId"] = order.userId
+                orderObj["offerId"] = order.offerId
+                orderObj["orderStatus"] = order.orderStatus
+                orderObj["addressId"]=order.addressId
+                orderObj["orderValue"]=order.orderValue
+                orderObj["paymentMethod"]=order.paymentMethod
+                orderObj["addressDeatils"] = {}
+                orderObj["userDeatils"] = {}
+                orderObj["products"] = []
+                user_details = db.query("select * from user where id="+str(order.userId))
+                for userdetails in user_details:
+                    orderObj["userDeatils"]["id"] = userdetails.id
+                    orderObj["userDeatils"]["firstName"] = userdetails.firstName
+                    orderObj["userDeatils"]["lastName"] = userdetails.lastName
+                    orderObj["userDeatils"]["mobile"] = userdetails.mobile
+                    orderObj["userDeatils"]["email"] = userdetails.email
+                user_address = db.query("select * from address where id="+str(order.addressId))
+                for address in user_address:
+                    orderObj["addressDeatils"]["streetAddress"] = address.streetAddress
+                    orderObj["addressDeatils"]["city"] = address.city
+                    orderObj["addressDeatils"]["state"] = address.state
+                    orderObj["addressDeatils"]["country"] = address.country
+                    orderObj["addressDeatils"]["pincode"] = address.pincode
+                orderProduct = db.query("select * from orderProduct where orderId ="+str(order.id))
+                for product in  orderProduct:
+                    eachproduct = {}
+                    myproduct = db.query("select * from product where id="+str(product.productId))
+                    for eachpro in myproduct:
+                        prod_json ={}
+                        prod_json["quantity"] = product.quantity
+                        prod_json["id"] =  eachpro.id
+                        prod_json["name"] =  eachpro.name
+                        prod_json["price"] = eachpro.price
+                        prod_json["currency"] = eachpro.currency
+                        prod_json["is_available"] = eachpro.is_available
+                        prod_json["is_todaysSpecial"] = eachpro.is_todaysSpecial
+                        prod_json["is_active"] = eachpro.is_active
+                        prod_json["description"] = eachpro.description
+                        prod_json["is_sale"] = eachpro.is_sale
+                        prod_json["sale_price"] = eachpro.sale_price
+                        featured_product_data_image = db.query('''
+                                            select * from product p
+                                            inner join productImage as pi on p.id = pi.productId
+                                            where p.id = $id
+                                            LIMIT 1''',vars={"id":eachpro.id})
+                        for image in featured_product_data_image:
+                            prod_json["imagelink"] = image.imagelink
+                            prod_json["swapImage"] = image.swapImage
+                            prod_json["thumbnailImage"] = image.thumbnailImage
+                        orderObj["products"].append(prod_json)
+                ordersList.append(orderObj)
+            pyDict = {'code':'200','status':'Success','Orders':ordersList}  
+            return json.dumps(pyDict)  
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+        
         
 
 class GetAllOrder:
