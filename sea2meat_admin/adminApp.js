@@ -941,15 +941,15 @@ agGrid.initialiseAgGridWithAngular1(angular);
 		var columnDefs = [
 
 			{headerName: "Order Id",editable: false, field: "id",width: 150, pinned: true ,cellRenderer:'agGroupCellRenderer'},
-			{headerName: "Order Status", field: "orderStatus",width: 150, pinned: true},
-			{headerName: "Order Value", field: "orderValue",width: 150, pinned: true},
-			{headerName: "Payment Method", field: "paymentMethod",width: 150, pinned: true},
-			{headerName: "First Name", field: "userDeatils.firstName",width: 150},
-						{headerName: "Last Name", field: "userDeatils.lastName",width: 150},
-						{headerName: "Address", field: "addressDeatils.streetAddress",width: 150},
-						{headerName: "Mobile", field: "userDeatils.mobile",width: 150},
-		                {headerName: "Email", field: "userDeatils.email",width: 150},
-		                {headerName: "City", field: "addressDeatils.city",width: 150},
+			{headerName: "Order Status", editable: false,field: "orderStatus",width: 150, pinned: true},
+			{headerName: "Order Value", editable: false,field: "orderValue",width: 150, pinned: true},
+			{headerName: "Payment Method", editable: false,field: "paymentMethod",width: 150, pinned: true},
+			{headerName: "First Name", editable: false,field: "userDeatils.firstName",width: 150},
+						{headerName: "Last Name", editable: false,field: "userDeatils.lastName",width: 150},
+						{headerName: "Address", editable: false,field: "addressDeatils.streetAddress",width: 150},
+						{headerName: "Mobile", editable: false,field: "userDeatils.mobile",width: 150},
+		                {headerName: "Email", editable: false,field: "userDeatils.email",width: 150},
+		                {headerName: "City", editable: false,field: "addressDeatils.city",width: 150},
 			
 			
 					
@@ -962,16 +962,10 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			$scope.gridOptions = {
 					columnDefs: columnDefs,
 					rowData: [],
-					masterDetail:true,
-					rowSelection: 'multiple',
-					enableColResize: true,
 					enableSorting: true,
 					enableFilter: true,
-					enableRowSelection:true,
+					onRowClicked:onRowSelected,
 					onModelUpdated: $scope.onModelUpdated,
-					defaultColDef: {
-						editable: true
-					},
 					detailCellRendererParams: {
 						detailGridOptions: {
 							columnDefs: [
@@ -989,23 +983,8 @@ agGrid.initialiseAgGridWithAngular1(angular);
 							console.log("parama::",params.data)
 							params.successCallback(params.products);
 						}
-					},
-					onCellEditingStarted: function(event) {
-						console.log('cellEditingStarted',event);
-				},
-				onCellEditingStopped: function(event) {
-							// $http.post(server + 'app/editaccount?email='+event.data.email+'&mobile='+event.data.mobile+'&firstname='+event.data.firstname+'&lastname='+event.data.lastname+'&fax='+event.data.fax+'&id='+event.data.id+'&company='+event.data.company+'&subscription='+event.data.subscription).success(function(response, status, headers) {
-							// 	console.log("product",response)
-							// 	localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
-							// }).error(function(response, status, headers) {
-							// });
-							
-				},
-				onRowSelectionChanged : function(event){
-					console.log("event",event)
-					location.href = "#/order_details/"+event.data.id
-
-				}
+					}
+				
 			};
 			
 			 $scope.onModelUpdated = function() {
@@ -1014,7 +993,11 @@ agGrid.initialiseAgGridWithAngular1(angular);
 					var processedRows = model.getRowCount();
 					$scope.rowCount = processedRows.toLocaleString() + ' / ' + totalRows.toLocaleString();
 			}
-		
+			function onRowSelected(event){
+				console.log("event",event)
+			 	location.href = "#/order_details/"+event.data.id
+			}
+			
 			$scope.createRowData = function() {
 					// var rowData = [];
 					// for (var i = 0; i < $scope.model.length; i++) {
