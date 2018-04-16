@@ -469,9 +469,7 @@
                     $window.location.reload()
 					
 				}else{
-					localStorage.setItem("is_logged_in",false)
-					$scope.is_logged_in = false
-					alert('Hello! Register', 'Invalid User Credentials!');
+					
 					toaster.pop({
 						type: 'success',
 						title: 'Hello! Register',
@@ -519,9 +517,15 @@
 					});
 					$window.location.href = '#/my_account';
 				}else{
-					localStorage.setItem("is_logged_in",false)
-					$scope.is_logged_in = false
-					alert('Hello! Register', 'Invalid User Credentials!');
+					//localStorage.setItem("is_logged_in",false)
+					//$scope.is_logged_in = false
+					//alert('Hello! Register', 'Invalid User Credentials!');
+					toaster.pop({
+						type: 'success',
+						title: 'Hello! Register',
+						body: "Invalid User Credentials!",
+						timeout: 3000
+					});
 
 				}
 				
