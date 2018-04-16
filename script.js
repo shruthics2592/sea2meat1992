@@ -360,8 +360,38 @@
 	scotchApp.controller('orderHistoryController', function($scope,$window,$http,toaster) {
 		$scope.myorder = []
 		$scope.selectedOrder = []
+		$scope.canceled  = false
+		$scope.statuses = ["Shipping","Shipped","Delivered"]
 		$scope.selectedOrderfun = function(order){
+			
 			$scope.selectedOrder = order.products
+			if(order.orderStatus!="Cancelled"){
+				$scope.canceled  = false
+			if(order.orderStatus=="Shipping"){
+				console.log("order.products",order.orderStatus)
+
+				$("#s0").addClass("progtrckr-done");
+				$("#s1").addClass("progtrckr-todo");
+				$("#s2").addClass("progtrckr-todo");
+			}
+			if(order.orderStatus=="Shipped"){
+				$("#s0").addClass("progtrckr-done");
+				$("#s1").addClass("progtrckr-done");
+				$("#s2").addClass("progtrckr-todo");
+			}
+			if(order.orderStatus=="Delivered"){
+				$("#s0").addClass("progtrckr-done");
+				$("#s1").addClass("progtrckr-done");
+				$("#s2").addClass("progtrckr-done");
+			}
+
+			
+			
+
+			
+		}else{
+			$scope.canceled  = true
+		}
 		}
 		$scope.cancelOrder = function(orderId){
 			console.log("in function",orderId)

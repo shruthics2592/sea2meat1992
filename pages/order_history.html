@@ -49,10 +49,21 @@
           </table>
         </div>
       </div>
-      <div id="content" class="col-sm-12" ng-if="selectedOrder.length > 0">      
+      <div id="content" class="col-sm-12" ng-show="selectedOrder.length > 0">      
           <div class="heading-bg mb-20"> 
            <h2 class="heading m-0">Selected Order Products</h2>
           </div> 
+          <ol ng-show="!canceled" class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Order Processing</li>
+         <li id="s0" >Shipping</li>
+         <li id="s1" >Shipped</li>
+         <li id="s2" >Delivered</li>
+        </ol>
+        <ol ng-if="canceled" class="progtrckr" data-progtrckr-steps="2">
+          <li class="progtrckr-done">Order Processing</li>
+       <li class="xyz">Canceled</li>
+      </ol>
+      <br/>
             <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
