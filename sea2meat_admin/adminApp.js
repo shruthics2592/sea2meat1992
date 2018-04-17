@@ -1,7 +1,7 @@
 agGrid.initialiseAgGridWithAngular1(angular);
 
 	// create the module and name it scotchApp
-	var adminApp = angular.module('adminApp', ['ngRoute','agGrid']);
+	var adminApp = angular.module('adminApp', ['ngRoute','agGrid','toaster']);
 
 	// configure our routes
 	adminApp.config(function($routeProvider) {
@@ -52,6 +52,10 @@ agGrid.initialiseAgGridWithAngular1(angular);
 			.when('/update_webContent', {
 				templateUrl : 'pages/update_webContent.html',
 				controller  : 'update_webContent'
+			})
+			.when('/vouchers', {
+				templateUrl : 'pages/vouchers.html',
+				controller  : 'voucherController'
 			});
 
 			
@@ -716,7 +720,136 @@ agGrid.initialiseAgGridWithAngular1(angular);
 	
     });
 
+	
+	adminApp.controller('voucherController', function($scope,$window,$http,$rootScope,toaster) {
+		$rootScope.test = true
+		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))
+		console.log(user)
+			if(user){
+				
+			}else{
+	
+				$window.location.href = '#/login';
+				
+			}
+			$scope.gridOptions = {}
+			$scope.is_add = false
+		$scope.getUser = function () {
+			$http.get(server + 'admin/getvouchers').success(function(response, status, headers) {
+				$scope.model = response
+				console.log($scope.model)
+				$scope.createRowData();
+			}).error(function(response, status, headers) {
+			
+			});		
+		};
+		$scope.add = function(){
+			if ($scope.is_add == false){
+			$scope.is_add = true
+			}else{
+				$scope.is_add = false
+			}
+		}
+		$scope.registerData = {"code":"","type":"","value":"","expiresOn":"","minCartValue":""}
+		$scope.registerUser = function(){
+			$http.post(server + 'admin/addcoupons', $scope.registerData).success(function(response, status, headers) {
+				$scope.is_add = false
+				$scope.getUser();
+				$scope.createRowData();
+			}).error(function(response, status, headers) {
+			
+			});
+		}
 
+		$scope.getUser();
+		
+		var columnDefs = [
+					
+					
+					{
+						headerName: 'Basic Info',
+							children: [
+								{headerName: "Id",editable: false, field: "id",
+											width: 150, pinned: true},
+									{headerName: "Code", field: "code",
+											width: 150, pinned: true},
+											{headerName: "Type", field: "type",
+											width: 150, pinned: true},
+									{headerName: "Value", field: "value", width: 150, pinned: true,
+											filterParams: { cellHeight: 20}},
+							]
+					},
+					
+					{
+							headerName: 'Other Info',
+							children: [
+									{headerName: "Created At",editable: false, field: "createdAt", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Expires On", field: "expiresOn", width: 150, filter: 'agTextColumnFilter'},
+									{headerName: "Min Cart Value", field: "minCartValue", width: 150, filter: 'agTextColumnFilter'},
+							]
+					}
+			];
+
+			$scope.gridOptions = {
+					columnDefs: columnDefs,
+					rowData: [],
+					rowSelection: 'multiple',
+					enableColResize: true,
+					enableSorting: true,
+					enableFilter: true,
+					onModelUpdated: $scope.onModelUpdated,
+					defaultColDef: {
+						editable: true
+					},
+					onCellEditingStarted: function(event) {
+						console.log('cellEditingStarted',event);
+				},
+				onCellEditingStopped: function(event) {
+
+						console.log('cellEditingStopped',event);
+							if(event.data.type=="FLAT" || event.data.type=="PERCENTAGE"){
+
+							}else{
+								alert("Please enter type as FLAT or PERCENTAGE");
+								return;
+							}
+							$http.post(server + 'admin/editcoupons?code='+event.data.code+'&type='+event.data.type+'&value='+event.data.value+'&expiresOn='+event.data.expiresOn+'&minCartValue='+event.data.minCartValue+'&id='+event.data.id).success(function(response, status, headers) {
+								console.log("product",response)
+								localStorage.setItem("adminuserDetails",JSON.stringify(response.user))
+							}).error(function(response, status, headers) {
+							});
+							
+				},
+					suppressRowClickSelection: true
+			};
+			
+			 $scope.onModelUpdated = function() {
+					var model = $scope.gridOptions.api.getModel();
+					var totalRows = $scope.gridOptions.rowData.length;
+					var processedRows = model.getRowCount();
+					$scope.rowCount = processedRows.toLocaleString() + ' / ' + totalRows.toLocaleString();
+			}
+		
+			$scope.createRowData = function() {
+					var rowData = [];
+					for (var i = 0; i < $scope.model.length; i++) {
+							rowData.push({
+								id: $scope.model[i].id,	
+								code: $scope.model[i].code,
+								type: $scope.model[i].type,
+								value: $scope.model[i].value,
+								createdAt: $scope.model[i].createdAt,
+								expiresOn: $scope.model[i].expiresOn,
+								minCartValue: $scope.model[i].minCartValue
+							 });
+					}
+					console.log("row",$scope.gridOptions)
+					// $scope.gridOptions.rowData =rowData
+					$scope.gridOptions.api.setRowData(rowData)
+					// return rowData;
+			}
+			
+	});
     adminApp.controller('usersController', function($scope,$window,$http,$rootScope) {
 		$rootScope.test = true
 		var user   = JSON.parse(localStorage.getItem("adminuserDetails"))

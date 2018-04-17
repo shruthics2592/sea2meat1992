@@ -88,7 +88,7 @@
     <br>
   <div class="buttons clearfix">
     <div class="pull-right">
-      <input type="button" value="Continue" class="btn btn-black">
+      <!-- <input type="button" value="Continue" class="btn btn-black"> -->
     </div>
   </div>
 </form>
@@ -133,6 +133,18 @@
             <input type="radio" value="cod" checked="checked">
         Cash On Delivery      </label>
 </div>
+<div class="radio">
+  <label>
+     <input type="checkbox" ng-model="voucherCheck">Got any voucher ??     
+  </label>
+</div>
+<div ng-if="voucherCheck">
+  <label>
+    <input style="text-transform:uppercase" type="text" ng-model="voucherCode">
+    <input type="button" value="Apply" ng-click="applyVoucher(voucherCode)">
+    <p id="c_message">{{coupoun_message}}</p>
+ </label>
+</div>
 <!-- <p><strong>Add Comments About Your Order</strong></p>
 <p>
   <textarea name="comment" rows="8" class="form-control"></textarea>
@@ -140,7 +152,7 @@
 <div class="buttons">
   <div class="pull-right">I have read and agree to the <a href="" class="agree"><b>Terms &amp; Conditions</b></a>        <input type="checkbox" ng-model="cartDetails.termsandCondition">
         &nbsp;
-    <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black" />
+    <!-- <input type="button" value="Continue" data-loading-text="Loading..." class="btn btn-black" /> -->
   </div>
 </div>
 </div>
@@ -189,9 +201,14 @@
         <td colspan="4" class="text-right"><strong>VAT:</strong></td>
         <td class="text-right">{{taxDeatils.Vat}}</td>
       </tr>
+      <tr ng-if="discount>0">
+        <td colspan="4" class="text-right"><strong>Discount:</strong></td>
+        <td class="text-right">-{{ discount}}</td>
+      </tr>
+
             <tr>
         <td colspan="4" class="text-right"><strong>Total:</strong></td>
-        <td class="text-right">{{cartDetails.orderValue + taxDeatils.Shipping + taxDeatils.eco_tax + taxDeatils.Vat}}</td>
+        <td class="text-right">{{total}}</td>
       </tr>
           </tfoot>
   </table>

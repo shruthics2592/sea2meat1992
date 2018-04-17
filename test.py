@@ -24,6 +24,9 @@ urls = (
   '/app/getbanner','GetBanner', #To get banner images for home page
   '/admin/addbanner','AddBanner',
   '/app/getabout','GetAbout',#get about firm data'
+  '/admin/getvouchers','GetVouchers',
+  '/admin/addcoupons','AddCoupons',
+  '/admin/editcoupons','EditCoupons',
   '/admin/setabout','SetAbout',#set about firm data
   '/app/getfeaturedproducts','GetFeaturedProducts', # Get all the featured products for home page with product type
   '/app/gettestemonials','GetTestemonials', # Get all the feedbacks
@@ -43,7 +46,8 @@ urls = (
   '/app/getmyorder/?([0-9]*)','GetMyOrder',
   '/app/getallorder','GetAllOrder',
   '/app/changeOrderStatus','ChangeStatus',
-  '/admin/getorderdetails/?([0-9]*)','GetAOrderDetails'
+  '/admin/getorderdetails/?([0-9]*)','GetAOrderDetails',
+  '/app/reedemvoucher','ReedemVoucher'
 
 
 )
@@ -248,6 +252,64 @@ class RegisterAdmin:
         return "Get Method only supported. No Authorization Required"
 
 
+
+class ReedemVoucher:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        data = web.input() # to read raw data
+        try:
+            userid = data.userid
+            cart_value = int(data.cartvalue)
+            coupoun_value = data.code
+            current_date = datetime.datetime.now().date()
+            coupounObj = db.query("select * from offer where code='"+str(coupoun_value)+"' and expiresOn>='"+str(current_date)+"'") 
+            is_coupoun_available = False
+            required_cartvalue = 0
+            for coupoun in coupounObj:
+                is_coupoun_available = True
+                required_cartvalue = int(coupoun.minCartValue)
+                offer_id = coupoun.id
+                discount_value = coupoun.value
+                discount_type = coupoun.type
+            already_used = False
+            if is_coupoun_available:
+                if int(cart_value) >= int(required_cartvalue) :
+                    orderObj = db.query("select * from userOrder where offerId='"+str(offer_id)+"' and userId='"+str(userid)+"'") 
+                    for user in orderObj:
+                        already_used = True
+                    if already_used:
+                        pyDict = {'code':201,'status':"succes","message":"Already used..!!"}
+                        return json.dumps(pyDict)    
+                    else:
+                        pyDict = {'code':200,'status':"succes","message":"Successfully Applied..!!","value":discount_value,"type":discount_type,"offer_id":offer_id}
+                        return json.dumps(pyDict)
+                else:
+                    pyDict = {'code':201,'status':"succes","message":"Insufficient Cart Value. Minimum value "+str(required_cartvalue)+" required to avail this offer."}
+                    return json.dumps(pyDict)
+            else:
+                pyDict = {'code':201,'status':"succes","message":"Invalid Coupoun..!!"}
+                return json.dumps(pyDict)
+
+        except Exception as e:
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self):
+        return "Get Method only supported. No Authorization Required"
 
 
 class EditAccount:
@@ -1282,6 +1344,46 @@ class GetWish:
             response =json.dumps(pyDict)
             return response
 
+class GetVouchers:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        get_voucher_response =[]
+        try:
+            about_data = db.query("select * from offer")
+            final_data = []
+            for about in about_data:
+                about_json = {}
+                about_json["id"] = about.id
+                about_json["code"] = about.code
+                about_json["type"] = about.type
+                about_json["value"] = about.value
+                about_json["createdAt"] = str(about.createdAt)
+                about_json["expiresOn"] = str(about.expiresOn)
+                about_json["minCartValue"] = about.minCartValue
+                final_data.append(about_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
 
 # get about firm data
 class GetAbout:
@@ -1318,6 +1420,79 @@ class GetAbout:
             pyDict = {'code':'201','status':'fail','message':str(e)}            
             response =json.dumps(pyDict)
             return response
+class AddCoupons:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        data = json.loads(web.data().decode('utf-8'))
+        try:
+            userObj = db.query("select * from offer where code='"+data['code']+"'") 
+            # if not userObj:
+            userdata_data= db.insert("offer",code=data['code'],type=data['type'],value=data['value'],expiresOn=data['expiresOn'],minCartValue=data['minCartValue'])
+            pyDict = {'code':200,'status':"succes",'user':userdata_data}            
+            return json.dumps(pyDict)
+            # else:
+            #     pyDict = {'code':201,'status':'Code already exist'}
+            #     return json.dumps(pyDict)            
+
+
+        except Exception as e:
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+    
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
+
+
+class EditCoupons:
+    def POST(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        data = web.data() # to read raw data
+        data = web.input()
+        try:
+            userObj = db.query("select * from offer where id='"+data.id+"'") 
+            # if not userObj:
+            userdata_data= db.update("offer",where="id="+data.id,code=data.code,type=data.type,value=data.value,expiresOn=data.expiresOn,minCartValue=data.minCartValue)
+            pyDict = {'code':200,'status':"succes",'user':userdata_data}            
+            return json.dumps(pyDict)
+            # else:
+            #     pyDict = {'code':201,'status':'Code already exist'}
+            #     return json.dumps(pyDict)            
+
+
+        except Exception as e:
+            pyDict = {'code':201,'status':'','failmessage':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return 0
+    def GET(self,categoryId):
+        return "Get Method only supported. No Authorization Required"
 
 # get about firm data
 class SetAbout:
@@ -1690,14 +1865,14 @@ class PlaceOrder:
             delivaryDate = str(datetime.datetime.now().date())
             orderStatus = "Fail"
             #cart_id = db.query("Insert into order (userId, orderValue, orderStatus,addressId, paymentMethod) values ("+str(data['userId'])+","+str(data['orderValue'])+",'"+data['orderStatus']+"',"+str(data['addressId'])+",'COD')")
-            cart_id = db.insert('userOrder',userId = data['userId'],orderValue=data['orderValue'],orderStatus=data['orderStatus'],addressId=data['addressId'],paymentMethod='COD')            
+            cart_id = db.insert('userOrder',offerId=data["offerId"],userId = data['userId'],orderValue=data['orderValue'],orderStatus=data['orderStatus'],addressId=data['addressId'],paymentMethod='COD')            
             for products in data["cart"]:
                 db.insert('orderProduct',orderId=cart_id,productId=products['productId'],quantity=products['quantity'],createdAt=createdAt)
             if cart_id:
                 orderStatus = "Placed"
             db.insert('orderHistory',orderId=cart_id,orderStatus=orderStatus,createdAt=createdAt)
             
-            pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category"}    
+            pyDict = {'code':'200','status':'Successfully updated','message':"Updated Category","as":data["offerId"]}    
             return json.dumps(pyDict)  
         except Exception as e:
             

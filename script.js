@@ -1048,7 +1048,8 @@ var wish =[]
 	scotchApp.controller('checkoutController', function($scope,$window,$http,toaster) {
 	  $scope.user = JSON.parse(localStorage.getItem("userDetails"))
 	  $scope.taxDeatils = {"Shipping":5.00,"Vat":4.00,"eco_tax":2.00}
-
+	  $scope.voucherCheck = false
+	  
 		if($scope.user){
 		}else{
 			$window.location.href = '#/login';
@@ -1060,6 +1061,45 @@ var wish =[]
 
 	   }
 	   $scope.cartDetails = cartDetails
+	   $scope.discount = 0
+	   $scope.total = cartDetails.orderValue - $scope.discount + $scope.taxDeatils.Shipping + $scope.taxDeatils.eco_tax + $scope.taxDeatils.Vat
+	   $scope.applyVoucher = function(value){
+			console.log(value,$scope.cartDetails)
+			if($scope.user){
+			$scope.user_id = $scope.user.id
+			$http.post($scope.server + 'app/reedemvoucher?code='+value+'&cartvalue='+$scope.cartDetails.orderValue+'&userid='+$scope.user_id).success(function(response, status, headers) {
+				$scope.voucher_response = response
+				$scope.cartDetails.offerId = response.offer_id
+				$scope.coupoun_message = $scope.voucher_response.message
+				if($scope.voucher_response.code==201){
+					// $('#c_message').removeClass("active")
+					$scope.discount = 0
+					$scope.total = cartDetails.orderValue - $scope.discount + $scope.taxDeatils.Shipping + $scope.taxDeatils.eco_tax + $scope.taxDeatils.Vat
+					$('#c_message').addClass("alert alert-danger")
+				}else{
+					$scope.type = $scope.voucher_response.type
+					if($scope.type == "FLAT"){
+						$scope.discount = $scope.voucher_response.value
+						$scope.total = cartDetails.orderValue - $scope.discount + $scope.taxDeatils.Shipping + $scope.taxDeatils.eco_tax + $scope.taxDeatils.Vat
+					}
+					else{
+						$scope.discount = ($scope.voucher_response.value/100)*$scope.cartDetails.orderValue
+						$scope.total = cartDetails.orderValue - $scope.discount + $scope.taxDeatils.Shipping + $scope.taxDeatils.eco_tax + $scope.taxDeatils.Vat
+					}
+					if($scope.total<0){
+						$scope.total = 0
+					}
+					$('#c_message').removeClass("alert alert-danger")
+					$('#c_message').addClass("alert alert-success")
+				}
+				console.log("voucher",$scope.voucher_response)
+			}).error(function(response, status, headers) {
+			
+			});
+
+			}
+
+		}
 
 	   $scope.getCartValue = function(){
 
