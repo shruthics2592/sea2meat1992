@@ -198,6 +198,14 @@
 
 		}
 
+		//-------------Logout -------------------//
+		$scope.logout  = function(){
+			console.log("::in logout function:::")
+			localStorage.clear()
+			$window.location.reload()
+
+		}
+
 		
 
 		$scope.getProducts = function(){
@@ -368,21 +376,51 @@
 			if(order.orderStatus!="Cancelled"){
 				$scope.canceled  = false
 			if(order.orderStatus=="Shipping"){
-				console.log("order.products",order.orderStatus)
+				//console.log("order.products",order.orderStatus)
+
+				
+				$("#s1").removeClass("progtrckr-done");
+				$("#s2").removeClass("progtrckr-done");
+				$("#s0").removeClass("progtrckr-todo");
 
 				$("#s0").addClass("progtrckr-done");
 				$("#s1").addClass("progtrckr-todo");
 				$("#s2").addClass("progtrckr-todo");
+
+				
 			}
 			if(order.orderStatus=="Shipped"){
+				$("#s0").removeClass("progtrckr-todo");
+				$("#s1").removeClass("progtrckr-todo");
+				$("#s2").removeClass("progtrckr-done");
+
 				$("#s0").addClass("progtrckr-done");
 				$("#s1").addClass("progtrckr-done");
 				$("#s2").addClass("progtrckr-todo");
+				
+
 			}
 			if(order.orderStatus=="Delivered"){
+				$("#s0").removeClass("progtrckr-todo");
+				$("#s1").removeClass("progtrckr-todo");
+				$("#s2").removeClass("progtrckr-todo");
+
 				$("#s0").addClass("progtrckr-done");
 				$("#s1").addClass("progtrckr-done");
 				$("#s2").addClass("progtrckr-done");
+				
+			}
+
+			if(order.orderStatus=="Placed"){
+				$("#s0").removeClass("progtrckr-done");
+				$("#s1").removeClass("progtrckr-done");
+				$("#s2").removeClass("progtrckr-done");
+
+				$("#s0").addClass("progtrckr-todo");
+				$("#s1").addClass("progtrckr-todo");
+				$("#s2").addClass("progtrckr-todo");
+
+
 			}
 
 			

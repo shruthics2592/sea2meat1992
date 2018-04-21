@@ -35,6 +35,7 @@ urls = (
   '/app/addwish','AddWish', # adds to wish list
   '/app/getwish','GetWish', # get to wish list
   '/admin/getuser','GetUsers',
+  '/admin/getvendors','GetVendors',
   '/admin/addbrand','AddBrand',
   '/app/productDetails/?([0-9]*)','GetaProducts',
   '/app/editaccount','EditAccount',
@@ -1121,6 +1122,56 @@ class GetBrandImages:
             response =json.dumps(pyDict)
             return response
 
+
+# Get all brand images
+class GetVendors:
+    def POST(self):
+        return "Get Method only supported. No Authorization Required"
+    def OPTIONS(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        return
+    def GET(self):
+        web.header('Access-Control-Allow-Origin','*')
+        web.header('Access-Control-Allow-Methods','*')
+        web.header('Access-Control-Allow-Headers','Content-Type')
+        web.header('Access-Control-Request-Headers','Content-Type')
+
+        web.header('Content-Type', 'application/json')
+        try:
+            data = web.input()
+            user_data = db.query("select * from user where is_vendor="+data.is_vendor)
+            final_data = []
+            for user in user_data:
+                user_json = {}
+                user_json["id"] = user.id
+                user_json["firstName"] = user.firstName
+                user_json["lastName"] = user.lastName
+                user_json["mobile"] = user.mobile
+                user_json["fax"] = user.fax
+                user_json["email"] = user.email
+                user_json["company"] = user.company
+                user_json["subscription"] = user.subscription
+                user_json["authtoken"] = user.authToken
+                user_json["createdAt"] = str(user.createdAt)
+                user_json["updatedAt"] = str(user.updatedAt)
+                user_json["is_admin"] = user.is_admin
+                final_data.append(user_json)
+            
+            return json.dumps(final_data) 
+        except Exception as e:
+            
+            pyDict = {'code':'201','status':'fail','message':str(e)}            
+            response =json.dumps(pyDict)
+            return response
+
+
+
+
 # Get all brand images
 class GetUsers:
     def POST(self):
@@ -1142,7 +1193,7 @@ class GetUsers:
         web.header('Content-Type', 'application/json')
         try:
             data = web.input()
-            user_data = db.query("select * from user where is_admin="+data.is_admin)
+            user_data = db.query("select * from user where is_admin="+data.is_admin+" and is_vendor=0")
             final_data = []
             for user in user_data:
                 user_json = {}
